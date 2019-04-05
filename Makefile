@@ -1,7 +1,7 @@
 PROJECT = sfml
 
-SOURCES = main.cpp
-INCLUDES += -I includes
+SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp
+INCLUDES += -I include
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 DEFINES =
 CFLAGS = #-Wall -Wextra
