@@ -6,11 +6,13 @@ using namespace my_math;
 
 class Element {
  public:
-  explicit Element(const Vector2 & position, const Vector2 & direction);
+  Element() = delete;
 
-  virtual bool Draw() const;
+  explicit Element(const Vector2 & position);
 
-  virtual bool Dump() const;
+  virtual bool Draw() const = 0;
+
+  virtual bool Dump() const = 0;
 
   Vector2 GetPosition() const;
 
