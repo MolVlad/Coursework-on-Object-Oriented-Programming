@@ -14,6 +14,10 @@ class Source : Element {
 
   virtual bool Dump() const = 0;
 
+  virtual float GetFieldStrength() const = 0;
+
+  virtual bool SetFieldStrength(const float field_strength);
+
   bool SetPhase(const float phase);
 
   bool SetAmplitude(const float amplitude);
@@ -32,31 +36,32 @@ class Dipole : Source {
 
   explicit Dipole(const Vector2 & position);
 
-  override bool Draw() const;
+  bool Draw() const override;
 
-  override bool Dump() const;
+  bool Dump() const override;
+
+  float GetFieldStrength() const override;
+
+  bool SetFieldStrength(const float field_strength) override;
 
   bool SetImageScale(const float image_scale);
 
   bool SetImageDirection();
 
-  float GetFieldStrength() const;
-
   ~Dipole();
 };
 
-
-class FrontElement : Element {
+class SecondarySource : Source {
  public:
-  explicit FrontElement(const Vector2 & position);
+  explicit SecondarySource(const Vector2 & position);
 
-  override bool Draw() const;
+  bool Draw() const override;
 
-  override bool Dump() const;
+  bool Dump() const override;
 
-  float GetFieldStrength() const;
+  float GetFieldStrength() const override;
 
-  bool SetFieldStrength(const float field_strength);
+  bool SetFieldStrength(const float field_strength) override;
 
  private:
   float field_strength_;
