@@ -5,7 +5,7 @@
 
 using namespace my_math;
 
-class FrontElement : public Element {
+class FrontElement : Element {
  public:
   FrontElement() = delete;
 
@@ -14,10 +14,6 @@ class FrontElement : public Element {
   bool Draw() const override;
 
   bool Dump() const override;
-
-  bool SetPhase(const float phase);
-
-  bool SetAmplitude(const float amplitude);
 
   virtual ~FrontElement();
 
