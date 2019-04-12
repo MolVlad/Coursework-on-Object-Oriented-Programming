@@ -32,9 +32,9 @@ class Dipole : Source {
 
   explicit Dipole(const Vector2 & position);
 
-  bool Draw() const;
+  override bool Draw() const;
 
-  bool Dump() const;
+  override bool Dump() const;
 
   bool SetImageScale(const float image_scale);
 
@@ -50,9 +50,9 @@ class FrontElement : Element {
  public:
   explicit FrontElement(const Vector2 & position);
 
-  bool Draw() const;
+  override bool Draw() const;
 
-  bool Dump() const;
+  override bool Dump() const;
 
   float GetFieldStrength() const;
 
