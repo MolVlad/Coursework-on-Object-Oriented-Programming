@@ -6,7 +6,7 @@ using namespace my_math;
 
 class Source : Element {
  public:
-  Source() = delete;
+  Source();
 
   explicit Source(const Vector2 & position);
 
@@ -32,7 +32,7 @@ class Source : Element {
 
 class Dipole : Source {
  public:
-  Dipole() = delete;
+  Dipole();
 
   explicit Dipole(const Vector2 & position);
 
@@ -53,6 +53,8 @@ class Dipole : Source {
 
 class SecondarySource : Source {
  public:
+  SecondarySource();
+
   explicit SecondarySource(const Vector2 & position);
 
   bool Draw() const override;
