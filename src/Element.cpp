@@ -14,12 +14,14 @@ Element::~Element()
 bool Element::Draw() const
 {
 
+  return true;
 }
 
 // need to create
 bool Element::Dump() const
 {
 
+  return true;
 }
 
 Vector2 Element::GetPosition() const
@@ -35,11 +37,15 @@ Vector2 Element::GetDirection() const
 bool Element::SetPosition(const Vector2 & position)
 {
   position_ = position;
+
+  return true;
 }
 
 bool Element::SetDirection(const Vector2 & direction)
 {
   direction_ = direction;
+
+  return true;
 }
 
 
