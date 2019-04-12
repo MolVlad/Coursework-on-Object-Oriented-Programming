@@ -6,7 +6,7 @@ using namespace my_math;
 
 class Element {
  public:
-  Element() = delete;
+  Element();
 
   explicit Element(const Vector2 & position);
 
