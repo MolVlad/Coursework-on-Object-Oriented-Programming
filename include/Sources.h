@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Vector2.h"
+#include"Element.h"
 
 using namespace my_math;
 
@@ -12,9 +13,7 @@ class Source : Element {
 
   virtual bool Dump() const = 0;
 
-  virtual float GetFieldStrength() const = 0;
-
-  virtual bool SetFieldStrength(const float field_strength);
+  virtual float GetFieldStrength(const Vector2 point) const = 0;
 
   bool SetPhase(const float phase);
 
@@ -38,9 +37,8 @@ class Dipole : Source {
 
   bool Dump() const override;
 
-  float GetFieldStrength() const override;
-
-  bool SetFieldStrength(const float field_strength) override;
+  // get field strength from this source in point
+  float GetFieldStrength(const Vector2 point) const override;
 
   bool SetImageScale(const float image_scale);
 
@@ -59,9 +57,10 @@ class SecondarySource : Source {
 
   bool Dump() const override;
 
-  float GetFieldStrength() const override;
+  // get field strength from this source in point
+  float GetFieldStrength(const Vector2 point) const override;
 
-  bool SetFieldStrength(const float field_strength) override;
+  ~SecondarySource();
 
  private:
   float field_strength_;
