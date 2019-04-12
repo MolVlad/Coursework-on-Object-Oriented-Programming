@@ -34,12 +34,12 @@ Vector2 Element::GetDirection() const
 
 Vector2 Element::SetPosition(const Vector2 & position) const
 {
-  position_ = position;
+  //position_ = position;
 }
 
 Vector2 Element::SetDirection(const Vector2 & direction) const
 {
-  direction_ = direction;
+  //direction_ = direction;
 }
 
 
