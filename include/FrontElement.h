@@ -18,7 +18,7 @@ class FrontElement : Element {
 
   bool SetAmplitude(const float amplitude);
 
-  virtual ~Source();
+  virtual ~FrontElement();
 
  private:
   float amplitude_;
