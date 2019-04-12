@@ -5,9 +5,9 @@
 
 using namespace my_math;
 
-class FrontElement : Element {
+class FrontElement : public Element {
  public:
-  FrontElement() = delete;
+  FrontElement();
 
   explicit FrontElement(const Vector2 & position);
 
