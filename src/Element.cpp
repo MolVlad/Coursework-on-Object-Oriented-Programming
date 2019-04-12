@@ -32,14 +32,14 @@ Vector2 Element::GetDirection() const
   return direction_;
 }
 
-Vector2 Element::SetPosition(const Vector2 & position) const
+bool Element::SetPosition(const Vector2 & position)
 {
-  //position_ = position;
+  position_ = position;
 }
 
-Vector2 Element::SetDirection(const Vector2 & direction) const
+bool Element::SetDirection(const Vector2 & direction)
 {
-  //direction_ = direction;
+  direction_ = direction;
 }
 
 
