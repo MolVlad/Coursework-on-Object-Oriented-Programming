@@ -8,8 +8,6 @@ class Source : Element {
  public:
   Source();
 
-  explicit Source(const Vector2 & position);
-
   virtual bool Draw() const = 0;
 
   virtual bool Dump() const = 0;
