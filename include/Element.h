@@ -6,7 +6,7 @@ using namespace my_math;
 
 class Element {
  public:
-  Element() = delete;
+  Element();
 
   explicit Element(const Vector2 & position);
 
@@ -18,9 +18,9 @@ class Element {
 
   Vector2 GetDirection() const;
 
-  Vector2 SetPosition(const Vector2 & position) const;
+  bool SetPosition(const Vector2 & position);
 
-  Vector2 SetDirection(const Vector2 & direction) const;
+  bool SetDirection(const Vector2 & direction);
 
   virtual ~Element();
 

@@ -2,8 +2,12 @@
 
 #include<vector>
 
+#include"FrontElement.h"
+#include"Sources.h"
+
 class Store {
  public:
+  Store();
 
   bool Push(const Dipole & dipole);
 
@@ -12,6 +16,8 @@ class Store {
   bool Draw() const;
 
   bool Dump() const;
+
+  ~Store();
 
  private:
   std::vector<Dipole> dipoles_;
