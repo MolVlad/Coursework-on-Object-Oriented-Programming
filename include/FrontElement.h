@@ -1,18 +1,19 @@
 #pragma once
 
 #include"Vector2.h"
+#include"Element.h"
 
 using namespace my_math;
 
-class FrontElement : Element {
+class FrontElement : public Element {
  public:
   FrontElement() = delete;
 
   explicit FrontElement(const Vector2 & position);
 
-  override bool Draw() const = 0;
+  bool Draw() const override;
 
-  override bool Dump() const = 0;
+  bool Dump() const override;
 
   bool SetPhase(const float phase);
 
@@ -22,4 +23,4 @@ class FrontElement : Element {
 
  private:
   float amplitude_;
-}
+};
