@@ -21,11 +21,25 @@ KernelVector2::KernelVector2(const KernelVector2 & vect)
 KernelVector2 & KernelVector2::operator=(const KernelVector2 & vect) {
   x_ = vect.x_;
   y_ = vect.y_;
+  return *this;
 }
 
 KernelVector2 & KernelVector2::operator=(const KernelVector2 && vect) {
   x_ = vect.x_;
   y_ = vect.y_;
+  return *this;
+}
+
+KernelVector2 & KernelVector2::operator+=(const KernelVector2 & vect) {
+  x_ += vect.x_;
+  y_ += vect.y_;	
+  return *this;
+}
+
+KernelVector2 & KernelVector2::operator*=(const VECTOR_TYPE  k) {
+  x_ *= k;
+  y_ *= k;	
+  return *this;
 }
 
 };
