@@ -54,7 +54,6 @@ class Vector2 : public KernelVector2 {
   ~Vector2(void) {
   }
 
-
   // Just adding vectors.
   Vector2 operator+(const Vector2 & vect) const;
 
@@ -66,16 +65,10 @@ class Vector2 : public KernelVector2 {
   Vector2 operator-(void) const;
 
   // Multiply by k.
-  KernelVector2 operator*(const VECTOR_TYPE  k) const;
+  Vector2 operator*(const VECTOR_TYPE  k) const;
 
-  // Division by k.
+  // Division by k. Situation 0 / 0 and (const != 0) / 0 is correct, but poison vector.
   Vector2 operator/(const VECTOR_TYPE  k) const;
-
-  // Scalar composition.
-  VECTOR_TYPE  operator*(const Vector2 & vect) const;
-
-  // Vector composition.
-  VECTOR_TYPE  operator^(const Vector2 & vect) const;
 
   // Additional functions.
   VECTOR_TYPE  SquareLen(void) const;
@@ -90,13 +83,3 @@ class Vector2 : public KernelVector2 {
 // Addition to override operators.
 Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
 };
-
-
-
-
-
-
-
-
-
-
