@@ -1,9 +1,12 @@
 #pragma once
 #include <iostream>
+#include <cmath>
 
 namespace Modulation {
 
+const float PI = 3.141593;
 typedef float VECTOR_TYPE;
+
 
 class KernelVector2 {
  public:
@@ -16,7 +19,7 @@ class KernelVector2 {
   KernelVector2(const KernelVector2 & vect);
   KernelVector2 & operator=(const KernelVector2 & vect);
   KernelVector2 & operator=(const KernelVector2 && vect);
-
+  void Dump(void) const;
   // Interface functions.
 
   // Just adding vectors.
@@ -27,11 +30,8 @@ class KernelVector2 {
 
   // Additional functions.
   VECTOR_TYPE  Len(void) const;
-  void Reset(VECTOR_TYPE  x, VECTOR_TYPE  y);
-  void Rotate(VECTOR_TYPE  degree);
-  void Print(void) const {
-   std::cout << "x_ = " << x_ << " y_ = " << y_ << std::endl;    
-  }
+  void Reset(const VECTOR_TYPE  x, const VECTOR_TYPE  y);
+  void Rotate(const VECTOR_TYPE  degree);
 
  protected:
   VECTOR_TYPE  x_;
@@ -90,6 +90,10 @@ class Vector2 : public KernelVector2 {
 // Addition to override operators.
 Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
 };
+
+
+
+
 
 
 
