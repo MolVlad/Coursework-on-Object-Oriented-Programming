@@ -3,39 +3,20 @@
 
 namespace Modulation {
 
-typedef float VECTOR_TYPE; 
+typedef float VECTOR_TYPE;
 
 class KernelVector2 {
  public:
   // Base functions.
-  KernelVector2(void)
-      :  x_(0),
-         y_(0) {
-  }
-
-  KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
-      :  x_(x),
-         y_(y)  {
-  }
-
+  KernelVector2(void);
+  KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y);
   ~KernelVector2(void) {
   }
 
-  KernelVector2(const KernelVector2 & vect)
-      :  x_(vect.x_),
-         y_(vect.y_) {
-  }   
-
-  KernelVector2 & operator=(const KernelVector2 & vect){
-    x_ = vect.x_;
-    y_ = vect.y_;
-  }
-
-  KernelVector2 & operator=(const KernelVector2 && vect){
-    x_ = vect.x_;
-    y_ = vect.y_;
-  }
-
+  KernelVector2(const KernelVector2 & vect);
+  KernelVector2 & operator=(const KernelVector2 & vect);
+  KernelVector2 & operator=(const KernelVector2 && vect);
+  
   // Interface functions.
 
   // Just adding vectors.
@@ -59,6 +40,7 @@ class KernelVector2 {
   VECTOR_TYPE  x_;
   VECTOR_TYPE  y_;
 };
+
 
 // Shell class
 class Vector2 : public KernelVector2 {
@@ -112,3 +94,6 @@ class Vector2 : public KernelVector2 {
 // Addition to override operators.
 Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
 };
+
+
+
