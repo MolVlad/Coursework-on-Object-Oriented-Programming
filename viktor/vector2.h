@@ -74,12 +74,12 @@ class Vector2 : public KernelVector2 {
   VECTOR_TYPE  SquareLen(void) const;
 
   // Return rotated vector.
-  Vector2 getRotated(VECTOR_TYPE  degree) const;
+  Vector2 GetRotated(const VECTOR_TYPE  degree) const;
 
   // Length of vector is 1 now.
-  Vector2 Norm(void);
+  void Norm(void);
 };
 
 // Addition to override operators.
-Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
+Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect);
 };
