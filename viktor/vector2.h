@@ -16,17 +16,14 @@ class KernelVector2 {
   KernelVector2(const KernelVector2 & vect);
   KernelVector2 & operator=(const KernelVector2 & vect);
   KernelVector2 & operator=(const KernelVector2 && vect);
-  
+
   // Interface functions.
 
   // Just adding vectors.
   KernelVector2 & operator+=(const KernelVector2 & vect);
 
-  // Just subtracting vectors. 
-  KernelVector2 & operator-=(const KernelVector2 & vect);
-
   // Multiply by k.
-  KernelVector2 operator*(const VECTOR_TYPE  k) const;
+  KernelVector2 & operator*=(const VECTOR_TYPE  k);
 
   // Additional functions.
   VECTOR_TYPE  Len(void) const;
@@ -57,20 +54,19 @@ class Vector2 : public KernelVector2 {
   ~Vector2(void) {
   }
 
-  void new_func(void) {
-    std::cout << x_;
-    std::cout << y_;
-  }  
-
 
   // Just adding vectors.
   Vector2 operator+(const Vector2 & vect) const;
 
   // Just subtracting vectors. 
+  Vector2 & operator-=(const Vector2 & vect);
   Vector2 operator-(const Vector2 & vect) const;
 
   // Multiply by -1.
   Vector2 operator-(void) const;
+
+  // Multiply by k.
+  KernelVector2 operator*(const VECTOR_TYPE  k) const;
 
   // Division by k.
   Vector2 operator/(const VECTOR_TYPE  k) const;
@@ -94,6 +90,9 @@ class Vector2 : public KernelVector2 {
 // Addition to override operators.
 Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
 };
+
+
+
 
 
 
