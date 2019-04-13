@@ -3,6 +3,8 @@
 
 namespace Modulation {
 
+// Functions of KernelVector2.
+
 KernelVector2::KernelVector2(void)
     :  x_(0),
        y_(0) {
@@ -69,6 +71,44 @@ void KernelVector2::Rotate(const VECTOR_TYPE degree) {
   x_ = len * cos(angle);
   y_ = len * sin(angle);
   return;	
+}
+
+//Functions of Vector2.
+
+Vector2 Vector2::operator+(const Vector2 & vect) const {
+    Vector2 new_vect = Vector2(vect); 
+    new_vect += *this;
+    return new_vect;
+}
+
+Vector2 & Vector2::operator-=(const Vector2 & vect) {
+  *this += vect;
+  *this *= -1;
+  return *this;
+}
+
+Vector2 Vector2::operator-(const Vector2 & vect) const {
+  Vector2 new_vect = Vector2(*this);
+  new_vect += vect * (-1);
+  return new_vect;
+}
+
+Vector2 Vector2::operator-(void) const {
+  Vector2 new_vect = Vector2(*this);
+  new_vect *= (-1);	
+  return new_vect;
+}
+
+Vector2 Vector2::operator*(const VECTOR_TYPE  k) const {
+  Vector2 new_vect = Vector2(*this);
+  new_vect *= k;	
+  return new_vect;
+}
+
+Vector2 Vector2::operator/(const VECTOR_TYPE  k) const {
+  Vector2 new_vect = Vector2(*this);
+  new_vect *= 1 / k;	
+  return new_vect;
 }
 
 };
