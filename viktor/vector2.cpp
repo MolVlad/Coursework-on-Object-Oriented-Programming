@@ -111,4 +111,27 @@ Vector2 Vector2::operator/(const VECTOR_TYPE  k) const {
   return new_vect;
 }
 
+VECTOR_TYPE  Vector2::SquareLen(void) const {
+	float len = Len( );
+    return len * len;
+}
+
+Vector2 Vector2::GetRotated(const VECTOR_TYPE  degree) const {
+  Vector2 new_vect = Vector2(*this);
+  new_vect.Rotate(degree);
+  return new_vect;
+}
+
+void Vector2::Norm(void) {
+  *this *= 1 / Len( );
+  return ;	
+}
+
+Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
+{
+	Vector2 new_vect = Vector2(vect);
+	new_vect *= k;
+	return new_vect;
+}
+
 };
