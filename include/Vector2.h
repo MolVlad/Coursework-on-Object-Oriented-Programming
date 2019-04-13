@@ -1,89 +1,47 @@
 #pragma once
-#include <iostream>
-#include <cmath>
 
-namespace Modulation {
+#include<iostream>
 
-const float PI = 3.141593;
-typedef float VECTOR_TYPE;
+namespace my_math {
 
-
-class KernelVector2 {
+class Vector2
+{
  public:
-  // Base functions.
-  KernelVector2(void);
-  KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y);
-  ~KernelVector2(void) {
-  }
+  Vector2(const Vector2 &v);
 
-  KernelVector2(const KernelVector2 & vect);
-  KernelVector2 & operator=(const KernelVector2 & vect);
-  KernelVector2 & operator=(const KernelVector2 && vect);
-  void Dump(void) const;
-  // Interface functions.
+  Vector2(const float x = 0, const float y = 0);
 
-  // Just adding vectors.
-  KernelVector2 & operator+=(const KernelVector2 & vect);
+  float GetLength() const;
 
-  // Multiply by k.
-  KernelVector2 & operator*=(const VECTOR_TYPE  k);
+  float GetSquareLength() const;
 
-  // Additional functions.
-  VECTOR_TYPE  Len(void) const;
-  void Reset(const VECTOR_TYPE  x, const VECTOR_TYPE  y);
-  void Rotate(const VECTOR_TYPE  degree);
+  Vector2 GetNormalized() const;
 
- protected:
-  VECTOR_TYPE  x_;
-  VECTOR_TYPE  y_;
+  Vector2 GetPerpendicular() const;
+
+  Vector2 operator+(const Vector2& other) const;
+
+  void operator+=(const Vector2& other);
+
+  Vector2 operator-(const Vector2& other) const;
+
+  void operator-=(const Vector2& other);
+
+  Vector2 operator*(const float k) const;
+
+  Vector2 operator/(const float k) const;
+
+  ~Vector2();
+
+
+ private:
+  float x_, y_;
 };
 
+std::ostream& operator<<(std::ostream& stream, const Vector2& v);
 
-// Shell class
-class Vector2 : public KernelVector2 {
- public:
-  // Base functions.
-  Vector2(void) 
-      : KernelVector2( ) {
-  }
+std::istream& operator>>(std::istream& stream, Vector2& v);
 
-  Vector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
-      :  KernelVector2(x, y) {
-  }
+Vector2 operator*(float k, const Vector2& v);
 
-  ~Vector2(void) {
-  }
-
-  // Just adding vectors.
-  Vector2 operator+(const Vector2 & vect) const;
-
-  // Just subtracting vectors. 
-  Vector2 & operator-=(const Vector2 & vect);
-  Vector2 operator-(const Vector2 & vect) const;
-
-  // Multiply by -1.
-  Vector2 operator-(void) const;
-
-  // Multiply by k.
-  Vector2 operator*(const VECTOR_TYPE  k) const;
-
-  // Division by k. Situation 0 / 0 and (const != 0) / 0 is correct, but poison vector.
-  Vector2 operator/(const VECTOR_TYPE  k) const;
-
-  // Additional functions.
-  VECTOR_TYPE  SquareLen(void) const;
-
-  // Return rotated vector.
-  Vector2 getRotated(VECTOR_TYPE  degree) const;
-
-  // Length of vector is 1 now.
-  Vector2 Norm(void);
-};
-
-// Addition to override operators.
-Vector2 operator*(VECTOR_TYPE k, const Vector2 & vect);
-};
-
-
-
-
+} /* namespace my_math */
