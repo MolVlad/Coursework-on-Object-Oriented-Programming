@@ -10,6 +10,11 @@ Element::~Element()
 
 }
 
+Element::Element()
+{
+
+}
+
 Vector2 Element::GetPosition() const
 {
   return position_;
