@@ -10,20 +10,6 @@ Element::~Element()
 
 }
 
-// need to create
-bool Element::Draw() const
-{
-
-  return true;
-}
-
-// need to create
-bool Element::Dump() const
-{
-
-  return true;
-}
-
 Vector2 Element::GetPosition() const
 {
   return position_;
