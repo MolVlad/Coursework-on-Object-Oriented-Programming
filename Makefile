@@ -1,6 +1,6 @@
 PROJECT = sfml
 
-SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp
+SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp src/Vector2.cpp
 INCLUDES += -I include
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 DEFINES =
