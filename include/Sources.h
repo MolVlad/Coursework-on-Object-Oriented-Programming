@@ -2,6 +2,7 @@
 
 #include"Vector2.h"
 #include"Element.h"
+#include ""
 
 using namespace my_math;
 
@@ -31,13 +32,13 @@ class Source : Element {
 
 class Dipole : Source {
  public:
-  Dipole();
+  Dipole(void);
 
-  explicit Dipole(const Vector2 & position);
+  explicit Dipole(const Vector2 & position, const Vector2 & direction);
 
-  bool Draw() const override;
+  bool Draw(const sf::RenderWindow & window) const override;
 
-  bool Dump() const override;
+  bool Dump(void) const override;
 
   // get field strength from this source in point
   float GetFieldStrength(const Vector2 point) const override;
