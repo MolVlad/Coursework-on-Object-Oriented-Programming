@@ -1,7 +1,7 @@
-#include "vector2.h"
+#include "../include/Vector2.h"
 #include <iostream>
 
-namespace Modulation {
+namespace my_math {
 
 // Functions of KernelVector2.
 
@@ -73,7 +73,12 @@ void KernelVector2::Rotate(const VECTOR_TYPE degree) {
   return;	
 }
 
-//Functions of Vector2.
+//Functions for Vector2.
+
+  Vector2 & Vector2::operator=(const Vector2 & vect) {
+    KernelVector2::operator=(vect);
+    return *this;
+  }
 
 Vector2 Vector2::operator+(const Vector2 & vect) const {
     Vector2 new_vect = Vector2(vect); 
