@@ -15,6 +15,10 @@ class FrontElement : public Element {
 
   bool Dump() const override;
 
+  float GetAmplitude() const;
+
+  bool SetAmplitude(const float amplitude);
+
   virtual ~FrontElement();
 
  private:
