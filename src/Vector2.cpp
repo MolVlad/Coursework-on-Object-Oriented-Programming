@@ -132,6 +132,10 @@ void Vector2::Norm(void) {
   return ;	
 }
 
+std::ostream & operator<<(std::ostream & os, const Vector2 & vect) {
+  
+}
+
 Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 {
 	Vector2 new_vect = Vector2(vect);
