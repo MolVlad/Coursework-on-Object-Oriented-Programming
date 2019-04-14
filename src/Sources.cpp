@@ -6,6 +6,11 @@ Source::Source(const Vector2 & position)
 
 }
 
+Source::Source()
+{
+
+}
+
 Source::~Source()
 {
 

@@ -85,9 +85,21 @@ class Vector2 : public KernelVector2 {
   // Length of vector is 1 now.
   void Norm(void);
 
+<<<<<<< HEAD
   std::ostream & operator<<(std::ostream & os, const Vector2 & vect);
+=======
+friend std::ostream& operator<<(std::ostream& stream, const Vector2& v);
+friend std::istream& operator>>(std::istream& stream, Vector2& v);
+>>>>>>> 995d8db44af7ba2b624c09d7ec556f3b24abb9ca
 };
 
 // Addition to override operators.
 Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect);
+<<<<<<< HEAD
 }; // End of namespace my_math.
+=======
+
+
+};  // namespace my_math
+
+>>>>>>> 995d8db44af7ba2b624c09d7ec556f3b24abb9ca

@@ -24,7 +24,7 @@ class Element {
 
   virtual ~Element();
 
- private:
+ protected:
   Vector2 position_;
   Vector2 direction_;
 };

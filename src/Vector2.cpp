@@ -143,4 +143,17 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 	return new_vect;
 }
 
-};
+std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
+{
+	stream << v.x_ << " " << v.y_ << '\n';
+	return stream;
+}
+
+std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
+{
+	stream >> v.x_ >> v.y_;
+	return stream;
+}
+
+};  // namespace my_math
+
