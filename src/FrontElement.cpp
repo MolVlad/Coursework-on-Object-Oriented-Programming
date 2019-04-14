@@ -1,9 +1,9 @@
 #include"FrontElement.h"
 
 FrontElement::FrontElement(const Vector2 & position)
+    :  Element(position)
 {
-  // there is problem here
-  //position_ = position;
+
 }
 
 FrontElement::~FrontElement()
