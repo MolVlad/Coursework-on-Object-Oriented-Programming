@@ -1,6 +1,7 @@
 #include"Sources.h"
 
-Source::Source()
+Source::Source(const Vector2 & position)
+    :  Element(position)
 {
 
 }
@@ -22,9 +23,9 @@ bool Source::SetAmplitude(const float amplitude)
 
 
 Dipole::Dipole(const Vector2 & position)
+    :  Source(position)
 {
-  //there is problem here
-  //position_ = position;
+
 }
 
 // need to create
@@ -68,9 +69,9 @@ SecondarySource::SecondarySource()
 }
 
 SecondarySource::SecondarySource(const Vector2 & position)
+    :  Source(position)
 {
-  //there is problem here
-  //position_ = position;
+
 }
 
 // need to create
