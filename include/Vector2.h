@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-namespace Modulation {
+namespace my_math {
 
 const float PI = 3.141593;
 typedef float VECTOR_TYPE;
@@ -13,7 +13,7 @@ class KernelVector2 {
   // Base functions.
   KernelVector2(void);
   KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y);
-  ~KernelVector2(void) {
+  virtual ~KernelVector2(void) {
   }
 
   KernelVector2(const KernelVector2 & vect);
@@ -53,6 +53,12 @@ class Vector2 : public KernelVector2 {
 
   ~Vector2(void) {
   }
+  
+  Vector2(const Vector2 & vect) 
+      :  KernelVector2(vect) {
+  }
+
+  Vector2 & operator=(const Vector2 & vect);
 
   // Just adding vectors.
   Vector2 operator+(const Vector2 & vect) const;
