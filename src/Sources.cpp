@@ -40,12 +40,6 @@ bool Dipole::Draw() const
 }
 
 // need to create
-bool Dipole::Dump() const
-{
-
-}
-
-// need to create
 float Dipole::GetFieldStrength(const Vector2 point) const
 {
 
@@ -61,6 +55,25 @@ bool Dipole::SetImageScale(const float image_scale)
 bool Dipole::SetImageDirection()
 {
 
+}
+
+bool Dipole::Dump() const
+{
+#ifdef DIPOLE_DEBUG
+  std::cout << "Dipole::Dump()" << std::endl;
+#endif /* DIPOLE_DEBUG */
+
+  std::cout << "\tposition: " << position_ << std::endl;
+  std::cout << "\tdirection: " << direction_ << std::endl;
+  std::cout << "\tphase: " << phase_ << std::endl;
+  std::cout << "\tamplitude: " << amplitude_ << std::endl;
+
+#ifdef DIPOLE_DEBUG
+  std::cout << "Dipole::Dump() end" << std::endl;
+#endif /* DIPOLE_DEBUG */
+
+  std::cout << std::endl;
+  return true;
 }
 
 Dipole::~Dipole()

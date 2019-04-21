@@ -141,7 +141,7 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 
 std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
 {
-	stream << v.x_ << " " << v.y_ << '\n';
+	stream << v.x_ << " " << v.y_;
 	return stream;
 }
 

@@ -1,5 +1,10 @@
 #include"FrontElement.h"
 
+FrontElement::FrontElement()
+{
+
+}
+
 FrontElement::FrontElement(const Vector2 & position)
     :  Element(position)
 {
@@ -18,15 +23,21 @@ bool FrontElement::Draw() const
   return true;
 }
 
-// need to test
 bool FrontElement::Dump() const
 {
-  std::cout << "FrontElement Dump" << std::endl;
-  std::cout << "position: " << position_ << std::endl;
-  std::cout << "direction: " << direction_ << std::endl;
-  std::cout << "amplitude: " << amplitude_ << std::endl;
-  std::cout << std::endl;
+#ifdef FRONT_ELEMENT_DEBUG
+  std::cout << "FrontElement::Dump()" << std::endl;
+#endif /* FRONT_ELEMENT_DEBUG */
 
+  std::cout << "\tposition: " << position_ << std::endl;
+  std::cout << "\tdirection: " << direction_ << std::endl;
+  std::cout << "\tamplitude: " << amplitude_ << std::endl;
+
+#ifdef FRONT_ELEMENT_DEBUG
+  std::cout << "FrontElement::Dump() end" << std::endl;
+#endif /* FRONT_ELEMENT_DEBUG */
+
+  std::cout << std::endl;
   return true;
 }
 

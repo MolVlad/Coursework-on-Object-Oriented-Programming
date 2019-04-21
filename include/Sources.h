@@ -3,9 +3,11 @@
 #include"Vector2.h"
 #include"Element.h"
 
+#define DIPOLE_DEBUG 1
+
 using namespace my_math;
 
-class Source : Element {
+class Source : public Element {
  public:
   Source();
 
@@ -23,13 +25,13 @@ class Source : Element {
 
   virtual ~Source();
 
- private:
+ protected:
   float phase_;
   float amplitude_;
 };
 
 
-class Dipole : Source {
+class Dipole : public Source {
  public:
   Dipole();
 
@@ -49,7 +51,7 @@ class Dipole : Source {
   ~Dipole();
 };
 
-class SecondarySource : Source {
+class SecondarySource : public Source {
  public:
   SecondarySource();
 
