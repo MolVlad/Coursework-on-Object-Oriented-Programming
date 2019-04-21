@@ -42,7 +42,14 @@ bool Dipole::Draw() const
 // need to create
 bool Dipole::Dump() const
 {
-
+#ifdef DIPOLE_DEBUG
+  std::cout << "Dipole dump" << std::endl;
+  std::cout << "\tposition: " << position_ << std::endl;
+  std::cout << "\tdirection: " << direction_ << std::endl;
+  std::cout << "\tphase: " << phase_ << std::endl;
+  std::cout << "\tamplitude: " << amplitude_ << std::endl;
+  std::cout << "Dipole dump end" << std::endl;
+#endif /* DIPOLE_DEBUG */
 }
 
 // need to create
