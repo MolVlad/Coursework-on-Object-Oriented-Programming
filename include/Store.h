@@ -5,6 +5,8 @@
 #include"Wave.h"
 #include"Sources.h"
 
+#define STORE_DEBUG 1
+
 class Store {
  public:
   Store();
