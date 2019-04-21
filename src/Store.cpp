@@ -17,7 +17,7 @@ bool Store::Push(const Dipole & dipole)
 }
 
 // need to create
-bool Store::Push(const FrontElement & front_element)
+bool Store::Push(const Wave & wave)
 {
 
 }
