@@ -1,5 +1,9 @@
 #include "Store.h"
 
+#include <chrono>
+
+extern std::chrono::high_resolution_clock::time_point time_start;
+
 Store::Store()
 {
 
@@ -88,4 +92,43 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
     result += i.GetFieldStrength(position);
 
   return result;
+}
+
+bool Store::MoveWaves()
+{
+  #ifdef STORE_DEBUG
+  std::cout << "Store::MoveWaves()" << std::endl;
+  #endif /* STORE_DEBUG */
+
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_start;
+
+  float t = diff.count() / TIME_SCALE;
+
+  for(auto& i : waves_)
+  {
+    FrontElement & front_element = i.GetMain();
+    Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
+    Vector2 speed_direction = field_strength.GetRotated(90);
+    speed_direction.Norm();
+    Vector2 position = front_element.GetPosition();
+    #ifdef STORE_DEBUG
+    std::cout << "\tt: " << t << std::endl;
+    std::cout << "\tposition: " << position << std::endl;
+    std::cout << "\tfield_strength: " << field_strength << std::endl;
+    std::cout << "\tspeed_direction: " << speed_direction << std::endl;
+    #endif /* STORE_DEBUG */
+
+    position += speed_direction * LIGHT_SPEED * t;
+    front_element.SetPosition(position);
+
+    #ifdef STORE_DEBUG
+    std::cout << "new position: " << position << std::endl;
+    #endif /* STORE_DEBUG */
+  }
+
+  #ifdef STORE_DEBUG
+  std::cout << "Store::MoveWaves() end" << std::endl;
+  std::cout << std::endl;
+  #endif /* STORE_DEBUG */
+
 }
