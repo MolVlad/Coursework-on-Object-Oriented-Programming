@@ -15,14 +15,15 @@ Store::~Store()
 }
 
 
-bool Store::Draw(sf::RenderWindow & window)
-{
+bool Store::Draw(sf::RenderWindow & window) {
   for (int ind = 0; ind < dipoles_.size( ); ind++) {
     dipoles_[ind].Draw(window);
   }
 
-  for (int ind = 0; ind < waves_.size( ); ind++) {
-    waves_[ind].Draw(window);
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    for (int ind = 0; ind < waves_.size( ); ind++) {
+      waves_[ind].Draw(window);
+    }
   }
 
   return true;

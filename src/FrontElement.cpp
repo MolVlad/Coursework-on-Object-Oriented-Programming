@@ -1,5 +1,7 @@
 #include"FrontElement.h"
 
+sf::Texture front_element_texture;
+
 FrontElement::FrontElement()
 {
 
@@ -8,7 +10,8 @@ FrontElement::FrontElement()
 FrontElement::FrontElement(const Vector2 & position)
     :  Element(position)
 {
-
+  circle_shape_ = sf::CircleShape(DEFAULT_RADIUS, DEFAULT_POINT_COUNT);
+  circle_shape_.setFillColor(sf::Color::Red);
 }
 
 FrontElement::~FrontElement()
@@ -16,10 +19,11 @@ FrontElement::~FrontElement()
 
 }
 
-// need to create
+
 bool FrontElement::Draw(sf::RenderWindow & window)
 {
-
+  circle_shape_.setPosition(position_.GetX( ), position_.GetY( ));
+  window.draw(circle_shape_);
   return true;
 }
 

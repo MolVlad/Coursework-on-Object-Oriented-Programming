@@ -2,18 +2,20 @@
 
 using namespace my_math;
 
-Wave::Wave()
-{
+Wave::Wave( ) {
 
 }
 
 // need to create
-bool Wave::Draw(sf::RenderWindow & window)
-{
+bool Wave::Draw(sf::RenderWindow & window) {
+  for (int ind = 0; ind < front_elements_.size( ); ind++) {
+    front_elements_[ind].Draw(window);
+  }
 
+  return true;
 }
 
-bool Wave::Dump() const
+bool Wave::Dump( ) const
 {
 #ifdef WAVE_DEBUG
   std::cout << "Wave::Dump" << std::endl;

@@ -47,10 +47,17 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
+      /*
       Vector2 field = store.GetFieldStrength(my_math::Vector2(position));
       std::cout << "Result field: " << field << std::endl;
       std::cout << "Field strength: " << field.Len() << std::endl;
+      */
+  
+      Wave singular_wave;
+      singular_wave.Push(FrontElement(position));
+      store.Push(singular_wave);
       std::cout << std::endl;
+
 			break;
 	}
 

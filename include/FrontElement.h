@@ -11,6 +11,9 @@
 
 using namespace my_math;
 
+const float DEFAULT_RADIUS = 30.;
+const float DEFAULT_POINT_COUNT = 40.;
+
 class FrontElement : public Element {
  public:
   FrontElement();
@@ -19,6 +22,7 @@ class FrontElement : public Element {
 
   bool Draw(sf::RenderWindow & window) override;
 
+  // Draw a small ball. All these balls create wave front.
   bool Dump() const override;
 
   float GetAmplitude() const;
@@ -29,4 +33,5 @@ class FrontElement : public Element {
 
  private:
   float amplitude_;
+  sf::CircleShape circle_shape_;
 };
