@@ -18,7 +18,17 @@ KernelVector2::KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
 KernelVector2::KernelVector2(const KernelVector2 & vect)
     :  x_(vect.x_),
        y_(vect.y_) {
-}   
+}
+
+KernelVector2::KernelVector2(const sf::Vector2i & vect)
+    :  x_(vect.x),
+       y_(vect.y) {
+}
+
+KernelVector2::KernelVector2(const sf::Vector2f & vect)
+    :  x_(vect.x),
+       y_(vect.y) {
+}
 
 KernelVector2 & KernelVector2::operator=(const KernelVector2 & vect) {
   x_ = vect.x_;
