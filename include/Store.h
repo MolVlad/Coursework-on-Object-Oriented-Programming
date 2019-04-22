@@ -10,6 +10,9 @@
 
 const float MOVE_SPEED = 1;
 
+const float CENTER_X = 0;
+const float CENTER_Y = 300;
+
 class Store {
  public:
   Store();

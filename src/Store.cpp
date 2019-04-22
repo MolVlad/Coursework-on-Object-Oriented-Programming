@@ -108,13 +108,16 @@ bool Store::MoveWaves()
   for (auto& i : waves_)
   {
     FrontElement & front_element = i.GetMain();
-    Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
-
-    // PROBLEM HERE!
-    Vector2 speed_direction = field_strength.GetRotated(-90);
-
-    speed_direction.Norm();
     Vector2 position = front_element.GetPosition();
+
+    Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
+    Vector2 speed_direction = field_strength.GetRotated(-90);
+    speed_direction.Norm();
+
+    Vector2 distance_to_center = position - Vector2(CENTER_X, CENTER_Y);
+    if((speed_direction * distance_to_center) < 0)
+      speed_direction *= -1;
+
     #ifdef STORE_DEBUG
     std::cout << "\tt: " << t << std::endl;
     std::cout << "\tposition: " << position << std::endl;
