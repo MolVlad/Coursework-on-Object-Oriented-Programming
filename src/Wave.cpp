@@ -46,6 +46,11 @@ bool Wave::Push(const FrontElement & front_element)
   return true;
 }
 
+FrontElement & Wave::GetMain()
+{
+  return front_elements_[0];
+}
+
 Wave::~Wave()
 {
 

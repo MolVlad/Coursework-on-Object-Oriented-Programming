@@ -19,6 +19,8 @@ class Wave {
 
   bool Push(const FrontElement & front_element);
 
+  FrontElement & GetMain();
+
   virtual ~Wave();
 
  private:
