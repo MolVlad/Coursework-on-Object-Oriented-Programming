@@ -5,7 +5,7 @@ sf::Texture dipole_texture;
 Source::Source(const Vector2 & position)
     :  Element(position)  {
 
-  if (!dipole_texture.loadFromFile("images/dipole.png")) {
+  if (!dipole_texture.loadFromFile("images/dipole_mini.png")) {
     std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
               <<  "line = " << __LINE__ << std::endl 
               << "function = " << __PRETTY_FUNCTION__ << std::endl;
