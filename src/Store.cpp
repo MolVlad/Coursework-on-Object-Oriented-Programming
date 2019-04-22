@@ -10,10 +10,18 @@ Store::~Store()
 
 }
 
-// need to create
+
 bool Store::Draw(sf::RenderWindow & window) const
 {
+  for (int ind = 0; ind < dipoles_.size( ); ind++) {
+    dipoles_[ind].Draw(window);
+  }
 
+  for (int ind = 0; ind < waves_.size( ); ind++) {
+    waves_[ind].Draw(window);
+  }
+
+  return true;
 }
 
 bool Store::Push(const Dipole & dipole)
