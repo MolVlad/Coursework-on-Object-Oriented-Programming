@@ -14,6 +14,7 @@ bool handleEvent(sf::RenderWindow &window, Store &store)
 			case sf::Event::MouseButtonPressed:
 				handleMouse(window, event, store);
 				break;
+			case
 		}
 	}
 

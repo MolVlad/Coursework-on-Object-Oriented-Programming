@@ -8,15 +8,8 @@ sf::Texture dipole_texture;
 
 Source::Source(const Vector2 & position)
     :  Element(position)  {
-  if (!dipole_texture.loadFromFile("images/dipole.png")) {
-    std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
-              <<  "line = " << __LINE__ << std::endl 
-              << "function = " << __PRETTY_FUNCTION__ << std::endl;
-  exit(-1); 
-  }
 
   sprite_ = sf::Sprite(dipole_texture);
-
   direction_ = DEFAULT_DIRECTION;
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
