@@ -1,5 +1,7 @@
 #include "Store.h"
 
+bool is_space_pressed = false;
+
 Store::Store()
 {
 
@@ -11,14 +13,23 @@ Store::~Store()
 }
 
 
-bool Store::Draw(sf::RenderWindow & window)
-{
+bool Store::Draw(sf::RenderWindow & window) {
   for (int ind = 0; ind < dipoles_.size( ); ind++) {
     dipoles_[ind].Draw(window);
   }
 
-  for (int ind = 0; ind < waves_.size( ); ind++) {
-    waves_[ind].Draw(window);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+    is_space_pressed = true;
+  }
+  else {
+    is_space_pressed = false;
+  }
+
+  if (is_space_pressed) {
+
+    for (int ind = 0; ind < waves_.size( ); ind++) {
+      waves_[ind].Draw(window);
+    }
   }
 
   return true;

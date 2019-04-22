@@ -9,7 +9,6 @@ sf::Texture dipole_texture;
 Source::Source(const Vector2 & position)
     :  Element(position)  {
 
-  sprite_ = sf::Sprite(dipole_texture);
   direction_ = DEFAULT_DIRECTION;
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
@@ -54,7 +53,7 @@ Dipole::Dipole(const Vector2 & position)
 bool Dipole::Draw(sf::RenderWindow & window) {
 
   sprite_.setPosition(position_.GetX( ), position_.GetY( ));
-  window.draw(this -> sprite_);
+  window.draw(sprite_);
   return true;
 }
 
@@ -111,6 +110,8 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
 // need to create
 bool Dipole::SetImageScale(const float image_scale)
 {
+  assert(image_scale > 0);
+
   sprite_.setScale(X_SCALE * image_scale, Y_SCALE * image_scale);
   return true;
 }

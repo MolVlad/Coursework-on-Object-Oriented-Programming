@@ -14,7 +14,6 @@ bool handleEvent(sf::RenderWindow &window, Store &store)
 			case sf::Event::MouseButtonPressed:
 				handleMouse(window, event, store);
 				break;
-			case
 		}
 	}
 
@@ -40,7 +39,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      store.Dump();
+            store.Dump();
 			//elements.addNegCharge(my_math::Vector2(position));
 			break;
 		case sf::Mouse::Middle:
@@ -49,9 +48,14 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      float filed = store.GetFieldStrength(my_math::Vector2(position));
-      std::cout << "Result field: " << filed << std::endl;
-      std::cout << std::endl;
+            float filed = store.GetFieldStrength(my_math::Vector2(position));
+
+            Wave singular_wave;
+            singular_wave.Push(FrontElement(position));
+            store.Push(singular_wave);
+
+            std::cout << "Result field: " << filed << std::endl;
+            std::cout << std::endl;
 			break;
 	}
 

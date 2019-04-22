@@ -4,6 +4,7 @@
 
 #include "Vector2.h"
 #include "Element.h"
+#include <assert.h>
 
 #define DIPOLE_DEBUG 1
 
@@ -57,6 +58,7 @@ class Dipole : public Source {
   // get field strength from this source in point
   float GetFieldStrength(const Vector2 & point) const override;
 
+  // Image_scale is increase in size. It should be positive.
   bool SetImageScale(const float image_scale);
 
   bool SetImageDirection(const float direction);
