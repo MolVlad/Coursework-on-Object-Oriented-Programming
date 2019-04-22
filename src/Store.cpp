@@ -11,7 +11,7 @@ Store::~Store()
 }
 
 
-bool Store::Draw(sf::RenderWindow & window) const
+bool Store::Draw(sf::RenderWindow & window)
 {
   for (int ind = 0; ind < dipoles_.size( ); ind++) {
     dipoles_[ind].Draw(window);

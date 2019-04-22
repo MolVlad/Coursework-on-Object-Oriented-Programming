@@ -17,7 +17,7 @@ class FrontElement : public Element {
 
   explicit FrontElement(const Vector2 & position);
 
-  bool Draw(sf::RenderWindow & window) const override;
+  bool Draw(sf::RenderWindow & window) override;
 
   bool Dump() const override;
 

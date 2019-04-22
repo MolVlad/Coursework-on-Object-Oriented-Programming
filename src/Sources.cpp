@@ -4,15 +4,6 @@ sf::Texture dipole_texture;
 
 Source::Source(const Vector2 & position)
     :  Element(position)  {
-
-  if (!dipole_texture.loadFromFile("images/dipole_mini.png")) {
-    std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
-              <<  "line = " << __LINE__ << std::endl 
-              << "function = " << __PRETTY_FUNCTION__ << std::endl;
-  exit(-1); 
-  }
-  sprite_ = sf::Sprite(dipole_texture);
-  sprite_.setRotation(direction_);
 }
 
 Source::Source()
@@ -37,13 +28,21 @@ bool Source::SetAmplitude(const float amplitude)
 
 
 Dipole::Dipole(const Vector2 & position)
-    :  Source(position)
-{
+    :  Source(position)  {
 
+  if (!dipole_texture.loadFromFile("images/dipole_mini.png")) {
+    std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
+              <<  "line = " << __LINE__ << std::endl 
+              << "function = " << __PRETTY_FUNCTION__ << std::endl;
+    exit(-1); 
+  }
+  sprite_ = sf::Sprite(dipole_texture);
+  sprite_.setRotation(direction_);
 }
 
-bool Dipole::Draw(sf::RenderWindow & window) const {
+bool Dipole::Draw(sf::RenderWindow & window) {
 
+  sprite_.setPosition(position_.GetX( ), position_.GetY( ));
   window.draw(this -> sprite_);
   return true;
 }
@@ -102,7 +101,7 @@ SecondarySource::SecondarySource(const Vector2 & position)
 }
 
 // need to create
-bool SecondarySource::Draw(sf::RenderWindow & window) const
+bool SecondarySource::Draw(sf::RenderWindow & window)
 {
 
 }

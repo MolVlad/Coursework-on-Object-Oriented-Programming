@@ -12,7 +12,7 @@ class Element {
 
   explicit Element(const Vector2 & position);
 
-  virtual bool Draw(sf::RenderWindow & window) const = 0;
+  virtual bool Draw(sf::RenderWindow & window) = 0;
 
   virtual bool Dump() const = 0;
 

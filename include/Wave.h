@@ -13,7 +13,7 @@ class Wave {
  public:
   Wave();
 
-  bool Draw(sf::RenderWindow & window) const;
+  bool Draw(sf::RenderWindow & window);
 
   bool Dump() const;
 
