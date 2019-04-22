@@ -42,9 +42,10 @@ Dipole::Dipole(const Vector2 & position)
 }
 
 // need to create
-bool Dipole::Draw(const sf::RenderWindow & window) const
-{
-    
+bool Dipole::Draw(const sf::RenderWindow & window) const {
+
+  window.draw(this -> sprite_);
+  return true;
 }
 
 // need to create
