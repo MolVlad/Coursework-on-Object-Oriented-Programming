@@ -16,7 +16,7 @@ class Store {
 
   bool Push(const Wave & wave);
 
-  bool Draw(const sf::RenderWindow & window) const;
+  bool Draw(sf::RenderWindow & window) const;
 
   bool Dump() const;
 

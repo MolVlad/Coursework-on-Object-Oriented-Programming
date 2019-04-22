@@ -11,7 +11,7 @@ Store::~Store()
 }
 
 // need to create
-bool Store::Draw(const sf::RenderWindow & window) const
+bool Store::Draw(sf::RenderWindow & window) const
 {
 
 }

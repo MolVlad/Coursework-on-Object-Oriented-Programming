@@ -8,7 +8,7 @@ Wave::Wave()
 }
 
 // need to create
-bool Wave::Draw(const sf::RenderWindow & window) const
+bool Wave::Draw(sf::RenderWindow & window) const
 {
 
 }
