@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include"Vector2.h"
-#include"Element.h"
+#include "Vector2.h"
+#include "Element.h"
 
 #define DIPOLE_DEBUG 1
 
@@ -30,6 +30,7 @@ class Source : public Element {
  protected:
   float phase_;
   float amplitude_;
+
 };
 
 

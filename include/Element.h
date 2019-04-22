@@ -29,4 +29,5 @@ class Element {
  protected:
   Vector2 position_;
   Vector2 direction_;
+  sf::Sprite sprite_;
 };

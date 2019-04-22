@@ -1,4 +1,4 @@
-#include"Store.h"
+#include "Store.h"
 
 Store::Store()
 {
