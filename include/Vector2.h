@@ -99,12 +99,16 @@ class Vector2 : public KernelVector2 {
   // Length of vector is 1 now.
   void Norm(void);
 
+// Scalar muliplication
+float operator*(const Vector2& other) const;
+
+float GetCosAngleBetweenVectors(const Vector2 & b) const;
+
 friend std::ostream& operator<<(std::ostream& stream, const Vector2& v);
 friend std::istream& operator>>(std::istream& stream, Vector2& v);
 };
 
 // Addition to override operators.
 Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect);
-
 
 };  // namespace my_math

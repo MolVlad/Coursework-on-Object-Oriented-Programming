@@ -168,4 +168,14 @@ std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
   return stream;
 }
 
+float Vector2::operator*(const Vector2& other) const
+{
+	return x_ * other.x_ + y_ * other.y_;
+}
+
+float Vector2::GetCosAngleBetweenVectors(const Vector2 & other) const
+{
+  return (*this * other) / (Len() * other.Len());
+}
+
 };  // namespace my_math
