@@ -1,5 +1,9 @@
 #include "Sources.h"
 
+#include <chrono>
+
+extern std::chrono::high_resolution_clock::time_point time_start;
+
 sf::Texture dipole_texture;
 
 Source::Source(const Vector2 & position)
@@ -10,8 +14,10 @@ Source::Source(const Vector2 & position)
               << "function = " << __PRETTY_FUNCTION__ << std::endl;
   exit(-1); 
   }
+
   sprite_ = sf::Sprite(dipole_texture);
 
+  direction_ = DEFAULT_DIRECTION;
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
 }
@@ -49,6 +55,7 @@ Dipole::Dipole(const Vector2 & position)
   }
   sprite_ = sf::Sprite(dipole_texture);
   sprite_.setRotation(direction_);
+  sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
 }
 
 bool Dipole::Draw(sf::RenderWindow & window) {
@@ -58,7 +65,6 @@ bool Dipole::Draw(sf::RenderWindow & window) {
   return true;
 }
 
-// need to finish
 float Dipole::GetFieldStrength(const Vector2 & point) const
 {
   Vector2 radius_vector = point - position_;
@@ -68,7 +74,7 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
   std::cout << "Dipole::GetFieldStrength()" << std::endl;
 
  std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
-  std::cout << "\tradius_vector: " << radius_vector << std::endl;
+  std::cout << "\t\tradius_vector: " << radius_vector << std::endl;
   std::cout << "\tdistance: " << distance << std::endl;
   #endif /* DIPOLE_DEBUG */
 
@@ -78,15 +84,29 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
   // cos(angle<p, r>)
   float angular_coefficient = radius_vector.GetCosAngleBetweenVectors(Vector2(1, 0).GetRotated(direction_));
 
+  if(angular_coefficient < 0)
+    angular_coefficient *= -1;
+
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_start;
+
+  float t = diff.count() / TIME_SCALE;
+
   // sin(omega*t + k*r + phase)
-  float harmonic_part = 1;  //sin(CYCLIC_FREQUENCY);
+  float harmonic_part = sin(CYCLIC_FREQUENCY * (t + distance / LIGHT_SPEED) + phase_);
+
+  #ifdef DIPOLE_DEBUG
+  std::cout << "\t\tt: " << t << std::endl;
+  std::cout << "\t\tOmega * t: " << CYCLIC_FREQUENCY * t << std::endl;
+  std::cout << "\t\tkr: " << CYCLIC_FREQUENCY * distance / LIGHT_SPEED << std::endl;
+  std::cout << "\t\tphase: " << phase_ << std::endl;
+  std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
+  #endif /* DIPOLE_DEBUG */
 
   float result = amplitude_ * angular_coefficient * harmonic_part / distance;
 
   #ifdef DIPOLE_DEBUG
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
   std::cout << "\tangular_coefficient: " << angular_coefficient << std::endl;
-  std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
   std::cout << "\tresult: " << result << std::endl;
   std::cout << "Dipole::GetFieldStrength() end" << std::endl;
   std::cout << std::endl;

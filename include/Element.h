@@ -6,7 +6,7 @@
 
 using namespace my_math;
 
-const float DEFAULT_DIRECTION = 0.;
+const float DEFAULT_DIRECTION = 180;
 
 class Element {
  public:
