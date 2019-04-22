@@ -12,11 +12,15 @@ Source::Source(const Vector2 & position)
   exit(-1); 
   }
   sprite_ = sf::Sprite(dipole_texture);
+
+  phase_ = DEFAULT_PHASE;
+  amplitude_ = DEFAULT_AMPLITUDE;
 }
 
 Source::Source()
 {
-
+  phase_ = DEFAULT_PHASE;
+  amplitude_ = DEFAULT_AMPLITUDE;
 }
 
 Source::~Source()
@@ -47,10 +51,41 @@ bool Dipole::Draw(const sf::RenderWindow & window) const
     
 }
 
-// need to create
-float Dipole::GetFieldStrength(const Vector2 point) const
+// need to finish
+float Dipole::GetFieldStrength(const Vector2 & point) const
 {
+  Vector2 radius_vector = point - position_;
+  float distance = radius_vector.Len();
 
+  #ifdef DIPOLE_DEBUG
+  std::cout << "Dipole::GetFieldStrength()" << std::endl;
+
+ std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
+  std::cout << "\tradius_vector: " << radius_vector << std::endl;
+  std::cout << "\tdistance: " << distance << std::endl;
+  #endif /* DIPOLE_DEBUG */
+
+  if(!distance)
+    return 0;
+
+  // cos(angle<p, r>)
+  float angular_coefficient = 1;  //cos();
+
+  // sin(omega*t + k*r + phase)
+  float harmonic_part = 1;  //sin(CYCLIC_FREQUENCY);
+
+  float result = amplitude_ * angular_coefficient * harmonic_part / distance;
+
+  #ifdef DIPOLE_DEBUG
+  std::cout << "\tamplitude: " << amplitude_ << std::endl;
+  std::cout << "\tangular_coefficient: " << angular_coefficient << std::endl;
+  std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
+  std::cout << "\tresult: " << result << std::endl;
+  std::cout << "Dipole::GetFieldStrength() end" << std::endl;
+  std::cout << std::endl;
+  #endif /* DIPOLE_DEBUG */
+
+  return result;
 }
 
 // need to create
@@ -113,7 +148,7 @@ bool SecondarySource::Dump() const
 }
 
 // need to create
-float SecondarySource::GetFieldStrength(const Vector2 point) const
+float SecondarySource::GetFieldStrength(const Vector2 & point) const
 {
 
 }

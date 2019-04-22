@@ -71,3 +71,13 @@ bool Store::Dump() const
   std::cout << std::endl;
   return true;
 }
+
+float Store::GetFieldStrength(const my_math::Vector2 & position) const
+{
+  float result = 0;
+
+  for(auto& i : dipoles_)
+    result += i.GetFieldStrength(position);
+
+  return result;
+}
