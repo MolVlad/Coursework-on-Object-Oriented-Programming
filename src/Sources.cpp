@@ -30,7 +30,7 @@ bool Source::SetAmplitude(const float amplitude)
 Dipole::Dipole(const Vector2 & position)
     :  Source(position)  {
 
-  if (!dipole_texture.loadFromFile("images/dipole_mini.png")) {
+  if (!dipole_texture.loadFromFile("images/dipole.png")) {
     std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
               <<  "line = " << __LINE__ << std::endl 
               << "function = " << __PRETTY_FUNCTION__ << std::endl;

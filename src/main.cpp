@@ -19,7 +19,7 @@ int main()
 
   while(window.isOpen())
   {
-    window.clear();
+    window.clear(sf::Color::White);
     handleEvent(window, store);
     handleDraw(window, store);
     // TO DO
