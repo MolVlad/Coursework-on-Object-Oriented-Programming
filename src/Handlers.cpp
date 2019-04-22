@@ -36,6 +36,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 		case sf::Mouse::Right:
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Right" << std::endl;
+      std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
       store.Dump();
@@ -44,9 +45,12 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 		case sf::Mouse::Middle:
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Middle" << std::endl;
+      std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-			//elements.addLine(my_math::Vector2(position));
+      float filed = store.GetFieldStrength(my_math::Vector2(position));
+      std::cout << "Result field: " << filed << std::endl;
+      std::cout << std::endl;
 			break;
 	}
 
