@@ -105,7 +105,7 @@ bool Store::MoveWaves()
 
   float t = diff.count() / TIME_SCALE;
 
-  for(auto& i : waves_)
+  for (auto& i : waves_)
   {
     FrontElement & front_element = i.GetMain();
     Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
