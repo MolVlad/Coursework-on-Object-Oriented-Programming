@@ -20,7 +20,7 @@ Vector2 Element::GetPosition() const
   return position_;
 }
 
-Vector2 Element::GetDirection() const
+float Element::GetDirection() const
 {
   return direction_;
 }
@@ -32,7 +32,7 @@ bool Element::SetPosition(const Vector2 & position)
   return true;
 }
 
-bool Element::SetDirection(const Vector2 & direction)
+bool Element::SetDirection(const float direction)
 {
   direction_ = direction;
 

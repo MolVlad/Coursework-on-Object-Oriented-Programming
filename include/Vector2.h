@@ -37,7 +37,8 @@ class KernelVector2 {
   VECTOR_TYPE  Len(void) const;
   void Reset(const VECTOR_TYPE  x, const VECTOR_TYPE  y);
   void Rotate(const VECTOR_TYPE  degree);
-
+  float GetX(void) const;
+  float GetY(void) const;
  protected:
   VECTOR_TYPE  x_;
   VECTOR_TYPE  y_;

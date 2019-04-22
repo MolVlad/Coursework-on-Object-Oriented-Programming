@@ -21,7 +21,7 @@ int main()
   {
     window.clear();
     handleEvent(window, store);
-
+    handleDraw(window, store);
     // TO DO
     window.display();
   }

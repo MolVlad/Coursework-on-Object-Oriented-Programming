@@ -9,3 +9,4 @@
 
 bool handleEvent(sf::RenderWindow &window, Store &store);
 bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store);
+bool handleDraw(sf::RenderWindow &window, Store &store);

@@ -83,6 +83,13 @@ void KernelVector2::Rotate(const VECTOR_TYPE degree) {
   return; 
 }
 
+float KernelVector2::GetX(void) const {
+  return x_;
+}
+
+float KernelVector2::GetY(void) const {
+  return y_;
+}
 //Functions for Vector2.
 
   Vector2 & Vector2::operator=(const Vector2 & vect) {
