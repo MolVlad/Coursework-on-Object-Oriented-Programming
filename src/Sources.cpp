@@ -76,7 +76,7 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
     return 0;
 
   // cos(angle<p, r>)
-  float angular_coefficient = 1;  //cos();
+  float angular_coefficient = radius_vector.GetCosAngleBetweenVectors(Vector2(1, 0).GetRotated(direction_));
 
   // sin(omega*t + k*r + phase)
   float harmonic_part = 1;  //sin(CYCLIC_FREQUENCY);
