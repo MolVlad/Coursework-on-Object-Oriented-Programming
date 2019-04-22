@@ -1,4 +1,4 @@
-*.[oa]
+*.o
 tags
 *.swp
 sfml
