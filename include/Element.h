@@ -6,6 +6,8 @@
 
 using namespace my_math;
 
+const float DEFAULT_DIRECTION = 0.;
+
 class Element {
  public:
   Element();

@@ -3,6 +3,7 @@
 Element::Element(const Vector2 & position)
 {
   position_ = position;
+  direction_ = DEFAULT_DIRECTION;
 }
 
 Element::~Element()
