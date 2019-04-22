@@ -17,6 +17,9 @@ class KernelVector2 {
   }
 
   KernelVector2(const KernelVector2 & vect);
+  KernelVector2(const sf::Vector2i & vect);
+  KernelVector2(const sf::Vector2f & vect);
+
   KernelVector2 & operator=(const KernelVector2 & vect);
   KernelVector2 & operator=(const KernelVector2 && vect);
   void Dump(void) const;
@@ -53,9 +56,17 @@ class Vector2 : public KernelVector2 {
 
   ~Vector2(void) {
   }
-  
+
   Vector2(const Vector2 & vect) 
       :  KernelVector2(vect) {
+  }
+
+  Vector2(const sf::Vector2i & vect)
+      : KernelVector2(vect) {
+  }
+
+  Vector2(const sf::Vector2f & vect)
+      : KernelVector2(vect) {
   }
 
   Vector2 & operator=(const Vector2 & vect);

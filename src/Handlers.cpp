@@ -31,7 +31,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store store)
       std::cout << "handleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
 
-			//elements.addPosCharge(my_math::Vector2(position));
+			store.Push(Dipole(my_math::Vector2(position)));
 			break;
 		case sf::Mouse::Right:
       #ifdef MOUSE_DEBUG
