@@ -19,7 +19,7 @@ class Source : public Element {
 
   Source(const Vector2 & position);
 
-  virtual bool Draw(const sf::RenderWindow & window) const = 0;
+  virtual bool Draw(sf::RenderWindow & window) = 0;
 
   virtual bool Dump() const = 0;
 
@@ -37,6 +37,8 @@ class Source : public Element {
 
 };
 
+const float X_SCALE = 50;
+const float Y_SCALE = 50;
 
 class Dipole : public Source {
  public:
@@ -44,7 +46,7 @@ class Dipole : public Source {
 
   explicit Dipole(const Vector2 & position);
 
-  bool Draw(const sf::RenderWindow & window) const override;
+  bool Draw(sf::RenderWindow & window) override;
 
   bool Dump() const override;
 
@@ -53,7 +55,7 @@ class Dipole : public Source {
 
   bool SetImageScale(const float image_scale);
 
-  bool SetImageDirection();
+  bool SetImageDirection(const float direction);
 
   ~Dipole();
 };
@@ -64,7 +66,7 @@ class SecondarySource : public Source {
 
   explicit SecondarySource(const Vector2 & position);
 
-  bool Draw(const sf::RenderWindow & window) const override;
+  bool Draw(sf::RenderWindow & window) override;
 
   bool Dump() const override;
 

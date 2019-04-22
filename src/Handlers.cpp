@@ -56,3 +56,8 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 
   return true;
 }
+
+bool handleDraw(sf::RenderWindow &window, Store &store) {
+  store.Draw(window);
+  return true;
+}
