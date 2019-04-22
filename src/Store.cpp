@@ -109,7 +109,10 @@ bool Store::MoveWaves()
   {
     FrontElement & front_element = i.GetMain();
     Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
-    Vector2 speed_direction = field_strength.GetRotated(90);
+
+    // PROBLEM HERE!
+    Vector2 speed_direction = field_strength.GetRotated(-90);
+
     speed_direction.Norm();
     Vector2 position = front_element.GetPosition();
     #ifdef STORE_DEBUG
@@ -119,7 +122,7 @@ bool Store::MoveWaves()
     std::cout << "\tspeed_direction: " << speed_direction << std::endl;
     #endif /* STORE_DEBUG */
 
-    position += speed_direction * LIGHT_SPEED * t;
+    position += speed_direction * MOVE_SPEED * t;
     front_element.SetPosition(position);
 
     #ifdef STORE_DEBUG
