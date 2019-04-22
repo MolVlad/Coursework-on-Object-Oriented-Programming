@@ -20,7 +20,7 @@ class Store {
 
   bool Dump() const;
 
-  float GetFieldStrength(const my_math::Vector2 & position) const;
+  Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();
 

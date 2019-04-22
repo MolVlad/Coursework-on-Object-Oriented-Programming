@@ -65,7 +65,7 @@ bool Dipole::Draw(sf::RenderWindow & window) {
   return true;
 }
 
-float Dipole::GetFieldStrength(const Vector2 & point) const
+Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
 {
   Vector2 radius_vector = point - position_;
   float distance = radius_vector.Len();
@@ -79,7 +79,10 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
   #endif /* DIPOLE_DEBUG */
 
   if(!distance)
-    return 0;
+  {
+    std::cout << "WARNING:distance = 0 " << std::endl;
+    return Vector2(0, 0);
+  }
 
   // cos(angle<p, r>)
   float angular_coefficient = radius_vector.GetCosAngleBetweenVectors(Vector2(1, 0).GetRotated(direction_));
@@ -102,7 +105,12 @@ float Dipole::GetFieldStrength(const Vector2 & point) const
   std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
   #endif /* DIPOLE_DEBUG */
 
-  float result = amplitude_ * angular_coefficient * harmonic_part / distance;
+  Vector2 result = radius_vector.GetRotated(90);
+  result.Norm();
+
+  float field_strength = amplitude_ * angular_coefficient * harmonic_part / distance;
+
+  result *= field_strength;
 
   #ifdef DIPOLE_DEBUG
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
@@ -175,7 +183,7 @@ bool SecondarySource::Dump() const
 }
 
 // need to create
-float SecondarySource::GetFieldStrength(const Vector2 & point) const
+Vector2 SecondarySource::GetFieldStrength(const Vector2 & point) const
 {
 
 }
