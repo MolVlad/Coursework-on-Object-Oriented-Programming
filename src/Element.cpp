@@ -1,4 +1,4 @@
-#include "../include/Element.h"
+#include"Element.h"
 
 Element::Element(const Vector2 & position)
 {
@@ -38,5 +38,4 @@ bool Element::SetDirection(const Vector2 & direction)
 
   return true;
 }
-
 

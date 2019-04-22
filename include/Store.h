@@ -2,8 +2,10 @@
 
 #include<vector>
 
-#include"FrontElement.h"
+#include"Wave.h"
 #include"Sources.h"
+
+#define STORE_DEBUG 1
 
 class Store {
  public:
@@ -11,7 +13,7 @@ class Store {
 
   bool Push(const Dipole & dipole);
 
-  bool Push(const FrontElement & front_element);
+  bool Push(const Wave & wave);
 
   bool Draw() const;
 
@@ -21,5 +23,5 @@ class Store {
 
  private:
   std::vector<Dipole> dipoles_;
-  std::vector<FrontElement> front_elements_;
+  std::vector<Wave> waves_;
 };

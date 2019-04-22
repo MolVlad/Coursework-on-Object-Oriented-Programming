@@ -40,13 +40,13 @@ void KernelVector2::Dump(void) const
 
 KernelVector2 & KernelVector2::operator+=(const KernelVector2 & vect) {
   x_ += vect.x_;
-  y_ += vect.y_;	
+  y_ += vect.y_;  
   return *this;
 }
 
 KernelVector2 & KernelVector2::operator*=(const VECTOR_TYPE  k) {
   x_ *= k;
-  y_ *= k;	
+  y_ *= k;  
   return *this;
 }
 
@@ -62,7 +62,7 @@ void KernelVector2::Reset(const VECTOR_TYPE  x, const VECTOR_TYPE  y) {
 
 void KernelVector2::Rotate(const VECTOR_TYPE degree) {
   if (!x_ && !y_) {
-  	return;
+    return;
   }
 
   VECTOR_TYPE angle = atan2(y_, x_);
@@ -70,7 +70,7 @@ void KernelVector2::Rotate(const VECTOR_TYPE degree) {
   VECTOR_TYPE len = Len( );
   x_ = len * cos(angle);
   y_ = len * sin(angle);
-  return;	
+  return; 
 }
 
 //Functions for Vector2.
@@ -100,24 +100,24 @@ Vector2 Vector2::operator-(const Vector2 & vect) const {
 
 Vector2 Vector2::operator-(void) const {
   Vector2 new_vect = Vector2(*this);
-  new_vect *= (-1);	
+  new_vect *= (-1); 
   return new_vect;
 }
 
 Vector2 Vector2::operator*(const VECTOR_TYPE  k) const {
   Vector2 new_vect = Vector2(*this);
-  new_vect *= k;	
+  new_vect *= k;  
   return new_vect;
 }
 
 Vector2 Vector2::operator/(const VECTOR_TYPE  k) const {
   Vector2 new_vect = Vector2(*this);
-  new_vect *= 1 / k;	
+  new_vect *= 1 / k;  
   return new_vect;
 }
 
 VECTOR_TYPE  Vector2::SquareLen(void) const {
-	float len = Len( );
+  float len = Len( );
     return len * len;
 }
 
@@ -129,31 +129,26 @@ Vector2 Vector2::GetRotated(const VECTOR_TYPE  degree) const {
 
 void Vector2::Norm(void) {
   *this *= 1 / Len( );
-  return ;	
-}
-
-std::ostream & operator<<(std::ostream & os, const Vector2 & vect) {
-  
+  return ;  
 }
 
 Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 {
-	Vector2 new_vect = Vector2(vect);
-	new_vect *= k;
-	return new_vect;
+  Vector2 new_vect = Vector2(vect);
+  new_vect *= k;
+  return new_vect;
 }
 
 std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
 {
-	stream << v.x_ << " " << v.y_ << '\n';
-	return stream;
+  stream << v.x_ << " " << v.y_;
+  return stream;
 }
 
 std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
 {
-	stream >> v.x_ >> v.y_;
-	return stream;
+  stream >> v.x_ >> v.y_;
+  return stream;
 }
 
 };  // namespace my_math
-

@@ -2,11 +2,12 @@
 
 #include"Vector2.h"
 #include"Element.h"
-#include ""
+
+#define DIPOLE_DEBUG 1
 
 using namespace my_math;
 
-class Source : Element {
+class Source : public Element {
  public:
   Source();
 
@@ -24,21 +25,21 @@ class Source : Element {
 
   virtual ~Source();
 
- private:
+ protected:
   float phase_;
   float amplitude_;
 };
 
 
-class Dipole : Source {
+class Dipole : public Source {
  public:
-  Dipole(void);
+  Dipole();
 
-  explicit Dipole(const Vector2 & position, const Vector2 & direction);
+  explicit Dipole(const Vector2 & position);
 
-  bool Draw(const sf::RenderWindow & window) const override;
+  bool Draw() const override;
 
-  bool Dump(void) const override;
+  bool Dump() const override;
 
   // get field strength from this source in point
   float GetFieldStrength(const Vector2 point) const override;
@@ -50,7 +51,7 @@ class Dipole : Source {
   ~Dipole();
 };
 
-class SecondarySource : Source {
+class SecondarySource : public Source {
  public:
   SecondarySource();
 
