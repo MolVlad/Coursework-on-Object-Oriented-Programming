@@ -54,11 +54,13 @@ bool Store::Dump() const
   std::cout << "Store::Dump()" << std::endl;
   #endif /* STORE_DEBUG */
 
-  std::cout << "Print dipoles_" << std::endl;
+  std::cout << "Print dipole_: " << dipoles_.size() << std::endl;
   for(auto& i : dipoles_)
+  {
     i.Dump();
+  }
 
-  std::cout << "Print waves_" << std::endl;
+  std::cout << "Print waves_: " << waves_.size() << std::endl;
   for(auto& i : waves_)
     i.Dump();
 

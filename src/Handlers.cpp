@@ -20,7 +20,7 @@ bool handleEvent(sf::RenderWindow &window, Store &store)
   return true;
 }
 
-bool handleMouse(sf::RenderWindow &window, sf::Event event, Store store)
+bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 {
 	sf::Vector2i position = sf::Mouse::getPosition(window);
 
@@ -38,6 +38,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store store)
       std::cout << "handleMouse(): Right" << std::endl;
       #endif /* MOUSE_DEBUG */
 
+      store.Dump();
 			//elements.addNegCharge(my_math::Vector2(position));
 			break;
 		case sf::Mouse::Middle:

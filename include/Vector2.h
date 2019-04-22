@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <SFML/Graphics.hpp>
+
 namespace my_math {
 
 const float PI = 3.141593;
