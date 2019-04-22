@@ -10,8 +10,8 @@
 
 using namespace my_math;
 
-const float DIPOLE_SCALE_X = 0.1;
-const float DIPOLE_SCALE_Y = 0.1;
+const float DIPOLE_SCALE_X = 0.01;
+const float DIPOLE_SCALE_Y = 0.01;
 
 const float TIME_SCALE = 10;
 const float LIGHT_SPEED = 10000;
@@ -29,7 +29,8 @@ class Source : public Element {
 
   virtual bool Dump() const = 0;
 
-  virtual float GetFieldStrength(const Vector2 & point) const = 0;
+  // get field strength from this source in point
+  virtual Vector2 GetFieldStrength(const Vector2 & point) const = 0;
 
   bool SetPhase(const float phase);
 
@@ -56,7 +57,7 @@ class Dipole : public Source {
   bool Dump() const override;
 
   // get field strength from this source in point
-  float GetFieldStrength(const Vector2 & point) const override;
+  Vector2 GetFieldStrength(const Vector2 & point) const override;
 
   // Image_scale is increase in size. It should be positive.
   bool SetImageScale(const float image_scale);
@@ -77,7 +78,7 @@ class SecondarySource : public Source {
   bool Dump() const override;
 
   // get field strength from this source in point
-  float GetFieldStrength(const Vector2 & point) const override;
+  Vector2 GetFieldStrength(const Vector2 & point) const override;
 
   ~SecondarySource();
 

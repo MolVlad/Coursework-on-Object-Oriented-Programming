@@ -20,7 +20,10 @@ class Store {
 
   bool Dump() const;
 
-  float GetFieldStrength(const my_math::Vector2 & position) const;
+  //Move waves along vector k by c*t
+  bool MoveWaves();
+
+  Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();
 

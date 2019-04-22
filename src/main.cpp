@@ -27,6 +27,10 @@ int main()
     window.clear(sf::Color::White);
     handleEvent(window, store);
     handleDraw(window, store);
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+      store.MoveWaves();
+
     // TO DO
     window.display();
   }
