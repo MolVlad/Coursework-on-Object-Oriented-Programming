@@ -8,7 +8,7 @@ Wave::Wave()
 }
 
 // need to create
-bool Wave::Draw() const
+bool Wave::Draw(const sf::RenderWindow & window) const
 {
 
 }
@@ -50,5 +50,3 @@ Wave::~Wave()
 {
 
 }
-
-

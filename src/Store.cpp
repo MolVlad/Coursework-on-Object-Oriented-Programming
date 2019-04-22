@@ -1,4 +1,4 @@
-#include"Store.h"
+#include "Store.h"
 
 Store::Store()
 {
@@ -11,7 +11,7 @@ Store::~Store()
 }
 
 // need to create
-bool Store::Draw() const
+bool Store::Draw(const sf::RenderWindow & window) const
 {
 
 }

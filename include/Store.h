@@ -1,6 +1,7 @@
 #pragma once
 
 #include<vector>
+#include <SFML/Graphics.hpp>
 
 #include"Wave.h"
 #include"Sources.h"
@@ -15,7 +16,7 @@ class Store {
 
   bool Push(const Wave & wave);
 
-  bool Draw() const;
+  bool Draw(const sf::RenderWindow & window) const;
 
   bool Dump() const;
 

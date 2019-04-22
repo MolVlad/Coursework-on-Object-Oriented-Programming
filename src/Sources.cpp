@@ -1,9 +1,17 @@
-#include"Sources.h"
+#include "Sources.h"
+
+sf::Texture dipole_texture;
 
 Source::Source(const Vector2 & position)
-    :  Element(position)
-{
+    :  Element(position)  {
 
+  if (!dipole_texture.loadFromFile("atom.png")) {
+    std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
+              <<  "line = " << __LINE__ << std::endl 
+              << "function = " << __PRETTY_FUNCTION__ << std::endl;
+  exit(-1); 
+  }
+  sprite_ = sf::Sprite(dipole_texture);
 }
 
 Source::Source()
@@ -34,9 +42,9 @@ Dipole::Dipole(const Vector2 & position)
 }
 
 // need to create
-bool Dipole::Draw() const
+bool Dipole::Draw(const sf::RenderWindow & window) const
 {
-
+    
 }
 
 // need to create
@@ -93,7 +101,7 @@ SecondarySource::SecondarySource(const Vector2 & position)
 }
 
 // need to create
-bool SecondarySource::Draw() const
+bool SecondarySource::Draw(const sf::RenderWindow & window) const
 {
 
 }
@@ -114,4 +122,3 @@ SecondarySource::~SecondarySource()
 {
 
 }
-

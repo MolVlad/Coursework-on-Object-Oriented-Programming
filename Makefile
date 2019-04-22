@@ -27,4 +27,3 @@ clean:
 	$(COMP) $(CFLAGS) -c $(@:.o=.cpp) -o $@
 
 tags:
-	ctags -R

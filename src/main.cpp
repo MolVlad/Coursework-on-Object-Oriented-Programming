@@ -20,10 +20,9 @@ int main()
   while(window.isOpen())
   {
     window.clear();
-		handleEvent(window, store);
+    handleEvent(window, store);
 
     // TO DO
-
     window.display();
   }
 

@@ -39,4 +39,3 @@ bool Element::SetDirection(const Vector2 & direction)
   return true;
 }
 
-

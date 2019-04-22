@@ -107,4 +107,3 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect);
 
 
 };  // namespace my_math
-
