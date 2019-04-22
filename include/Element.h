@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include"Vector2.h"
 
 using namespace my_math;
@@ -10,7 +12,7 @@ class Element {
 
   explicit Element(const Vector2 & position);
 
-  virtual bool Draw() const = 0;
+  virtual bool Draw(const sf::RenderWindow & window) const = 0;
 
   virtual bool Dump() const = 0;
 

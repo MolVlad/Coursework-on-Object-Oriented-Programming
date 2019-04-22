@@ -1,6 +1,6 @@
 PROJECT = sfml
 
-SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp src/Vector2.cpp
+SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp src/Vector2.cpp src/Wave.cpp
 INCLUDES += -I include
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 DEFINES =
@@ -27,4 +27,3 @@ clean:
 	$(COMP) $(CFLAGS) -c $(@:.o=.cpp) -o $@
 
 tags:
-	ctags -R

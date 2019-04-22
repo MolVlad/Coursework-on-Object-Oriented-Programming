@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 #include "FrontElement.h"
 
@@ -12,7 +13,7 @@ class Wave {
  public:
   Wave();
 
-  bool Draw() const;
+  bool Draw(const sf::RenderWindow & window) const;
 
   bool Dump() const;
 

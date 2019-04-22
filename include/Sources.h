@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include"Vector2.h"
 #include"Element.h"
 
@@ -13,7 +15,7 @@ class Source : public Element {
 
   Source(const Vector2 & position);
 
-  virtual bool Draw() const = 0;
+  virtual bool Draw(const sf::RenderWindow & window) const = 0;
 
   virtual bool Dump() const = 0;
 
@@ -37,7 +39,7 @@ class Dipole : public Source {
 
   explicit Dipole(const Vector2 & position);
 
-  bool Draw() const override;
+  bool Draw(const sf::RenderWindow & window) const override;
 
   bool Dump() const override;
 
@@ -57,7 +59,7 @@ class SecondarySource : public Source {
 
   explicit SecondarySource(const Vector2 & position);
 
-  bool Draw() const override;
+  bool Draw(const sf::RenderWindow & window) const override;
 
   bool Dump() const override;
 

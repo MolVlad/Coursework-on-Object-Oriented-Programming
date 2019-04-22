@@ -17,7 +17,7 @@ FrontElement::~FrontElement()
 }
 
 // need to create
-bool FrontElement::Draw() const
+bool FrontElement::Draw(const sf::RenderWindow & window) const
 {
 
   return true;

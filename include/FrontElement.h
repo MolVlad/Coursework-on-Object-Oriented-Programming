@@ -1,7 +1,9 @@
 #pragma once
 
-#include"Vector2.h"
-#include"Element.h"
+#include <SFML/Graphics.hpp>
+
+#include "Vector2.h"
+#include "Element.h"
 
 #define FRONT_ELEMENT_DEBUG 1
 
@@ -13,7 +15,7 @@ class FrontElement : public Element {
 
   explicit FrontElement(const Vector2 & position);
 
-  bool Draw() const override;
+  bool Draw(const sf::RenderWindow & window) const override;
 
   bool Dump() const override;
 

@@ -34,7 +34,7 @@ Dipole::Dipole(const Vector2 & position)
 }
 
 // need to create
-bool Dipole::Draw() const
+bool Dipole::Draw(const sf::RenderWindow & window) const
 {
 
 }
@@ -93,7 +93,7 @@ SecondarySource::SecondarySource(const Vector2 & position)
 }
 
 // need to create
-bool SecondarySource::Draw() const
+bool SecondarySource::Draw(const sf::RenderWindow & window) const
 {
 
 }
