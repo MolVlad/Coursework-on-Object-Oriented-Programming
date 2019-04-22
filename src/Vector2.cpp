@@ -18,7 +18,17 @@ KernelVector2::KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
 KernelVector2::KernelVector2(const KernelVector2 & vect)
     :  x_(vect.x_),
        y_(vect.y_) {
-}   
+}
+
+KernelVector2::KernelVector2(const sf::Vector2i & vect)
+    :  x_(vect.x),
+       y_(vect.y) {
+}
+
+KernelVector2::KernelVector2(const sf::Vector2f & vect)
+    :  x_(vect.x),
+       y_(vect.y) {
+}
 
 KernelVector2 & KernelVector2::operator=(const KernelVector2 & vect) {
   x_ = vect.x_;
@@ -141,8 +151,8 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 
 std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
 {
-  stream << v.x_ << " " << v.y_;
-  return stream;
+	stream << v.x_ << " " << v.y_;
+	return stream;
 }
 
 std::istream& operator>>(std::istream& stream, my_math::Vector2& v)

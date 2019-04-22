@@ -7,6 +7,8 @@
 
 #define DIPOLE_DEBUG 1
 
+#define DIPOLE_DEBUG 1
+
 using namespace my_math;
 
 class Source : public Element {

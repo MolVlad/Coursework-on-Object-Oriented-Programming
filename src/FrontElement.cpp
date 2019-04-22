@@ -25,17 +25,17 @@ bool FrontElement::Draw(const sf::RenderWindow & window) const
 
 bool FrontElement::Dump() const
 {
-#ifdef FRONT_ELEMENT_DEBUG
+  #ifdef FRONT_ELEMENT_DEBUG
   std::cout << "FrontElement::Dump()" << std::endl;
-#endif /* FRONT_ELEMENT_DEBUG */
+  #endif /* FRONT_ELEMENT_DEBUG */
 
   std::cout << "\tposition: " << position_ << std::endl;
   std::cout << "\tdirection: " << direction_ << std::endl;
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
 
-#ifdef FRONT_ELEMENT_DEBUG
+  #ifdef FRONT_ELEMENT_DEBUG
   std::cout << "FrontElement::Dump() end" << std::endl;
-#endif /* FRONT_ELEMENT_DEBUG */
+  #endif /* FRONT_ELEMENT_DEBUG */
 
   std::cout << std::endl;
   return true;
