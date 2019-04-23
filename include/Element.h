@@ -46,7 +46,7 @@ class Element {
 
   float GetDirection() const;
 
-  bool SetPosition(const Vector2 & position);
+  virtual bool SetPosition(const Vector2 & position);
 
   virtual bool SetDirection(const float direction);
 

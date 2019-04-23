@@ -135,6 +135,11 @@ bool Dipole::SetDirection(const float direction) {
   return true;
 }
 
+bool Dipole::SetPosition(const Vector2 & position) {
+  Element::SetPosition(position);
+  sprite_.setPosition(position.GetX( ), position.GetY( ));
+  return true;
+}
 
 bool Dipole::Dump() const
 {

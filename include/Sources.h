@@ -52,6 +52,8 @@ class Dipole : public Source {
 
   virtual bool SetDirection(const float direction) override;
 
+  virtual bool SetPosition(const Vector2 & position) override;
+
   ~Dipole();
 };
 
