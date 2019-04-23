@@ -23,7 +23,41 @@ bool Store::Draw(sf::RenderWindow & window) {
   }
 
   for(auto& i : waves_) {
-    i.Draw(window);
+    FrontElement & main_front_element = i.GetMain();
+    main_front_element.Draw(window);
+
+    Vector2 main_front_element_position = main_front_element.GetPosition();
+
+    FrontElement next;
+    Vector2 next_position;
+
+    //Positive direction
+    next_position = main_front_element_position;
+    //while(!next.IsFarFromCenter())
+    while(next.IsOnScreen())
+    {
+      Vector2 front_direction = GetFieldStrength(next.GetPosition());
+      front_direction.Norm();
+
+      next_position += front_direction * FRONT_ELEMENT_STEP;
+
+      next = FrontElement(next_position);
+      next.Draw(window);
+    }
+
+    //Negative direction
+    next_position = main_front_element_position;
+    //while(!next.IsFarFromCenter())
+    while(next.IsOnScreen())
+    {
+      Vector2 front_direction = GetFieldStrength(next.GetPosition());
+      front_direction.Norm();
+
+      next_position -= front_direction * FRONT_ELEMENT_STEP;
+
+      next = FrontElement(next_position);
+      next.Draw(window);
+    }
   }
 
   return true;
@@ -95,28 +129,41 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
   return result;
 }
 
-bool Store::MoveWaves()
+bool Store::UpdateTime()
 {
-  #ifdef STORE_DEBUG
-  std::cout << "Store::MoveWaves()" << std::endl;
-  #endif /* STORE_DEBUG */
-
   static std::chrono::high_resolution_clock::time_point time_stamp = time_start;
 
   std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_stamp;
 
   time_stamp = std::chrono::high_resolution_clock::now();
 
-  float t = diff.count() / TIME_SCALE;
+  t = diff.count() / TIME_SCALE;
+}
 
+float Store::GetTime()
+{
+  return t;
+}
+
+bool Store::RemoveDistantWaves()
+{
   for (int i = 0; i < waves_.size(); i++)
   {
-    if(waves_[i].IsWaveFarFromCenter())
+    if(waves_[i].GetMain().IsFarFromCenter())
     {
       std::swap(waves_[i], waves_[waves_.size() - 1]);
       waves_.pop_back();
     }
   }
+}
+
+bool Store::MoveWaves()
+{
+  #ifdef STORE_DEBUG
+  std::cout << "Store::MoveWaves()" << std::endl;
+  #endif /* STORE_DEBUG */
+
+  float t = GetTime();
 
   for (auto& i : waves_)
   {

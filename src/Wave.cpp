@@ -52,11 +52,6 @@ FrontElement & Wave::GetMain()
   return front_elements_.front();
 }
 
-bool Wave::IsWaveFarFromCenter()
-{
-  return (GetMain().GetPosition() - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y)).Len() > MAX_DISTANCE_FROM_AREA_CENTER;
-}
-
 Wave::~Wave()
 {
 

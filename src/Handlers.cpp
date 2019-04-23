@@ -1,6 +1,6 @@
 #include "Handlers.h"
 
-bool handleEvent(sf::RenderWindow &window, Store &store)
+bool HandleEvent(sf::RenderWindow &window, Store &store)
 {
   sf::Event event;
 
@@ -12,7 +12,7 @@ bool handleEvent(sf::RenderWindow &window, Store &store)
         window.close();
         break;
       case sf::Event::MouseButtonPressed:
-        handleMouse(window, event, store);
+        HandleMouse(window, event, store);
         break;
     }
   }
@@ -20,7 +20,7 @@ bool handleEvent(sf::RenderWindow &window, Store &store)
   return true;
 }
 
-bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
+bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 {
   sf::Vector2i position = sf::Mouse::getPosition(window);
 
@@ -64,7 +64,14 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
   return true;
 }
 
-bool handleDraw(sf::RenderWindow &window, Store &store) {
+bool HandleDraw(sf::RenderWindow &window, Store &store) {
   store.Draw(window);
   return true;
+}
+
+bool HandleStore(Store &store)
+{
+    store.RemoveDistantWaves();
+    store.MoveWaves();
+    store.UpdateTime();
 }
