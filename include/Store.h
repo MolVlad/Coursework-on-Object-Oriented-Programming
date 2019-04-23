@@ -3,8 +3,9 @@
 #include<vector>
 #include <SFML/Graphics.hpp>
 
-#include"Wave.h"
-#include"Sources.h"
+#include "Wave.h"
+#include "Sources.h"
+#include "DipoleArea.h"
 
 #define STORE_DEBUG 1
 
@@ -35,4 +36,5 @@ class Store {
  private:
   std::vector<Dipole> dipoles_;
   std::vector<Wave> waves_;
+  DipoleArea dipole_area_;
 };

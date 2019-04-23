@@ -7,8 +7,8 @@
 #include "Wave.h"
 #include "Handlers.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+const float SCREEN_WIDTH = 800.;
+const float SCREEN_HEIGHT = 600.;
 
 using namespace my_math;
 
@@ -28,8 +28,11 @@ int main()
     handleEvent(window, store);
     handleDraw(window, store);
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
       store.MoveWaves();
+    }
+
+    
 
     // TO DO
     window.display();
