@@ -7,9 +7,9 @@ Wave::Wave( ) {
 }
 
 bool Wave::Draw(sf::RenderWindow & window) {
-  for(auto &i : front_elements_) {
-    i.Draw(window);
-  }
+  FrontElement &front_element = GetMain();
+
+  front_element.Draw(window);
 
   return true;
 }
