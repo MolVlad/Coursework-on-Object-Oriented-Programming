@@ -45,7 +45,7 @@ bool Store::Draw(sf::RenderWindow & window) {
 
   for(auto& i : waves_) {
     FrontElement & main_front_element = i.GetMain();
-    int strength = GetFieldStrength(main_front_element.GetPosition()).Len();
+    float strength = GetFieldStrength(main_front_element.GetPosition()).Len();
     main_front_element.DrawColor(window, strength);
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
