@@ -33,7 +33,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 
       store.Push(Dipole(my_math::Vector2(position)));
       break;
-    case sf::Mouse::Right:
+    case sf::Mouse::Middle:
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Right" << std::endl;
       std::cout << std::endl;
@@ -41,7 +41,7 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 
       store.Dump();
       break;
-    case sf::Mouse::Middle:
+    case sf::Mouse::Right:
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Middle" << std::endl;
       std::cout << std::endl;

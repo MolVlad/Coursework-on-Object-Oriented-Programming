@@ -7,8 +7,8 @@ Wave::Wave( ) {
 }
 
 bool Wave::Draw(sf::RenderWindow & window) {
-  for (int ind = 0; ind < front_elements_.size( ); ind++) {
-    front_elements_[ind].Draw(window);
+  for(auto &i : front_elements_) {
+    i.Draw(window);
   }
 
   return true;
