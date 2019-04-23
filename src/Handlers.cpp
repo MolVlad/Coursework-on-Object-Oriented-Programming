@@ -1,6 +1,10 @@
 #include "Handlers.h"
 
 bool IsRightPosition(const sf::Vector2i & position) {
+  Vector2 center = Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
+  return (DEFAULT_AREA_RADIUS > (center - position).Len());
+
+  /*
   float area_top = DEFAULT_AREA_CENTER_Y - DEFAULT_AREA_RADIUS;
   float area_bottom = DEFAULT_AREA_CENTER_Y + DEFAULT_AREA_RADIUS;
   bool x_statement = (pow(position.x, 2) < pow(DEFAULT_AREA_RADIUS, 2) -
@@ -12,6 +16,7 @@ bool IsRightPosition(const sf::Vector2i & position) {
   else {
     return false;
   }
+  */
 
 }
 
