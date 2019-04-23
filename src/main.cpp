@@ -28,8 +28,11 @@ int main()
     handleEvent(window, store);
     handleDraw(window, store);
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
       store.MoveWaves();
+    }
+
+    
 
     // TO DO
     window.display();

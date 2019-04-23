@@ -17,6 +17,8 @@ Store::~Store()
 
 
 bool Store::Draw(sf::RenderWindow & window) {
+  dipole_area_.Draw(window);
+
   for(auto& i : dipoles_) {
     i.Draw(window);
   }
