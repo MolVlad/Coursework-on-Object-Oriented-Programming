@@ -15,10 +15,9 @@ Store::~Store()
 
 }
 
-
 bool Store::Draw(sf::RenderWindow & window) {  
   dipole_area_.Draw(window);
-  
+
   for(auto& i : dipoles_) {
     i.Draw(window);
   }
@@ -110,8 +109,7 @@ bool Store::MoveWaves()
 
   for (int i = 0; i < waves_.size(); i++)
   {
-    //if(i.IsWaveFar())
-    if(true)
+    if(waves_[i].IsWaveFarFromCenter())
     {
       std::swap(waves_[i], waves_[waves_.size() - 1]);
       waves_.pop_back();

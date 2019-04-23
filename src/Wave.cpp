@@ -6,7 +6,6 @@ Wave::Wave( ) {
 
 }
 
-// need to create
 bool Wave::Draw(sf::RenderWindow & window) {
   for (int ind = 0; ind < front_elements_.size( ); ind++) {
     front_elements_[ind].Draw(window);
@@ -51,6 +50,11 @@ bool Wave::Push(const FrontElement & front_element)
 FrontElement & Wave::GetMain()
 {
   return front_elements_.front();
+}
+
+bool Wave::IsWaveFarFromCenter()
+{
+  return (GetMain().GetPosition() - Vector2(CENTER_X, CENTER_Y)).Len() > MAX_DISTANCE_FROM_CENTER;
 }
 
 Wave::~Wave()

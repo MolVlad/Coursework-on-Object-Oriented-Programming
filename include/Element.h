@@ -9,7 +9,13 @@ using namespace my_math;
 
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
+
 const float DEFAULT_DIRECTION = 180;
+
+const float CENTER_X = 0;
+const float CENTER_Y = 300;
+
+const float MAX_DISTANCE_FROM_CENTER = 1000;
 
 class Element {
  public:
