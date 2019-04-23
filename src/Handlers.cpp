@@ -1,23 +1,9 @@
 #include "Handlers.h"
 
 bool IsRightPosition(const sf::Vector2i & position) {
+
   Vector2 center = Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
-  return (DEFAULT_AREA_RADIUS > (center - position).Len());
-
-  /*
-  float area_top = DEFAULT_AREA_CENTER_Y - DEFAULT_AREA_RADIUS;
-  float area_bottom = DEFAULT_AREA_CENTER_Y + DEFAULT_AREA_RADIUS;
-  bool x_statement = (pow(position.x, 2) < pow(DEFAULT_AREA_RADIUS, 2) -
-  pow(position.y - DEFAULT_AREA_CENTER_Y, 2));
-
-  if (position.y > area_top && position.y < area_bottom && x_statement && position.x >= 0) {
-    return true;
-  } 
-  else {
-    return false;
-  }
-  */
-
+  return (DEFAULT_AREA_RADIUS > (center - position).Len( ));
 }
 
 bool HandleEvent(sf::RenderWindow &window, Store &store)
@@ -69,12 +55,6 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << "handleMouse(): Middle" << std::endl;
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
-
-      /*
-      Vector2 field = store.GetFieldStrength(my_math::Vector2(position));
-      std::cout << "Result field: " << field << std::endl;
-      std::cout << "Field strength: " << field.Len() << std::endl;
-      */
 
       Wave singular_wave;
       singular_wave.Push(FrontElement(position));
