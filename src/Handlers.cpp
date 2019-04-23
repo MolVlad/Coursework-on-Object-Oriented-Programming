@@ -29,6 +29,8 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
 bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
 {
   sf::Vector2i position = sf::Mouse::getPosition(window);
+  Wave singular_wave;
+  FrontElement front_element;
 
   switch(event.key.code)
   {
@@ -40,23 +42,27 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       if (IsRightPosition(position)) {
         store.Push(Dipole(my_math::Vector2(position)));
       }
-    
+
       break;
     case sf::Mouse::Middle:
-      #ifdef MOUSE_DEBUG
-      std::cout << "handleMouse(): Right" << std::endl;
-      std::cout << std::endl;
-      #endif /* MOUSE_DEBUG */
-
-      store.Dump();
-      break;
-    case sf::Mouse::Right:
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Middle" << std::endl;
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      Wave singular_wave;
+      if (IsRightPosition(position)) {
+        Dipole dipole = Dipole(my_math::Vector2(position));
+        dipole.SetDirection(90);
+        store.Push(dipole);
+      }
+
+      break;
+    case sf::Mouse::Right:
+      #ifdef MOUSE_DEBUG
+      std::cout << "handleMouse(): Right" << std::endl;
+      std::cout << std::endl;
+      #endif /* MOUSE_DEBUG */
+
       singular_wave.Push(FrontElement(position));
       store.Push(singular_wave);
       std::cout << std::endl;
