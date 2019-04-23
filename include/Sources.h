@@ -6,7 +6,7 @@
 #include "Element.h"
 #include <assert.h>
 
-//#define DIPOLE_DEBUG 1
+#define DIPOLE_DEBUG 1
 
 using namespace my_math;
 
