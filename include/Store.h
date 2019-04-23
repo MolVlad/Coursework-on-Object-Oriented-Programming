@@ -24,6 +24,12 @@ class Store {
   //Move waves along vector k by c*t
   bool MoveWaves();
 
+  float GetTime();
+
+  bool UpdateTime();
+
+  bool RemoveDistantWaves();
+
   Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();
@@ -32,4 +38,5 @@ class Store {
   std::vector<Dipole> dipoles_;
   std::vector<Wave> waves_;
   DipoleArea dipole_area_;
+  float t;
 };

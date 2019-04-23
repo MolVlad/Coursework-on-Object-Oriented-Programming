@@ -23,10 +23,9 @@ int main()
   while(window.isOpen())
   {
     window.clear(sf::Color::White);
-    handleEvent(window, store);
-    handleDraw(window, store);
-
-    store.MoveWaves();
+    HandleEvent(window, store);
+    HandleDraw(window, store);
+    HandleStore(store);
 
     // TO DO
     window.display();
