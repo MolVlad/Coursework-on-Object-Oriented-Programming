@@ -7,9 +7,6 @@
 
 namespace my_math {
 
-const float DEFAULT_AREA_RADIUS = 250.;
-const float DEFAULT_AREA_PCOUNT = 40.;
-
 class DipoleArea : public Element {
  public:
   DipoleArea(void); 

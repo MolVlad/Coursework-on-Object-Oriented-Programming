@@ -16,7 +16,7 @@ bool CreateTexture(const char* picture, sf::Texture & texture) {
 Element::Element(const Vector2 & position)
 {
   position_ = position;
-  direction_ = DEFAULT_DIRECTION;
+  direction_ = DEFAULT_DIPOLE_DIRECTION;
 }
 
 Element::~Element()

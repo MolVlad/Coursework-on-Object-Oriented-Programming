@@ -11,9 +11,6 @@
 
 using namespace my_math;
 
-const float DEFAULT_RADIUS = 3.;
-const float DEFAULT_POINT_COUNT = 40.;
-
 class FrontElement : public Element {
  public:
   FrontElement();

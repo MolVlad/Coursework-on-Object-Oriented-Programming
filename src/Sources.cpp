@@ -9,7 +9,7 @@ sf::Texture dipole_texture;
 Source::Source(const Vector2 & position)
     :  Element(position)  {
 
-  direction_ = DEFAULT_DIRECTION;
+  direction_ = DEFAULT_DIPOLE_DIRECTION;
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
 }
@@ -81,7 +81,11 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   if(angular_coefficient < 0)
     angular_coefficient *= -1;
 
-  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_start;
+  static std::chrono::high_resolution_clock::time_point time_stamp = time_start;
+
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_stamp;
+
+  time_stamp = std::chrono::high_resolution_clock::now();
 
   float t = diff.count() / TIME_SCALE;
 
@@ -119,13 +123,13 @@ bool Dipole::SetImageScale(const float image_scale)
 {
   assert(image_scale > 0);
 
-  sprite_.setScale(X_SCALE * image_scale, Y_SCALE * image_scale);
+  sprite_.setScale(DIPOLE_SCALE_X * image_scale, DIPOLE_SCALE_Y * image_scale);
   return true;
 }
 
 // need to create
 bool Dipole::SetImageDirection(const float direction) {
-  direction_ = direction;  
+  direction_ = direction;
 }
 
 bool Dipole::Dump() const

@@ -10,15 +10,6 @@
 
 using namespace my_math;
 
-const float DIPOLE_SCALE_X = 0.01;
-const float DIPOLE_SCALE_Y = 0.01;
-
-const float TIME_SCALE = 10;
-const float LIGHT_SPEED = 10000;
-const float CYCLIC_FREQUENCY = 10;
-const float DEFAULT_PHASE = 0;
-const float DEFAULT_AMPLITUDE = 10000;
-
 class Source : public Element {
  public:
   Source();
@@ -42,9 +33,6 @@ class Source : public Element {
   float phase_;
   float amplitude_;
 };
-
-const float X_SCALE = 50;
-const float Y_SCALE = 50;
 
 class Dipole : public Source {
  public:
