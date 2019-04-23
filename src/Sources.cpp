@@ -51,6 +51,8 @@ Dipole::Dipole(const Vector2 & position)
 
 bool Dipole::Draw(sf::RenderWindow & window) {
 
+  const sf::Vector2f dipole_scale = sprite_.getScale( );
+  sprite_.setOrigin(dipole_scale.x / 2, 0.);
   sprite_.setPosition(position_.GetX( ), position_.GetY( ));
   window.draw(sprite_);
   return true;
