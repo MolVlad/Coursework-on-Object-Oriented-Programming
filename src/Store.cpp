@@ -16,12 +16,12 @@ Store::~Store()
 
 
 bool Store::Draw(sf::RenderWindow & window) {
-  for(auto i : dipoles_) {
+  for(auto& i : dipoles_) {
     i.Draw(window);
   }
 
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-    for(auto i : waves_) {
+    for(auto& i : waves_) {
       i.Draw(window);
     }
   }
