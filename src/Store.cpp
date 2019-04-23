@@ -1,6 +1,7 @@
 #include "Store.h"
 
 #include <chrono>
+#include <utility>
 
 extern std::chrono::high_resolution_clock::time_point time_start;
 
@@ -107,6 +108,13 @@ bool Store::MoveWaves()
 
   for (auto& i : waves_)
   {
+    //if(i.IsWaveFar())
+    if(true)
+    {
+      std::swap(i, waves_.back());
+      waves_.pop_back();
+    }
+
     FrontElement & front_element = i.GetMain();
     Vector2 position = front_element.GetPosition();
 
@@ -137,5 +145,4 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves() end" << std::endl;
   std::cout << std::endl;
   #endif /* STORE_DEBUG */
-
 }

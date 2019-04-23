@@ -6,7 +6,6 @@ Wave::Wave( ) {
 
 }
 
-// need to create
 bool Wave::Draw(sf::RenderWindow & window) {
   for (int ind = 0; ind < front_elements_.size( ); ind++) {
     front_elements_[ind].Draw(window);
