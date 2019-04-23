@@ -49,6 +49,8 @@ Dipole::Dipole(const Vector2 & position)
   const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
   sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
   sprite_.setPosition(position_.GetX( )  , position_.GetY( ));
+  sprite_.setRotation(DEFAULT_DIPOLE_DIRECTION);
+  return;
 }
 
 bool Dipole::Draw(sf::RenderWindow & window) {
