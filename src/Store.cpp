@@ -17,8 +17,6 @@ Store::~Store()
 
 
 bool Store::Draw(sf::RenderWindow & window) {
-  dipole_area_.Draw(window);
-
   for(auto& i : dipoles_) {
     i.Draw(window);
   }
@@ -108,17 +106,18 @@ bool Store::MoveWaves()
 
   float t = diff.count() / TIME_SCALE;
 
-  for (auto& i : waves_)
+  for (int i = 0; i < waves_.size(); i++)
   {
     //if(i.IsWaveFar())
-    /*
     if(true)
     {
-      std::swap(i, waves_.back());
+      std::swap(waves_[i], waves_[waves_.size() - 1]);
       waves_.pop_back();
     }
-    */
+  }
 
+  for (auto& i : waves_)
+  {
     FrontElement & front_element = i.GetMain();
     Vector2 position = front_element.GetPosition();
 
@@ -149,4 +148,6 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves() end" << std::endl;
   std::cout << std::endl;
   #endif /* STORE_DEBUG */
+
+  return true;
 }
