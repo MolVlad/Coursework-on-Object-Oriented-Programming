@@ -19,7 +19,7 @@ class FrontElement : public Element {
 
   bool Draw(sf::RenderWindow & window) override;
 
-  bool DrawColor(sf::RenderWindow & window, int strength = 255);
+  bool DrawColor(sf::RenderWindow & window, float strength);
 
   bool Dump() const override;
 

@@ -35,7 +35,6 @@ bool Source::SetAmplitude(const float amplitude)
   amplitude_ = amplitude;
 }
 
-
 Dipole::Dipole(const Vector2 & position)
     :  Source(position)  {
 
@@ -46,19 +45,15 @@ Dipole::Dipole(const Vector2 & position)
 
   sprite_ = sf::Sprite(dipole_texture);
   sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
-
-  const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
-  const sf::Vector2f dipole_scale = sprite_.getScale( );
-
-  sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
-  direction_ = DEFAULT_DIPOLE_DIRECTION;
-  sprite_.setRotation(direction_);
-  sprite_.setPosition(position.GetX( )  , position.GetY( ));
 }
 
 bool Dipole::Draw(sf::RenderWindow & window) {
   const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
-  std::cout << dipole_size.x << std::endl;
+
+  sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
+  sprite_.setRotation(direction_);
+  sprite_.setPosition(position_.GetX( )  , position_.GetY( ));
+
   window.draw(sprite_);
   return true;
 }
