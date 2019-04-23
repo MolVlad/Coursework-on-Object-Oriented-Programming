@@ -3,7 +3,7 @@
 bool IsRightPosition(const sf::Vector2i & position) {
   float area_top = DEFAULT_AREA_CENTER_Y - DEFAULT_AREA_RADIUS;
   float area_bottom = DEFAULT_AREA_CENTER_Y + DEFAULT_AREA_RADIUS;
-  bool x_statement = (pow(position.x, 2) < pow(DEFAULT_AREA_RADIUS, 2) -
+  bool x_statement = (pow(position.x - DEFAULT_AREA_CENTER_X, 2) < pow(DEFAULT_AREA_RADIUS, 2) -
   pow(position.y - DEFAULT_AREA_CENTER_Y, 2));
 
   if (position.y > area_top && position.y < area_bottom && x_statement && position.x >= 0) {
@@ -12,7 +12,6 @@ bool IsRightPosition(const sf::Vector2i & position) {
   else {
     return false;
   }
-
 }
 
 bool HandleEvent(sf::RenderWindow &window, Store &store)
