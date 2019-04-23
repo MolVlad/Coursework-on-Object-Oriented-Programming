@@ -19,6 +19,8 @@ class FrontElement : public Element {
 
   bool Draw(sf::RenderWindow & window) override;
 
+  bool DrawColor(sf::RenderWindow & window, int strength = 255);
+
   bool Dump() const override;
 
   float GetAmplitude() const;
@@ -28,6 +30,8 @@ class FrontElement : public Element {
   bool IsFarFromCenter();
 
   bool IsOnScreen();
+
+  bool SetRGBA(int R, int G, int B, int A);
 
   virtual ~FrontElement();
 

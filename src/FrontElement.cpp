@@ -9,7 +9,7 @@ FrontElement::FrontElement(const Vector2 & position)
     :  Element(position)
 {
   circle_shape_ = sf::CircleShape(DEFAULT_FRONT_ELEMENT_RADIUS, DEFAULT_FRONT_ELEMENT_PCOUNT);
-  circle_shape_.setFillColor(sf::Color::Red);
+  circle_shape_.setFillColor(sf::Color(255, 0, 0, 255));
 }
 
 FrontElement::~FrontElement()
@@ -17,10 +17,23 @@ FrontElement::~FrontElement()
 
 }
 
+bool FrontElement::SetRGBA(int R, int G, int B, int A)
+{
+  circle_shape_.setFillColor(sf::Color(R, G, B, A));
+}
 
 bool FrontElement::Draw(sf::RenderWindow & window)
 {
   circle_shape_.setPosition(position_.GetX( ), position_.GetY( ));
+  window.draw(circle_shape_);
+
+  return true;
+}
+
+bool FrontElement::DrawColor(sf::RenderWindow & window, int strength)
+{
+  circle_shape_.setPosition(position_.GetX( ), position_.GetY( ));
+  SetRGBA(255, 0, 0, strength);
   window.draw(circle_shape_);
 
   return true;
@@ -43,7 +56,6 @@ bool FrontElement::Dump() const
   std::cout << std::endl;
   return true;
 }
-
 float FrontElement::GetAmplitude() const
 {
   return amplitude_;

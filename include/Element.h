@@ -32,11 +32,6 @@ const float CYCLIC_FREQUENCY = 10;
 const float LIGHT_SPEED = 10000;
 const float TIME_SCALE = 10;
 
-/*
-const float X_SCALE = 50;
-const float Y_SCALE = 50;
-*/
-
 class Element {
  public:
   Element();

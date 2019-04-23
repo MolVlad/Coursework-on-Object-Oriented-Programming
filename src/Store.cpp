@@ -24,7 +24,8 @@ bool Store::Draw(sf::RenderWindow & window) {
 
   for(auto& i : waves_) {
     FrontElement & main_front_element = i.GetMain();
-    main_front_element.Draw(window);
+    int strength = GetFieldStrength(main_front_element.GetPosition()).Len();
+    main_front_element.DrawColor(window, strength);
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
 
@@ -37,12 +38,13 @@ bool Store::Draw(sf::RenderWindow & window) {
     while(next.IsOnScreen())
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
+      strength = front_direction.Len();
       front_direction.Norm();
 
       next_position += front_direction * FRONT_ELEMENT_STEP;
 
       next = FrontElement(next_position);
-      next.Draw(window);
+      next.DrawColor(window, strength);
     }
 
     //Negative direction
@@ -51,12 +53,13 @@ bool Store::Draw(sf::RenderWindow & window) {
     while(next.IsOnScreen())
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
+      strength = front_direction.Len();
       front_direction.Norm();
 
       next_position -= front_direction * FRONT_ELEMENT_STEP;
 
       next = FrontElement(next_position);
-      next.Draw(window);
+      next.DrawColor(window, strength);
     }
   }
 
