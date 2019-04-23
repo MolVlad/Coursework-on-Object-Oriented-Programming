@@ -1,11 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <assert.h>
 
-#include"Vector2.h"
+#include "Vector2.h"
 
 using namespace my_math;
 
+const unsigned int SCREEN_WIDTH = 800;
+const unsigned int SCREEN_HEIGHT = 600;
 const float DEFAULT_DIRECTION = 180;
 
 class Element {
@@ -33,3 +36,5 @@ class Element {
   float direction_;
   sf::Sprite sprite_;
 };
+
+bool CreateTexture(const char* picture, sf::Texture & texture);

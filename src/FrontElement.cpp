@@ -1,7 +1,5 @@
 #include"FrontElement.h"
 
-sf::Texture front_element_texture;
-
 FrontElement::FrontElement()
 {
 

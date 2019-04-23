@@ -1,5 +1,18 @@
 #include"Element.h"
 
+bool CreateTexture(const char* picture, sf::Texture & texture) {
+
+  assert(picture != nullptr);
+  if (!texture.loadFromFile(picture)) {
+    std::cout << "Error of loading texutre:\n";
+    std::cout << "In file = " << __FILE__ << std::endl; 
+    std::cout << "In line = " << __LINE__ << std::endl; 
+    std::cout << "In function = " << __PRETTY_FUNCTION__ << std::endl;
+    exit(-1); 
+  }    
+  return true;
+}
+
 Element::Element(const Vector2 & position)
 {
   position_ = position;

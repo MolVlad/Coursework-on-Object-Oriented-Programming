@@ -39,12 +39,11 @@ bool Source::SetAmplitude(const float amplitude)
 Dipole::Dipole(const Vector2 & position)
     :  Source(position)  {
 
-  if (!dipole_texture.loadFromFile("images/dipole.png")) {
-    std::cout << "Error of loading texutre:\n" << "file = " << __FILE__ << std::endl 
-              <<  "line = " << __LINE__ << std::endl 
-              << "function = " << __PRETTY_FUNCTION__ << std::endl;
-    exit(-1); 
-  }
+  #ifndef DIPOLE_TEXTURE_WAS_CREATED
+  CreateTexture("images/dipole.png", dipole_texture);
+  #define DIPOLE_TEXTURE_WAS_CREATED -6666
+  #endif /* DIPOLE_TEXTURE_WAS_CREATED */
+
   sprite_ = sf::Sprite(dipole_texture);
   sprite_.setRotation(direction_);
   sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
