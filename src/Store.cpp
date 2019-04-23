@@ -15,11 +15,16 @@ Store::~Store()
 
 }
 
-bool Store::Draw(sf::RenderWindow & window) {  
+bool Store::Draw(sf::RenderWindow & window) {
   dipole_area_.Draw(window);
 
   for(auto& i : dipoles_) {
     i.Draw(window);
+  }
+
+  if(dipoles_.size() == 0)
+  {
+    return false;
   }
 
   for(auto& i : waves_) {
@@ -165,6 +170,11 @@ bool Store::MoveWaves()
   #ifdef STORE_DEBUG
   std::cout << "Store::MoveWaves()" << std::endl;
   #endif /* STORE_DEBUG */
+
+  if(dipoles_.size() == 0)
+  {
+    return false;
+  }
 
   float t = GetTime();
 
