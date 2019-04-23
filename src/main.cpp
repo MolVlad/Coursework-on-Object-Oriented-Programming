@@ -7,8 +7,8 @@
 #include "Wave.h"
 #include "Handlers.h"
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+const float SCREEN_WIDTH = 800.;
+const float SCREEN_HEIGHT = 600.;
 
 using namespace my_math;
 

@@ -23,17 +23,15 @@ namespace my_math {
     #define DIPOLE_TEXTURE_WAS_CREATED -6666
     #endif /* DIPOLE_TEXTURE_WAS_CREATED */
 
-    sprite_ = sf::Sprite(area_texture);
-    const sf::Vector2f scale_vect = sprite_.getScale( );
-    sprite_.setScale(scale_vect.x * DEFAULT_AREA_SCALE, scale_vect.y * DEFAULT_AREA_SCALE);
-    position_ = Vector2(0., 0.);
+    circle_shape_ = sf::CircleShape(DEFAULT_AREA_RADIUS, DEFAULT_AREA_PCOUNT);
+    circle_shape_.setTexture(&area_texture);
+    circle_shape_.setPosition(-DEFAULT_AREA_RADIUS, -DEFAULT_AREA_RADIUS);
     return;
   }
 
 
   bool DipoleArea::Draw(sf::RenderWindow & window) {
-    sprite_.setPosition(position_.GetX( ), position_.GetY( ));
-    window.draw(sprite_);
+    window.draw(circle_shape_);
     return true;
   }
 
@@ -43,7 +41,8 @@ namespace my_math {
     std::cout << "DipoleArea::Dump( )" << std::endl;
     #endif /* DIPOLE_AREA_DEBUG */
 
-    std::cout << "\tposition: " << position_ << std::endl;
+    sf::Vector2f area_vect = circle_shape_.getPosition( );
+    std::cout << "\tposition: (" << area_vect.x << ", " << area_vect.y << ")" << std::endl;
 
     #ifdef DIPOLE_AREA_DEBUG
     std::cout << "DipoleArea::Dump() end" << std::endl;

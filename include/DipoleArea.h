@@ -7,7 +7,8 @@
 
 namespace my_math {
 
-const float DEFAULT_AREA_SCALE = 0.2;
+const float DEFAULT_AREA_RADIUS = 200.;
+const float DEFAULT_AREA_PCOUNT = 40.;
 
 class DipoleArea : public Element {
  public:
@@ -22,9 +23,7 @@ class DipoleArea : public Element {
   virtual bool Dump(void) const override;
 
  private:
-  Vector2 position_;
-
-  sf::Sprite sprite_;
+  sf::CircleShape circle_shape_;
 };
 
   bool CreateTexture(void);
