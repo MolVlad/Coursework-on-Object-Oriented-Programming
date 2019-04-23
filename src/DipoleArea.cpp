@@ -8,7 +8,7 @@ namespace my_math {
     circle_shape_.setFillColor(sf::Color::Yellow);
 
     const sf::Vector2f scale_vect = circle_shape_.getScale( );
-    circle_shape_.setPosition(CENTER_X - DEFAULT_AREA_RADIUS, CENTER_Y - DEFAULT_AREA_RADIUS);
+    circle_shape_.setPosition(DEFAULT_AREA_CENTER_X - DEFAULT_AREA_RADIUS, DEFAULT_AREA_CENTER_Y - DEFAULT_AREA_RADIUS);
     return;
   }
 

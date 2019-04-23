@@ -8,7 +8,7 @@ FrontElement::FrontElement()
 FrontElement::FrontElement(const Vector2 & position)
     :  Element(position)
 {
-  circle_shape_ = sf::CircleShape(DEFAULT_RADIUS, DEFAULT_POINT_COUNT);
+  circle_shape_ = sf::CircleShape(DEFAULT_FRONT_ELEMENT_RADIUS, DEFAULT_FRONT_ELEMENT_PCOUNT);
   circle_shape_.setFillColor(sf::Color::Red);
 }
 

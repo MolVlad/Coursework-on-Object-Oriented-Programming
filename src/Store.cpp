@@ -22,10 +22,8 @@ bool Store::Draw(sf::RenderWindow & window) {
     i.Draw(window);
   }
 
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-    for(auto& i : waves_) {
-      i.Draw(window);
-    }
+  for(auto& i : waves_) {
+    i.Draw(window);
   }
 
   return true;
@@ -103,7 +101,11 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves()" << std::endl;
   #endif /* STORE_DEBUG */
 
-  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_start;
+  static std::chrono::high_resolution_clock::time_point time_stamp = time_start;
+
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_stamp;
+
+  time_stamp = std::chrono::high_resolution_clock::now();
 
   float t = diff.count() / TIME_SCALE;
 
@@ -125,7 +127,7 @@ bool Store::MoveWaves()
     Vector2 speed_direction = field_strength.GetRotated(-90);
     speed_direction.Norm();
 
-    Vector2 distance_to_center = position - Vector2(CENTER_X, CENTER_Y);
+    Vector2 distance_to_center = position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
     if((speed_direction * distance_to_center) < 0)
       speed_direction *= -1;
 
@@ -136,7 +138,7 @@ bool Store::MoveWaves()
     std::cout << "\tspeed_direction: " << speed_direction << std::endl;
     #endif /* STORE_DEBUG */
 
-    position += speed_direction * MOVE_SPEED * t;
+    position += speed_direction * FRONT_ELEMENT_MOVE_SPEED * t;
     front_element.SetPosition(position);
 
     #ifdef STORE_DEBUG

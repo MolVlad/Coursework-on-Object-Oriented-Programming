@@ -9,8 +9,6 @@
 
 #define STORE_DEBUG 1
 
-const float MOVE_SPEED = 1;
-
 class Store {
  public:
   Store();

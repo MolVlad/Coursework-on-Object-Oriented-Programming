@@ -9,7 +9,6 @@ namespace my_math {
 const float PI = 3.141593;
 typedef float VECTOR_TYPE;
 
-
 class KernelVector2 {
  public:
   // Base functions.
