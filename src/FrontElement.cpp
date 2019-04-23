@@ -22,6 +22,7 @@ bool FrontElement::Draw(sf::RenderWindow & window)
 {
   circle_shape_.setPosition(position_.GetX( ), position_.GetY( ));
   window.draw(circle_shape_);
+
   return true;
 }
 
@@ -53,4 +54,19 @@ bool FrontElement::SetAmplitude(float amplitude)
   amplitude_ = amplitude;
 
   return true;
+}
+
+bool FrontElement::IsFarFromCenter()
+{
+  return (GetPosition() - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y)).Len() > MAX_DISTANCE_FROM_AREA_CENTER;
+}
+
+bool FrontElement::IsOnScreen()
+{
+  Vector2 position = GetPosition();
+  float x, y;
+  x = position.GetX();
+  y = position.GetY();
+
+  return !((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT));
 }

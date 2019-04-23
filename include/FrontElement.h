@@ -19,12 +19,15 @@ class FrontElement : public Element {
 
   bool Draw(sf::RenderWindow & window) override;
 
-  // Draw a small ball. All these balls create wave front.
   bool Dump() const override;
 
   float GetAmplitude() const;
 
   bool SetAmplitude(const float amplitude);
+
+  bool IsFarFromCenter();
+
+  bool IsOnScreen();
 
   virtual ~FrontElement();
 

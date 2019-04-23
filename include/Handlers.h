@@ -7,6 +7,7 @@
 
 #define MOUSE_DEBUG 1
 
-bool handleEvent(sf::RenderWindow &window, Store &store);
-bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store);
-bool handleDraw(sf::RenderWindow &window, Store &store);
+bool HandleEvent(sf::RenderWindow &window, Store &store);
+bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store);
+bool HandleDraw(sf::RenderWindow &window, Store &store);
+bool HandleStore(Store &store);
