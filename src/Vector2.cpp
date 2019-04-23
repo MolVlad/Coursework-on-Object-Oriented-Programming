@@ -104,8 +104,7 @@ Vector2 Vector2::operator+(const Vector2 & vect) const {
 }
 
 Vector2 & Vector2::operator-=(const Vector2 & vect) {
-  *this += vect;
-  *this *= -1;
+  *this = *this - vect;
   return *this;
 }
 

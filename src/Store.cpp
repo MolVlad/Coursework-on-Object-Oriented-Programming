@@ -33,7 +33,7 @@ bool Store::Draw(sf::RenderWindow & window) {
 
     //Positive direction
     next_position = main_front_element_position;
-    //while(!next.IsFarFromCenter())
+    next = FrontElement(next_position);
     while(next.IsOnScreen())
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
@@ -47,7 +47,7 @@ bool Store::Draw(sf::RenderWindow & window) {
 
     //Negative direction
     next_position = main_front_element_position;
-    //while(!next.IsFarFromCenter())
+    next = FrontElement(next_position);
     while(next.IsOnScreen())
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
