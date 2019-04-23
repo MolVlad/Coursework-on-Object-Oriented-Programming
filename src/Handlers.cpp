@@ -30,6 +30,10 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       #ifdef MOUSE_DEBUG
       std::cout << "handleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
+
+      store.Push(Dipole(my_math::Vector2(position)));
+      
+
       break;
     case sf::Mouse::Middle:
       #ifdef MOUSE_DEBUG
