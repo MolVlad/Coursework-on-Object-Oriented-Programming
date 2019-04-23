@@ -1,6 +1,7 @@
 #include "Store.h"
 
 #include <chrono>
+#include <utility>
 
 extern std::chrono::high_resolution_clock::time_point time_start;
 
@@ -16,16 +17,15 @@ Store::~Store()
 
 
 bool Store::Draw(sf::RenderWindow & window) {
-
   dipole_area_.Draw(window);
 
-  for (int ind = 0; ind < dipoles_.size( ); ind++) {
-    dipoles_[ind].Draw(window);
+  for(auto& i : dipoles_) {
+    i.Draw(window);
   }
 
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-    for (int ind = 0; ind < waves_.size( ); ind++) {
-      waves_[ind].Draw(window);
+    for(auto& i : waves_) {
+      i.Draw(window);
     }
   }
 
@@ -110,6 +110,15 @@ bool Store::MoveWaves()
 
   for (auto& i : waves_)
   {
+    //if(i.IsWaveFar())
+    /*
+    if(true)
+    {
+      std::swap(i, waves_.back());
+      waves_.pop_back();
+    }
+    */
+
     FrontElement & front_element = i.GetMain();
     Vector2 position = front_element.GetPosition();
 
@@ -140,5 +149,4 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves() end" << std::endl;
   std::cout << std::endl;
   #endif /* STORE_DEBUG */
-
 }
