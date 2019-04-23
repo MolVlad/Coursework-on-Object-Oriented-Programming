@@ -134,12 +134,6 @@ bool Dipole::SetImageScale(const float image_scale)
   return true;
 }
 
-
-bool Dipole::SetImageDirection(const float direction) {
-  direction_ = direction;
-  sprite_.setRotation(direction);
-}
-
 bool Dipole::Dump() const
 {
   #ifdef DIPOLE_DEBUG

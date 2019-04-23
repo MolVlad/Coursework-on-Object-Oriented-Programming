@@ -2,6 +2,9 @@
 
 #include <chrono>
 #include <utility>
+#include <future>
+#include <numeric>
+#include <functional>
 
 extern std::chrono::high_resolution_clock::time_point time_start;
 
@@ -15,11 +18,29 @@ Store::~Store()
 
 }
 
-bool Store::Draw(sf::RenderWindow & window) {  
+bool Store::Draw(sf::RenderWindow & window) {
   dipole_area_.Draw(window);
+
+/*
+  std::vector<std::future<bool> > f;
+  for(auto& i : dipoles_) {
+    f.push_back(std::async([&]() {
+      return i.Draw(window);
+      })
+    );
+  }
+
+  for(auto& i : f)
+    i.get();
+*/
 
   for(auto& i : dipoles_) {
     i.Draw(window);
+  }
+
+  if(dipoles_.size() == 0)
+  {
+    return false;
   }
 
   for(auto& i : waves_) {
@@ -126,8 +147,17 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
 {
   Vector2 result(0, 0);
 
+  std::vector<std::future<Vector2> > f;
   for(auto& i : dipoles_)
-    result += i.GetFieldStrength(position);
+  {
+    f.push_back(std::async([&]() {
+      return i.GetFieldStrength(position);
+      })
+    );
+  }
+
+  for(auto& i : f)
+    result += i.get();
 
   return result;
 }
@@ -166,11 +196,37 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves()" << std::endl;
   #endif /* STORE_DEBUG */
 
+  if(dipoles_.size() == 0)
+  {
+    return false;
+  }
+
   float t = GetTime();
 
+  std::vector<std::future<bool> > f;
   for (auto& i : waves_)
   {
-    FrontElement & front_element = i.GetMain();
+    f.push_back(std::async([&]() {
+      MoveWave(i);
+      return true;
+      })
+    );
+  }
+
+  for(auto& result : f)
+    result.get();
+
+  #ifdef STORE_DEBUG
+  std::cout << "Store::MoveWaves() end" << std::endl;
+  std::cout << std::endl;
+  #endif /* STORE_DEBUG */
+
+  return true;
+}
+
+bool Store::MoveWave(Wave & wave)
+{
+    FrontElement & front_element = wave.GetMain();
     Vector2 position = front_element.GetPosition();
 
     Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
@@ -194,12 +250,4 @@ bool Store::MoveWaves()
     #ifdef STORE_DEBUG
     std::cout << "new position: " << position << std::endl;
     #endif /* STORE_DEBUG */
-  }
-
-  #ifdef STORE_DEBUG
-  std::cout << "Store::MoveWaves() end" << std::endl;
-  std::cout << std::endl;
-  #endif /* STORE_DEBUG */
-
-  return true;
 }
