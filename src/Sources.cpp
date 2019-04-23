@@ -45,24 +45,20 @@ Dipole::Dipole(const Vector2 & position)
   #endif /* DIPOLE_TEXTURE_WAS_CREATED */
 
   sprite_ = sf::Sprite(dipole_texture);
-  sprite_.setRotation(direction_);
   sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
-}
-
-bool Dipole::Draw(sf::RenderWindow & window) {
 
   const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
   const sf::Vector2f dipole_scale = sprite_.getScale( );
 
-  #ifdef DIPOLE_DEBUG
-  std::cout << dipole_scale.x << std::endl;
-  #endif
-
-  sprite_.setOrigin((dipole_size.x * dipole_scale.x) / 2, (dipole_size.x * dipole_scale.y) / 2);
-  direction_ = 90.;
+  sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
+  direction_ = 180.;
   sprite_.setRotation(direction_);
-  sprite_.setPosition(position_.GetX( ) + (dipole_size.x * dipole_scale.x) / 2,
-                      position_.GetY( ) + (dipole_size.x * dipole_scale.y) / 2);
+  sprite_.setPosition(position.GetX( )  , position.GetY( ));
+}
+
+bool Dipole::Draw(sf::RenderWindow & window) {
+  const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
+  std::cout << dipole_size.x << std::endl;
   window.draw(sprite_);
   return true;
 }
@@ -129,7 +125,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   return result;
 }
 
-// need to create
+
 bool Dipole::SetImageScale(const float image_scale)
 {
   assert(image_scale > 0);
@@ -138,9 +134,10 @@ bool Dipole::SetImageScale(const float image_scale)
   return true;
 }
 
-// need to create
+
 bool Dipole::SetImageDirection(const float direction) {
   direction_ = direction;
+  sprite_.setRotation(direction);
 }
 
 bool Dipole::Dump() const
