@@ -51,7 +51,7 @@ Dipole::Dipole(const Vector2 & position)
   const sf::Vector2f dipole_scale = sprite_.getScale( );
 
   sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
-  direction_ = 180.;
+  direction_ = DEFAULT_DIPOLE_DIRECTION;
   sprite_.setRotation(direction_);
   sprite_.setPosition(position.GetX( )  , position.GetY( ));
 }
