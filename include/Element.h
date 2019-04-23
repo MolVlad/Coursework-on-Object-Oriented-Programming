@@ -17,10 +17,10 @@ const float DEFAULT_AREA_CENTER_X = 0;
 const float DEFAULT_AREA_CENTER_Y = 300;
 const float MAX_DISTANCE_FROM_AREA_CENTER = 1000;
 
-const float DEFAULT_FRONT_ELEMENT_RADIUS = 1.;
+const float DEFAULT_FRONT_ELEMENT_RADIUS = 3.;
 const float DEFAULT_FRONT_ELEMENT_PCOUNT = 40.;
 const float FRONT_ELEMENT_MOVE_SPEED = 1000;
-const float FRONT_ELEMENT_STEP = 5;
+const float FRONT_ELEMENT_STEP = 3;
 
 const float DEFAULT_DIPOLE_DIRECTION = 180;
 const float DIPOLE_SCALE_X = 0.015;
@@ -31,11 +31,6 @@ const float DEFAULT_AMPLITUDE = 10000;
 const float CYCLIC_FREQUENCY = 10;
 const float LIGHT_SPEED = 10000;
 const float TIME_SCALE = 10;
-
-/*
-const float X_SCALE = 50;
-const float Y_SCALE = 50;
-*/
 
 class Element {
  public:
