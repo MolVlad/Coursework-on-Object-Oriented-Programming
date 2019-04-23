@@ -27,7 +27,6 @@ int main()
     HandleDraw(window, store);
     HandleStore(store);
 
-    // TO DO
     window.display();
   }
 
