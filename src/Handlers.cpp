@@ -1,5 +1,9 @@
 #include "Handlers.h"
 
+bool IsRightPosition(const sf::Vector2i & position) {
+  if (position.x > DEFAULT_AREA_CENTER_X - DEFAULT_AREA_RADIUS && )
+}
+
 bool handleEvent(sf::RenderWindow &window, Store &store)
 {
   sf::Event event;
@@ -31,7 +35,10 @@ bool handleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << "handleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      store.Push(Dipole(my_math::Vector2(position)));
+      if (IsRightPosition(position)) {
+        store.Push(Dipole(my_math::Vector2(position)));
+      }
+
       break;
     case sf::Mouse::Right:
       #ifdef MOUSE_DEBUG
