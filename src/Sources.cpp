@@ -51,14 +51,12 @@ Dipole::Dipole(const Vector2 & position)
   const sf::Vector2f dipole_scale = sprite_.getScale( );
 
   sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
-  direction_ = 180.;
+  direction_ = DEFAULT_DIPOLE_DIRECTION;
   sprite_.setRotation(direction_);
   sprite_.setPosition(position.GetX( )  , position.GetY( ));
 }
 
 bool Dipole::Draw(sf::RenderWindow & window) {
-  const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
-  std::cout << dipole_size.x << std::endl;
   window.draw(sprite_);
   return true;
 }
