@@ -1,6 +1,6 @@
 #include "Handlers.h"
 
-bool IsRightPosition(const sf::Vector2i & position) {
+bool IsDipoleArea(const sf::Vector2i & position) {
 
   Vector2 center = Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
   return (DEFAULT_AREA_RADIUS > (center - position).Len( ));
@@ -39,7 +39,7 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << "handleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      if (IsRightPosition(position)) {
+      if (IsDipoleArea(position)) {
         store.Push(Dipole(my_math::Vector2(position)));
       }
 
@@ -50,7 +50,7 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      if (IsRightPosition(position)) {
+      if (IsDipoleArea(position)) {
         Dipole dipole = Dipole(my_math::Vector2(position));
         dipole.SetDirection(90);
         store.Push(dipole);
@@ -63,9 +63,11 @@ bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store)
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      singular_wave.Push(FrontElement(position));
-      store.Push(singular_wave);
-      std::cout << std::endl;
+      if (!IsDipoleArea(position)) {
+        singular_wave.Push(FrontElement(position));
+        store.Push(singular_wave);
+        std::cout << std::endl;
+      }
 
       break;
   }

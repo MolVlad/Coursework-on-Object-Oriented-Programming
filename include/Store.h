@@ -39,4 +39,6 @@ class Store {
   std::vector<Wave> waves_;
   DipoleArea dipole_area_;
   float t;
+
+  bool MoveWave(Wave & wave);
 };
