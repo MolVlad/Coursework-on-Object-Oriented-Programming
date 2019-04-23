@@ -109,11 +109,13 @@ bool Store::MoveWaves()
   for (auto& i : waves_)
   {
     //if(i.IsWaveFar())
+    /*
     if(true)
     {
       std::swap(i, waves_.back());
       waves_.pop_back();
     }
+    */
 
     FrontElement & front_element = i.GetMain();
     Vector2 position = front_element.GetPosition();
