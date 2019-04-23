@@ -45,15 +45,16 @@ Dipole::Dipole(const Vector2 & position)
 
   sprite_ = sf::Sprite(dipole_texture);
   sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
+
+  const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
+  sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
+  sprite_.setPosition(position_.GetX( )  , position_.GetY( ));
+  sprite_.setRotation(DEFAULT_DIPOLE_DIRECTION);
+  return;
 }
 
 bool Dipole::Draw(sf::RenderWindow & window) {
-  const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );
-
-  sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
   sprite_.setRotation(direction_);
-  sprite_.setPosition(position_.GetX( )  , position_.GetY( ));
-
   window.draw(sprite_);
   return true;
 }
@@ -126,6 +127,19 @@ bool Dipole::SetImageScale(const float image_scale)
   assert(image_scale > 0);
 
   sprite_.setScale(DIPOLE_SCALE_X * image_scale, DIPOLE_SCALE_Y * image_scale);
+  return true;
+}
+
+
+bool Dipole::SetDirection(const float direction) {
+  Element::SetDirection(direction);
+  sprite_.setRotation(direction_);
+  return true;
+}
+
+bool Dipole::SetPosition(const Vector2 & position) {
+  Element::SetPosition(position);
+  sprite_.setPosition(position.GetX( ), position.GetY( ));
   return true;
 }
 
