@@ -50,8 +50,6 @@ class Dipole : public Source {
   // Image_scale is increase in size. It should be positive.
   bool SetImageScale(const float image_scale);
 
-  bool SetImageDirection(const float direction);
-
   ~Dipole();
 };
 
