@@ -5,7 +5,7 @@
 
 #include "FrontElement.h"
 
-#define WAVE_DEBUG 1
+//#define WAVE_DEBUG 1
 
 using namespace my_math;
 

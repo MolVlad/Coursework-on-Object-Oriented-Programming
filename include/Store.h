@@ -7,7 +7,7 @@
 #include "Sources.h"
 #include "DipoleArea.h"
 
-#define STORE_DEBUG 1
+//#define STORE_DEBUG 1
 
 class Store {
  public:

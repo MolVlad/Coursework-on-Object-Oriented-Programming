@@ -14,25 +14,29 @@ Source::Source(const Vector2 & position)
   amplitude_ = DEFAULT_AMPLITUDE;
 }
 
-Source::Source()
-{
+Source::Source(void) {
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
 }
 
-Source::~Source()
-{
+Source::~Source(void) {
 
 }
 
-bool Source::SetPhase(const float phase)
-{
+bool Source::SetPhase(const float phase) {
   phase_ = phase;
 }
 
-bool Source::SetAmplitude(const float amplitude)
-{
+bool Source::SetAmplitude(const float amplitude) {
   amplitude_ = amplitude;
+}
+
+const float Source::GetPhase(void) const {
+  return phase_;
+}
+
+const float Source::GetAmplitude(void) const {
+  return amplitude_;
 }
 
 Dipole::Dipole(const Vector2 & position)

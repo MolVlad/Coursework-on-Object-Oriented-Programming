@@ -5,9 +5,9 @@
 #include "Vector2.h"
 #include "Element.h"
 
-#define FRONT_ELEMENT_DEBUG 1
+//#define FRONT_ELEMENT_DEBUG 1
 
-#define FRONT_ELEMENT_DEBUG 1
+//#define FRONT_ELEMENT_DEBUG 1
 
 using namespace my_math;
 
