@@ -66,7 +66,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   #ifdef DIPOLE_DEBUG
   std::cout << "Dipole::GetFieldStrength()" << std::endl;
 
- std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
+  std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
   std::cout << "\t\tradius_vector: " << radius_vector << std::endl;
   std::cout << "\tdistance: " << distance << std::endl;
   #endif /* DIPOLE_DEBUG */
