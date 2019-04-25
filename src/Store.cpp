@@ -299,7 +299,11 @@ bool Store::MoveWave(Wave & wave)
   std::cout << "\tresult speed_direction: " << speed_direction << std::endl;
   #endif /* STORE_MOVE_DEBUG */
 
-  position += speed_direction / DISTANT_SCALE * FRONT_ELEMENT_MOVE_SPEED * t * 0;
+  #ifdef STOP_WAVES
+  t = 0;
+  #endif /* STOP_WAVES */
+
+  position += speed_direction / DISTANT_SCALE * FRONT_ELEMENT_MOVE_SPEED * t;
   front_element.SetPosition(position);
 
   #ifdef STORE_MOVE_DEBUG

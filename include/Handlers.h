@@ -10,7 +10,7 @@
 
 namespace handler {
 
-#define DIPOLE_PHASE_DEBUG 1
+//#define DIPOLE_PHASE_DEBUG 1
 //#define KEY_DEBUG 1
 //#define MOUSE_DEBUG 1
 
