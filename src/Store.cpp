@@ -63,6 +63,9 @@ bool Store::Draw(sf::RenderWindow & window) {
 
     #ifdef DRAW_ALL_FRONT_ELEMENTS
 
+    Vector2 next_position;
+    FrontElement next;
+
     //Positive direction
     next_position = main_front_element_position;
     next = FrontElement(next_position);
