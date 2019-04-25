@@ -42,8 +42,8 @@ class Dipole : public Source {
  public:
   Dipole();
 
-  explicit Dipole(const Vector2 & position);
-
+  Dipole(const Vector2 & position);
+  
   bool Draw(sf::RenderWindow & window) override;
 
   bool Dump() const override;
