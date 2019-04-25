@@ -27,6 +27,10 @@ class Source : public Element {
 
   bool SetAmplitude(const float amplitude);
 
+  const float GetPhase(void) const;
+
+  const float GetAmplitude(void) const;
+
   virtual ~Source();
 
  protected:
