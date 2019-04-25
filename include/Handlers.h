@@ -37,10 +37,11 @@ enum PosssibleDipolePhase {
   PHASE_216 = 216,
   PHASE_252 = 252,
   PHASE_288 = 288,
-  PHASE_324 = 224
+  PHASE_324 = 324
 };
 
 bool HandleEvent(sf::RenderWindow &window, Store &store);
+int GetTextureIndex(const PosssibleDipolePhase phase);
 bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &store,
                  PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase);
 bool HandleKey(const sf::Event &event, PosssibleDipoleDirections *dipole_direction,

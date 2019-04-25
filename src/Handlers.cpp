@@ -42,6 +42,39 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
   return true;
 }
 
+int GetTextureIndex(const PosssibleDipolePhase phase) 
+{
+  switch (phase)
+  {
+    case PHASE_0:
+      return 0;
+    case PHASE_36:
+      return 1;
+    case PHASE_72:
+      return 2;
+    case PHASE_108:
+      return 3;
+    case PHASE_144:
+      return 4;
+    case PHASE_180:
+      return 5;
+    case PHASE_216:
+      return 6;
+    case PHASE_252:
+      return 7;
+    case PHASE_288:
+      return 8;
+    case PHASE_324:
+      return 9;
+    default:
+      std::cout << "Strange value of phase in file:" << __FILE__ << std::endl;
+      std::cout << "In line: " << __LINE__ << std::endl;
+      std::cout << "In function: " << __PRETTY_FUNCTION__ << std::endl;
+      exit(EXIT_FAILURE);
+  }
+}
+
+
 bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &store,
                  PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
 
@@ -52,15 +85,15 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   Wave singular_wave;
   FrontElement front_element;
 
-  switch(event.key.code)
-  {
+  switch(event.key.code) {
+
     case sf::Mouse::Left:
       #ifdef MOUSE_DEBUG
       std::cout << "HandleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
 
       if (IsDipoleArea(position)) {
-        Dipole dipole = Dipole(my_math::Vector2(position));
+        Dipole dipole = Dipole(my_math::Vector2(position), GetTextureIndex(*dipole_phase));
         dipole.SetDirection((float)*dipole_direction);
         dipole.SetPhase((float)*dipole_phase);
         store.Push(dipole);
