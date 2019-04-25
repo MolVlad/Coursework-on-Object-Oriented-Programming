@@ -5,7 +5,7 @@
 
 #include "Store.h"
 
-#define MOUSE_DEBUG 1
+//#define MOUSE_DEBUG 1
 
 bool HandleEvent(sf::RenderWindow &window, Store &store);
 bool HandleMouse(sf::RenderWindow &window, sf::Event event, Store &store);

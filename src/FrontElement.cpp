@@ -38,11 +38,12 @@ bool FrontElement::DrawColor(sf::RenderWindow & window, float strength)
   static float upper_bound = 100;
   if((strength / upper_bound) > 1)
     upper_bound = strength;
-
 */
 
-  //std::cout << "FrontElement::DrawColor(). strength: " << strength << " upper_bound: " << upper_bound << std::endl;
+  #ifdef FRONT_ELEMENT_DEBUG
   std::cout << "FrontElement::DrawColor(). strength: " << strength << std::endl;
+  //std::cout << "FrontElement::DrawColor(). strength: " << strength << " upper_bound: " << upper_bound << std::endl;
+  #endif /* FRONT_ELEMENT_DEBUG */
 
   //SetRGBA(255, 0, 0, (int)((strength / upper_bound) * 255));
   SetRGBA(255, 0, 0, (int)strength);
@@ -92,5 +93,5 @@ bool FrontElement::IsOnScreen()
   x = position.GetX();
   y = position.GetY();
 
-  return !((x < 0) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT));
+  return !((x < DEFAULT_AREA_RADIUS) || (x > SCREEN_WIDTH) || (y < DEFAULT_AREA_RADIUS) || (y > SCREEN_HEIGHT));
 }

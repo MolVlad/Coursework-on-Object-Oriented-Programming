@@ -113,7 +113,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   #ifdef DIPOLE_DEBUG
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
   std::cout << "\tangular_coefficient: " << angular_coefficient << std::endl;
-  std::cout << "\tresult: " << result << std::endl;
+  std::cout << "\tresult: " << result << " = " << result.Len() << std::endl;
   std::cout << "Dipole::GetFieldStrength() end" << std::endl;
   std::cout << std::endl;
   #endif /* DIPOLE_DEBUG */

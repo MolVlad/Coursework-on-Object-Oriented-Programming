@@ -43,6 +43,11 @@ bool Store::Draw(sf::RenderWindow & window) {
     return false;
   }
 
+  unsigned int dipoles_number = dipoles_.size();
+
+  // it is to fixing wave looping
+  int element_number;
+
   for(auto& i : waves_) {
     FrontElement & main_front_element = i.GetMain();
     float strength = GetFieldStrength(main_front_element.GetPosition()).Len();
@@ -53,34 +58,56 @@ bool Store::Draw(sf::RenderWindow & window) {
     FrontElement next;
     Vector2 next_position;
 
+    element_number = 0;
+
+    static Vector2 reference_direction(0, 1);
+
     //Positive direction
     next_position = main_front_element_position;
     next = FrontElement(next_position);
-    while(next.IsOnScreen())
+
+    // second condition to fixing wave looping
+    while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
       strength = front_direction.Len();
       front_direction.Norm();
+
+      // it is to fixing wave looping
+      if((front_direction * reference_direction) < 0)
+        front_direction *= -1;
 
       next_position += front_direction * FRONT_ELEMENT_STEP;
 
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
+
+      element_number++;
     }
+
+    element_number = 0;
 
     //Negative direction
     next_position = main_front_element_position;
     next = FrontElement(next_position);
-    while(next.IsOnScreen())
+
+    // second condition to fixing wave looping
+    while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
     {
       Vector2 front_direction = GetFieldStrength(next.GetPosition());
       strength = front_direction.Len();
       front_direction.Norm();
 
-      next_position -= front_direction * FRONT_ELEMENT_STEP;
+      // it is to fixing wave looping
+      if((front_direction * reference_direction) > 0)
+        front_direction *= -1;
+
+      next_position += front_direction * FRONT_ELEMENT_STEP;
 
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
+
+      element_number++;
     }
   }
 
@@ -97,9 +124,9 @@ bool Store::Push(const Dipole & dipole)
 
   #ifdef STORE_DEBUG
   std::cout << "Store::Push(dipole) end" << std::endl;
+  std::cout << std::endl;
   #endif /* STORE_DEBUG */
 
-  std::cout << std::endl;
   return true;
 }
 
@@ -113,9 +140,9 @@ bool Store::Push(const Wave & wave)
 
   #ifdef STORE_DEBUG
   std::cout << "Store::Push(wave) end" << std::endl;
+  std::cout << std::endl;
   #endif /* STORE_DEBUG */
 
-  std::cout << std::endl;
   return true;
 }
 
@@ -226,28 +253,28 @@ bool Store::MoveWaves()
 
 bool Store::MoveWave(Wave & wave)
 {
-    FrontElement & front_element = wave.GetMain();
-    Vector2 position = front_element.GetPosition();
+  FrontElement & front_element = wave.GetMain();
+  Vector2 position = front_element.GetPosition();
 
-    Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
-    Vector2 speed_direction = field_strength.GetRotated(-90);
-    speed_direction.Norm();
+  Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
+  Vector2 speed_direction = field_strength.GetRotated(-90);
+  speed_direction.Norm();
 
-    Vector2 distance_to_center = position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
-    if((speed_direction * distance_to_center) < 0)
-      speed_direction *= -1;
+  Vector2 distance_to_center = position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
+  if((speed_direction * distance_to_center) < 0)
+    speed_direction *= -1;
 
-    #ifdef STORE_DEBUG
-    std::cout << "\tt: " << t << std::endl;
-    std::cout << "\tposition: " << position << std::endl;
-    std::cout << "\tfield_strength: " << field_strength << std::endl;
-    std::cout << "\tspeed_direction: " << speed_direction << std::endl;
-    #endif /* STORE_DEBUG */
+  #ifdef STORE_DEBUG
+  std::cout << "\tt: " << t << std::endl;
+  std::cout << "\tposition: " << position << std::endl;
+  std::cout << "\tfield_strength: " << field_strength << std::endl;
+  std::cout << "\tspeed_direction: " << speed_direction << std::endl;
+  #endif /* STORE_DEBUG */
 
-    position += speed_direction * FRONT_ELEMENT_MOVE_SPEED * t;
-    front_element.SetPosition(position);
+  position += speed_direction * FRONT_ELEMENT_MOVE_SPEED * t;
+  front_element.SetPosition(position);
 
-    #ifdef STORE_DEBUG
-    std::cout << "new position: " << position << std::endl;
-    #endif /* STORE_DEBUG */
+  #ifdef STORE_DEBUG
+  std::cout << "new position: " << position << std::endl;
+  #endif /* STORE_DEBUG */
 }
