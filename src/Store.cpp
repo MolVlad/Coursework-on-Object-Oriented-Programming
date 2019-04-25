@@ -55,16 +55,24 @@ bool Store::Draw(sf::RenderWindow & window) {
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
 
+    #ifdef STORE_DRAW_DEBUG
+    std::cout << "Main: " << main_front_element_position << " strength: " << strength << std::endl;
+    #endif /* STORE_DRAW_DEBUG */
+
     FrontElement next;
     Vector2 next_position;
-
-    element_number = 0;
 
     static Vector2 reference_direction(0, 1);
 
     //Positive direction
     next_position = main_front_element_position;
     next = FrontElement(next_position);
+
+    element_number = 0;
+
+    #ifdef STORE_DRAW_DEBUG
+    std::cout << "Positive direction\n";
+    #endif /* STORE_DRAW_DEBUG */
 
     // second condition to fixing wave looping
     while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
@@ -79,17 +87,25 @@ bool Store::Draw(sf::RenderWindow & window) {
 
       next_position += front_direction * FRONT_ELEMENT_STEP;
 
+      #ifdef STORE_DRAW_DEBUG
+      std::cout << "\t" << element_number << " front_direction: " << front_direction << " next_pos: " << next_position << " strength: " << strength << std::endl;
+      #endif /* STORE_DRAW_DEBUG */
+
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
 
       element_number++;
     }
 
-    element_number = 0;
-
     //Negative direction
     next_position = main_front_element_position;
     next = FrontElement(next_position);
+
+    element_number = 0;
+
+    #ifdef STORE_DRAW_DEBUG
+    std::cout << "Negative direction\n";
+    #endif /* STORE_DRAW_DEBUG */
 
     // second condition to fixing wave looping
     while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
@@ -103,6 +119,10 @@ bool Store::Draw(sf::RenderWindow & window) {
         front_direction *= -1;
 
       next_position += front_direction * FRONT_ELEMENT_STEP;
+
+      #ifdef STORE_DRAW_DEBUG
+      std::cout << "\t" << element_number << " front_direction: " << front_direction << " next_pos: " << next_position << " strength: " << strength << std::endl;
+      #endif /* STORE_DRAW_DEBUG */
 
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
@@ -261,20 +281,34 @@ bool Store::MoveWave(Wave & wave)
   speed_direction.Norm();
 
   Vector2 distance_to_center = position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
+
+  #ifdef STORE_MOVE_DEBUG
+  std::cout << "Store::MoveWave()\n";
+  std::cout << "\tposition: " << position << std::endl;
+  std::cout << "\tfield_strength: " << field_strength << std::endl;
+  std::cout << "\tdistance_to_center " << distance_to_center << std::endl;
+  std::cout << "\tspeed_direction: " << speed_direction << std::endl;
+  std::cout << "\tscalar mult " << speed_direction * distance_to_center << std::endl;
+  #endif /* STORE_MOVE_DEBUG */
+
   if((speed_direction * distance_to_center) < 0)
     speed_direction *= -1;
 
-  #ifdef STORE_DEBUG
+  #ifdef STORE_MOVE_DEBUG
   std::cout << "\tt: " << t << std::endl;
-  std::cout << "\tposition: " << position << std::endl;
-  std::cout << "\tfield_strength: " << field_strength << std::endl;
-  std::cout << "\tspeed_direction: " << speed_direction << std::endl;
-  #endif /* STORE_DEBUG */
+  std::cout << "\tresult speed_direction: " << speed_direction << std::endl;
+  #endif /* STORE_MOVE_DEBUG */
 
-  position += speed_direction * FRONT_ELEMENT_MOVE_SPEED * t;
+  #ifdef STOP_WAVES
+  t = 0;
+  #endif /* STOP_WAVES */
+
+  position += speed_direction / DISTANT_SCALE * FRONT_ELEMENT_MOVE_SPEED * t;
   front_element.SetPosition(position);
 
-  #ifdef STORE_DEBUG
+  #ifdef STORE_MOVE_DEBUG
   std::cout << "new position: " << position << std::endl;
-  #endif /* STORE_DEBUG */
+  std::cout << "Store::MoveWave() end\n";
+  std::cout << std::endl;
+  #endif /* STORE_MOVE_DEBUG */
 }
