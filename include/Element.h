@@ -31,7 +31,7 @@ const float DEFAULT_PHASE = 0;
 const float DEFAULT_AMPLITUDE = 10000;
 const float CYCLIC_FREQUENCY = 2 * 3.14 * 1000000;  // 1MHz
 const float LIGHT_SPEED = 3 * 100000000;
-const float TIME_SCALE = 700000;
+const float TIME_SCALE = 7000000;
 
 class Element {
  public:

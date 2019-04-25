@@ -34,19 +34,15 @@ bool FrontElement::DrawColor(sf::RenderWindow & window, float strength)
 {
   circle_shape_.setPosition(position_.GetX( ), position_.GetY( ));
 
-/*
   static float upper_bound = 100;
   if((strength / upper_bound) > 1)
     upper_bound = strength;
-*/
 
   #ifdef FRONT_ELEMENT_DEBUG
-  std::cout << "FrontElement::DrawColor(). strength: " << strength << std::endl;
-  //std::cout << "FrontElement::DrawColor(). strength: " << strength << " upper_bound: " << upper_bound << std::endl;
+  std::cout << "FrontElement::DrawColor(). strength: " << strength << " upper_bound: " << upper_bound << std::endl;
   #endif /* FRONT_ELEMENT_DEBUG */
 
-  //SetRGBA(255, 0, 0, (int)((strength / upper_bound) * 255));
-  SetRGBA(255, 0, 0, (int)strength);
+  SetRGBA(255, 0, 0, (int)((strength / upper_bound) * 255));
   window.draw(circle_shape_);
 
   return true;
