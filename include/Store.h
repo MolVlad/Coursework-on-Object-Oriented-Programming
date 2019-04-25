@@ -8,6 +8,8 @@
 #include "DipoleArea.h"
 
 //#define STORE_DEBUG 1
+//#define STORE_DRAW_DEBUG 1
+//#define STORE_MOVE_DEBUG 1
 
 class Store {
  public:

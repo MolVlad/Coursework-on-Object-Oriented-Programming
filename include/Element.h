@@ -22,6 +22,7 @@ const float DEFAULT_FRONT_ELEMENT_PCOUNT = 40.;
 const float FRONT_ELEMENT_MOVE_SPEED = 3 * 100000000;
 const float FRONT_ELEMENT_STEP = 2;
 const int MAX_ELEMENT_NUMBER = 250;
+const float DISTANT_SCALE = 1;
 
 const float DEFAULT_DIPOLE_DIRECTION = 180;
 const float DIPOLE_SCALE_X = 0.015;

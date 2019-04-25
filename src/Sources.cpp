@@ -68,13 +68,13 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   Vector2 radius_vector = point - position_;
   float distance = radius_vector.Len();
 
-  #ifdef DIPOLE_DEBUG
+  #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "Dipole::GetFieldStrength()" << std::endl;
 
   std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
   std::cout << "\t\tradius_vector: " << radius_vector << std::endl;
   std::cout << "\tdistance: " << distance << std::endl;
-  #endif /* DIPOLE_DEBUG */
+  #endif /* DIPOLE_STRENGTH_DEBUG */
 
   if(!distance)
   {
@@ -97,30 +97,30 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   float t = diff.count() / TIME_SCALE;
 
   // sin(omega*t + k*r + phase)
-  float harmonic_part = sin(CYCLIC_FREQUENCY * (t + distance / LIGHT_SPEED) + phase_);
+  float harmonic_part = sin(CYCLIC_FREQUENCY * (t + (distance / DISTANT_SCALE) / LIGHT_SPEED) + phase_);
 
-  #ifdef DIPOLE_DEBUG
+  #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "\t\tt: " << t << std::endl;
   std::cout << "\t\tOmega * t: " << CYCLIC_FREQUENCY * t << std::endl;
-  std::cout << "\t\tkr: " << CYCLIC_FREQUENCY * distance / LIGHT_SPEED << std::endl;
+  std::cout << "\t\tkr: " << CYCLIC_FREQUENCY * (distance / DISTANT_SCALE) / LIGHT_SPEED << std::endl;
   std::cout << "\t\tphase: " << phase_ << std::endl;
   std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
-  #endif /* DIPOLE_DEBUG */
+  #endif /* DIPOLE_STRENGTH_DEBUG */
 
   Vector2 result = radius_vector.GetRotated(90);
   result.Norm();
 
-  float field_strength = amplitude_ * angular_coefficient * harmonic_part / distance;
+  float field_strength = amplitude_ * angular_coefficient * harmonic_part / (distance / DISTANT_SCALE);
 
   result *= field_strength;
 
-  #ifdef DIPOLE_DEBUG
+  #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
   std::cout << "\tangular_coefficient: " << angular_coefficient << std::endl;
   std::cout << "\tresult: " << result << " = " << result.Len() << std::endl;
   std::cout << "Dipole::GetFieldStrength() end" << std::endl;
   std::cout << std::endl;
-  #endif /* DIPOLE_DEBUG */
+  #endif /* DIPOLE_STRENGTH_DEBUG */
 
   return result;
 }
