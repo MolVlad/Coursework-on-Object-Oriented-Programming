@@ -25,7 +25,7 @@ bool Store::Draw(sf::RenderWindow & window) {
   std::vector<std::future<bool> > f;
   for(auto& i : dipoles_) {
     f.push_back(std::async([&]() {
-      return i.Draw(window);
+      return i.Draw(window);s
       })
     );
   }
@@ -34,8 +34,8 @@ bool Store::Draw(sf::RenderWindow & window) {
     i.get();
 */
 
-  for(auto& i : dipoles_) {
-    i.Draw(window);
+  for(auto& dipole : dipoles_) {
+    dipole.Draw(window);
   }
 
   if(dipoles_.size() == 0)
@@ -46,21 +46,18 @@ bool Store::Draw(sf::RenderWindow & window) {
   unsigned int dipoles_number = dipoles_.size();
 
   // it is to fixing wave looping
-  int element_number;
+  int element_number = 0;
 
-  for(auto& i : waves_) {
-    FrontElement & main_front_element = i.GetMain();
-    float strength = GetFieldStrength(main_front_element.GetPosition()).Len();
-    main_front_element.DrawColor(window, strength);
+  for(auto& wave : waves_) {
+    FrontElement & main_front_element = wave.GetMain();
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
+    float strength = GetFieldStrength(main_front_element_position).Len();
+    main_front_element.DrawColor(window, strength);
 
     #ifdef STORE_DRAW_DEBUG
     std::cout << "Main: " << main_front_element_position << " strength: " << strength << std::endl;
     #endif /* STORE_DRAW_DEBUG */
-
-    FrontElement next;
-    Vector2 next_position;
 
     static Vector2 reference_direction(0, 1);
 
@@ -177,14 +174,14 @@ bool Store::Dump() const
   #endif /* STORE_DEBUG */
 
   std::cout << "Print dipole_: " << dipoles_.size() << std::endl;
-  for(auto& i : dipoles_)
+  for(auto& dipole : dipoles_)
   {
-    i.Dump();
+    dipole.Dump();
   }
 
   std::cout << "Print waves_: " << waves_.size() << std::endl;
-  for(auto& i : waves_)
-    i.Dump();
+  for(auto& wave : waves_)
+    wave.Dump();
 
   #ifdef STORE_DEBUG
   std::cout << "Store::Dump() end" << std::endl;
@@ -199,10 +196,10 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
   Vector2 result(0, 0);
 
   std::vector<std::future<Vector2> > f;
-  for(auto& i : dipoles_)
+  for(auto& dipole : dipoles_)
   {
     f.push_back(std::async([&]() {
-      return i.GetFieldStrength(position);
+      return dipole.GetFieldStrength(position);
       })
     );
   }
@@ -264,7 +261,7 @@ bool Store::MoveWaves()
     );
   }
 
-  for(auto& result : f)
+  for(auto& result : f) 
     result.get();
 
   #ifdef STORE_DEBUG
@@ -274,6 +271,7 @@ bool Store::MoveWaves()
 
   return true;
 }
+
 
 bool Store::MoveWave(Wave & wave)
 {
