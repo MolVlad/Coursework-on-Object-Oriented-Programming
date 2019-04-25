@@ -10,9 +10,9 @@
 
 namespace handler {
 
-#define DIPOLE_PHASE_DEBUG 1
-#define KEY_DEBUG 1
-#define MOUSE_DEBAG 1
+//#define DIPOLE_PHASE_DEBUG 1
+//#define KEY_DEBUG 1
+//#define MOUSE_DEBUG 1
 
 // DIRECTION_0 is default value - up arrow. Сlockwise rotation.
 enum PosssibleDipoleDirections {
