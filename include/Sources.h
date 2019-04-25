@@ -42,7 +42,8 @@ class Dipole : public Source {
  public:
   Dipole();
 
-  explicit Dipole(const Vector2 & position);
+  // Texture index is index of texture in IMAGE_ARRAY (Element.h) and dipole_texture_array (Sources.cpp).
+  Dipole(const Vector2 & position, const int texture_index = 0);
 
   bool Draw(sf::RenderWindow & window) override;
 

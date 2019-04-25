@@ -4,7 +4,7 @@
 
 extern std::chrono::high_resolution_clock::time_point time_start;
 
-sf::Texture dipole_texture;
+sf::Texture dipole_texture_array[NUMBER_DIPOLE_TEXTURES];
 
 Source::Source(const Vector2 & position)
     :  Element(position)  {
@@ -39,15 +39,15 @@ const float Source::GetAmplitude(void) const {
   return amplitude_;
 }
 
-Dipole::Dipole(const Vector2 & position)
+Dipole::Dipole(const Vector2 & position, const int texture_index)
     :  Source(position)  {
 
   #ifndef DIPOLE_TEXTURE_WAS_CREATED
-  CreateTexture("images/dipole.png", dipole_texture);
-  #define DIPOLE_TEXTURE_WAS_CREATED -6666
+  CreateTexture(dipole_texture_array);
+  #define DIPOLE_TEXTURES_WAS_CREATED -6666
   #endif /* DIPOLE_TEXTURE_WAS_CREATED */
 
-  sprite_ = sf::Sprite(dipole_texture);
+  sprite_ = sf::Sprite(dipole_texture_array[texture_index]);
   sprite_.setScale(DIPOLE_SCALE_X, DIPOLE_SCALE_Y);
 
   const sf::Vector2u dipole_size = sprite_.getTexture( ) -> getSize( );

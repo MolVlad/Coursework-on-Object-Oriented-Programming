@@ -33,6 +33,21 @@ const float CYCLIC_FREQUENCY = 2 * 3.14 * 1000000;  // 1MHz
 const float LIGHT_SPEED = 3 * 100000000;
 const float TIME_SCALE = 7000000;
 
+const int NUMBER_DIPOLE_TEXTURES = 10;
+const char* const IMAGE_ARRAY[NUMBER_DIPOLE_TEXTURES] = {
+  "images/dipole.png",
+  "images/dipole36.png",
+  "images/dipole72.png",
+  "images/dipole108.png",
+  "images/dipole144.png",
+  "images/dipole180.png",
+  "images/dipole216.png",
+  "images/dipole252.png",
+  "images/dipole288.png",
+  "images/dipole324.png",  
+};
+
+
 class Element {
  public:
   Element();
@@ -59,4 +74,4 @@ class Element {
   sf::Sprite sprite_;
 };
 
-bool CreateTexture(const char* picture, sf::Texture & texture);
+bool CreateTexture(sf::Texture *texture_array);
