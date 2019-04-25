@@ -61,9 +61,13 @@ bool Store::Draw(sf::RenderWindow & window) {
 
     static Vector2 reference_direction(0, 1);
 
-    // Positive direction.
-    Vector2 next_position = main_front_element_position;
-    FrontElement next = FrontElement(next_position);
+    #ifdef DRAW_ALL_FRONT_ELEMENTS
+
+    //Positive direction
+    next_position = main_front_element_position;
+    next = FrontElement(next_position);
+
+    element_number = 0;
 
     #ifdef STORE_DRAW_DEBUG
     std::cout << "Positive direction\n";
@@ -124,6 +128,8 @@ bool Store::Draw(sf::RenderWindow & window) {
 
       element_number++;
     }
+
+    #endif /* DRAW_ALL_FRONT_ELEMENTS */
   }
 
   return true;

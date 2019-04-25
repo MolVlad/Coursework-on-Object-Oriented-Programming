@@ -88,16 +88,12 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   if(angular_coefficient < 0)
     angular_coefficient *= -1;
 
-  static std::chrono::high_resolution_clock::time_point time_stamp = time_start;
-
-  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_stamp;
-
-  time_stamp = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_start;
 
   float t = diff.count() / TIME_SCALE;
 
   // sin(omega*t + k*r + phase)
-  float harmonic_part = sin(CYCLIC_FREQUENCY * (t + (distance / DISTANT_SCALE) / LIGHT_SPEED) + phase_);
+  float harmonic_part = sin((CYCLIC_FREQUENCY * (t + (distance / DISTANT_SCALE) / LIGHT_SPEED) + phase_) * PI / 180);
 
   #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "\t\tt: " << t << std::endl;
@@ -115,6 +111,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   result *= field_strength;
 
   #ifdef DIPOLE_STRENGTH_DEBUG
+  std::cout << "\tE " << field_strength << " Omega*t: " << harmonic_part << " t " << t << std::endl;
   std::cout << "\tamplitude: " << amplitude_ << std::endl;
   std::cout << "\tangular_coefficient: " << angular_coefficient << std::endl;
   std::cout << "\tresult: " << result << " = " << result.Len() << std::endl;
@@ -124,7 +121,6 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
 
   return result;
 }
-
 
 bool Dipole::SetImageScale(const float image_scale)
 {
