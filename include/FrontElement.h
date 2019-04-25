@@ -7,8 +7,6 @@
 
 //#define FRONT_ELEMENT_DEBUG 1
 
-//#define FRONT_ELEMENT_DEBUG 1
-
 using namespace my_math;
 
 class FrontElement : public Element {

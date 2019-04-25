@@ -3,9 +3,15 @@
 namespace handler {
 
 bool IsDipoleArea(const sf::Vector2i & position) {
-
   Vector2 center = Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
   return (DEFAULT_AREA_RADIUS > (center - position).Len( ));
+}
+
+bool IsFrontArea(const sf::Vector2i & position) {
+  float x = position.x;
+  float y = position.y;
+
+  return !((x < DEFAULT_AREA_RADIUS) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT));
 }
 
 bool HandleEvent(sf::RenderWindow &window, Store &store)
@@ -75,10 +81,9 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      if (!IsDipoleArea(position)) {
+      if (IsFrontArea(position)) {
         singular_wave.Push(FrontElement(position));
         store.Push(singular_wave);
-        std::cout << std::endl;
       }
 
       break;
@@ -217,9 +222,9 @@ bool HandleDraw(sf::RenderWindow &window, Store &store) {
 
 bool HandleStore(Store &store)
 {
-    store.RemoveDistantWaves();
-    store.MoveWaves();
-    store.UpdateTime();
+  store.RemoveDistantWaves();
+  store.MoveWaves();
+  store.UpdateTime();
 }
 
 } // End of namespace handler.

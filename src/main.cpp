@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include "unistd.h"
 
 #include "Store.h"
 #include "Wave.h"
@@ -20,6 +21,7 @@ int main()
 
   Store store;
 
+    int a;
   while(window.isOpen())
   {
     window.clear(sf::Color::White);

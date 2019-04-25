@@ -25,9 +25,9 @@ bool Wave::Dump( ) const
 
   #ifdef WAVE_DEBUG
   std::cout << "Wave::Dump end" << std::endl;
+  std::cout << std::endl;
   #endif /* WAVE_DEBUG */
 
-  std::cout << std::endl;
   return true;
 }
 
@@ -41,9 +41,9 @@ bool Wave::Push(const FrontElement & front_element)
 
   #ifdef WAVE_DEBUG
   std::cout << "Wave::Push(front_element) end" << std::endl;
+  std::cout << std::endl;
   #endif /* WAVE_DEBUG */
 
-  std::cout << std::endl;
   return true;
 }
 

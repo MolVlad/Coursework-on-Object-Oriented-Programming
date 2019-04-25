@@ -6,6 +6,8 @@
 
 #include "Store.h"
 
+//#define MOUSE_DEBUG 1
+
 namespace handler {
 
 #define DIPOLE_PHASE_DEBUG 1
@@ -37,7 +39,6 @@ enum PosssibleDipolePhase {
   PHASE_288 = 288,
   PHASE_324 = 224
 };
-
 
 bool HandleEvent(sf::RenderWindow &window, Store &store);
 bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &store,
