@@ -89,5 +89,5 @@ bool FrontElement::IsOnScreen()
   x = position.GetX();
   y = position.GetY();
 
-  return !((x < DEFAULT_AREA_RADIUS) || (x > SCREEN_WIDTH) || (y < DEFAULT_AREA_RADIUS) || (y > SCREEN_HEIGHT));
+  return !((x < DEFAULT_AREA_RADIUS) || (x > SCREEN_WIDTH) || (y < 0) || (y > SCREEN_HEIGHT));
 }
