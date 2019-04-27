@@ -21,19 +21,6 @@ Store::~Store()
 bool Store::Draw(sf::RenderWindow & window) {
   dipole_area_.Draw(window);
 
-/*
-  std::vector<std::future<bool> > f;
-  for(auto& i : dipoles_) {
-    f.push_back(std::async([&]() {
-      return i.Draw(window);s
-      })
-    );
-  }
-
-  for(auto& i : f)
-    i.get();
-*/
-
   for(auto& dipole : dipoles_) {
     dipole.Draw(window);
   }
