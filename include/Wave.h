@@ -21,6 +21,8 @@ class Wave {
 
   FrontElement & GetMain();
 
+  bool Clear();
+
   virtual ~Wave();
 
  private:
