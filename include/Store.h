@@ -12,6 +12,7 @@
 //#define STORE_MOVE_DEBUG 1
 //#define STOP_WAVES 1
 #define DRAW_ALL_FRONT_ELEMENTS 1
+//#define DRAW_STEP_BY_STEP 1
 
 class Store {
  public:
@@ -33,6 +34,8 @@ class Store {
   bool UpdateTime();
 
   bool RemoveDistantWaves();
+
+  bool Clear();
 
   Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 

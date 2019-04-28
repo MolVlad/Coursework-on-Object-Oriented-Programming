@@ -52,7 +52,13 @@ FrontElement & Wave::GetMain()
   return front_elements_.front();
 }
 
+bool Wave::Clear()
+{
+  front_elements_.clear();
+}
+
 Wave::~Wave()
 {
 
 }
+
