@@ -5,6 +5,7 @@
 #include <future>
 #include <numeric>
 #include <functional>
+#include <unistd.h>
 
 extern std::chrono::high_resolution_clock::time_point time_start;
 
@@ -83,6 +84,11 @@ bool Store::Draw(sf::RenderWindow & window) {
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
 
+      #ifdef DRAW_STEP_BY_STEP
+      sleep(1);
+      window.display();
+      #endif /* DRAW_STEP_BY_STEP */
+
       element_number++;
     }
 
@@ -115,6 +121,11 @@ bool Store::Draw(sf::RenderWindow & window) {
 
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
+
+      #ifdef DRAW_STEP_BY_STEP
+      sleep(1);
+      window.display();
+      #endif /* DRAW_STEP_BY_STEP */
 
       element_number++;
     }
