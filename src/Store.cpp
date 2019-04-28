@@ -315,3 +315,13 @@ bool Store::MoveWave(Wave & wave)
   std::cout << std::endl;
   #endif /* STORE_MOVE_DEBUG */
 }
+
+bool Store::Clear()
+{
+  for(auto & i : waves_)
+    i.Clear();
+
+  waves_.clear();
+
+  dipoles_.clear();
+}

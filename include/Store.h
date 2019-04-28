@@ -35,6 +35,8 @@ class Store {
 
   bool RemoveDistantWaves();
 
+  bool Clear();
+
   Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();

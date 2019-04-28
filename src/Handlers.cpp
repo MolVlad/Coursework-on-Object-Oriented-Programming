@@ -34,7 +34,7 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
         HandleMouse(window, event, store, &dipole_direction, &dipole_phase);
         break;
       case sf::Event::KeyPressed:
-        HandleKey(event, &dipole_direction, &dipole_phase);
+        HandleKey(event, store, &dipole_direction, &dipole_phase);
         break;
     }
   }
@@ -125,12 +125,16 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   return true;
 }
 
-bool HandleKey(const sf::Event &event, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
+bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
 
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
 
   switch(event.key.code) {
+
+    case sf::Keyboard::Escape:
+      store.Clear();
+      break;
 
     // Set phases.
     case sf::Keyboard::Num1:
@@ -245,7 +249,7 @@ bool HandleKey(const sf::Event &event, PosssibleDipoleDirections *dipole_directi
       #endif /* KEY_DEBUG */
       *dipole_direction = DIRECTION_315;
       break;
-  }  
+  }
 }
 
 bool HandleDraw(sf::RenderWindow &window, Store &store) {
