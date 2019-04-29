@@ -19,14 +19,20 @@ Store::~Store()
 
 }
 
-bool Store::DrawField(sf::RenderWindow & window) {
+bool Store::Draw(sf::RenderWindow & window) {
+  dipole_area_.Draw(window);
+
+  for(auto& dipole : dipoles_) {
+    dipole.Draw(window);
+  }
+
   if(dipoles_.size() == 0)
   {
     return false;
   }
 
-  for(int n = 0; n < 100; n++)
-    for(int k = 0; k < 100; k++) {
+  for(int n = 0; n < SCREEN_WIDTH; n++)
+    for(int k = 0; k < SCREEN_HEIGHT; k++) {
       std::cout << "(n,k) = ( " << n << "," << k << ")\n";
       Vector2 front_element_position(n, k);
       FrontElement front_element(Vector2(n, k));
@@ -35,17 +41,6 @@ bool Store::DrawField(sf::RenderWindow & window) {
         float strength = GetFieldStrength(front_element_position).Len();
         front_element.DrawColor(window, strength);
       }
-  }
-    window.display();
-
-  return true;
-}
-
-bool Store::Draw(sf::RenderWindow & window) {
-  dipole_area_.Draw(window);
-
-  for(auto& dipole : dipoles_) {
-    dipole.Draw(window);
   }
 
   return true;

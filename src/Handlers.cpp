@@ -34,7 +34,7 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
         HandleMouse(window, event, store, &dipole_direction, &dipole_phase);
         break;
       case sf::Event::KeyPressed:
-        HandleKey(event, store, &dipole_direction, &dipole_phase);
+        HandleKey(window, event, store, &dipole_direction, &dipole_phase);
         break;
     }
   }
@@ -125,7 +125,7 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   return true;
 }
 
-bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
+bool HandleKey(sf::RenderWindow & window, const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
 
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
@@ -134,6 +134,11 @@ bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections 
 
     case sf::Keyboard::Escape:
       store.Clear();
+      break;
+
+    case sf::Keyboard::Return:
+      store.UpdateTime();
+      store.DrawField(window);
       break;
 
     // Set phases.
@@ -255,13 +260,6 @@ bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections 
 bool HandleDraw(sf::RenderWindow &window, Store &store) {
   store.Draw(window);
   return true;
-}
-
-bool HandleStore(Store &store)
-{
-  store.RemoveDistantWaves();
-  store.MoveWaves();
-  store.UpdateTime();
 }
 
 } // End of namespace handler.

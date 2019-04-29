@@ -22,10 +22,8 @@ int main()
 
   while(window.isOpen())
   {
-    window.clear(sf::Color::White);
     handler::HandleEvent(window, store);
     handler::HandleDraw(window, store);
-    handler::HandleStore(store);
 
     window.display();
   }

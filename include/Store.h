@@ -37,6 +37,8 @@ class Store {
 
   bool Clear();
 
+  bool DrawField(sf::RenderWindow & window);
+
   Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();

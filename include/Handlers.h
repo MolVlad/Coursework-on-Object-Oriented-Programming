@@ -44,10 +44,9 @@ bool HandleEvent(sf::RenderWindow &window, Store &store);
 int GetTextureIndex(const PosssibleDipolePhase phase);
 bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &store,
                  PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase);
-bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction,
+bool HandleKey(sf::RenderWindow & window, const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction,
                PosssibleDipolePhase *dipole_phase);
 bool HandleDraw(sf::RenderWindow &window, Store &store);
-bool HandleStore(Store &store);
 
 // Don't set dipoles inside dipole area.
 bool IsRightPosition(const sf::Vector2i & position);
