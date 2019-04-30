@@ -42,6 +42,10 @@ const float Source::GetAmplitude(void) const {
 Dipole::Dipole(const Vector2 & position, const int texture_index)
     :  Source(position)  {
 
+  #ifdef TIME_COUNT_DIPOLE
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   #ifndef DIPOLE_TEXTURE_WAS_CREATED
   CreateTexture(dipole_texture_array);
   #define DIPOLE_TEXTURES_WAS_CREATED -6666
@@ -54,6 +58,12 @@ Dipole::Dipole(const Vector2 & position, const int texture_index)
   sprite_.setOrigin(dipole_size.x / 2, dipole_size.y  / 2);
   sprite_.setPosition(position_.GetX( )  , position_.GetY( ));
   sprite_.setRotation(DEFAULT_DIPOLE_DIRECTION);
+
+  // It is neccesary nearly 0.0155683 for it.
+  #ifdef TIME_COUNT_DIPOLE
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
   return;
 }
 
@@ -65,6 +75,10 @@ bool Dipole::Draw(sf::RenderWindow & window) {
 
 Vector2 Dipole::GetFieldStrength(const Vector2 & point, const float t) const
 {
+  #ifdef TIME_COUNT_GET_FIELD_FROM_SINGULAR
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   Vector2 radius_vector = point - position_;
   float distance = radius_vector.Len();
 
@@ -116,6 +130,12 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point, const float t) const
   std::cout << "Dipole::GetFieldStrength() end" << std::endl;
   std::cout << std::endl;
   #endif /* DIPOLE_STRENGTH_DEBUG */
+
+  // It is necessary nearly 1.04e-06 for it.
+  #ifdef TIME_COUNT_GET_FIELD_FROM_SINGULAR
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 
   return result;
 }

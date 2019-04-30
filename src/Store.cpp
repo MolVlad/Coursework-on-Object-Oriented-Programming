@@ -20,6 +20,11 @@ Store::~Store()
 }
 
 bool Store::Draw(sf::RenderWindow & window) {
+
+  #ifdef DRAW_STORE_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   dipole_area_.Draw(window);
 
   for(auto& dipole : dipoles_) {
@@ -133,6 +138,12 @@ bool Store::Draw(sf::RenderWindow & window) {
     #endif /* DRAW_ALL_FRONT_ELEMENTS */
   }
 
+  // For 10 waves it is neccesary approximately 0.537001, for one wave 0.0534042.
+  #ifdef DRAW_STORE_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
+
   return true;
 }
 
@@ -194,6 +205,10 @@ bool Store::Dump() const
 
 Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
 {
+  #ifdef GET_FIELD_STRENTH_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   Vector2 result(0, 0);
 
   std::vector<std::future<Vector2> > f;
@@ -207,6 +222,12 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
 
   for(auto& i : f)
     result += i.get();
+
+  // For 10 di;oles  it is neccesary approximately 0.000205641, for one dipole 2.8404e-05.
+  #ifdef GET_FIELD_STRENTH_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 
   return result;
 }
@@ -247,7 +268,11 @@ bool Store::MoveWaves()
   std::cout << "Store::MoveWaves()" << std::endl;
   #endif /* STORE_DEBUG */
 
-  if(dipoles_.size() == 0)
+  #ifdef MOVE_WAVES_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
+  if (dipoles_.size() == 0)
   {
     return false;
   }
@@ -272,6 +297,11 @@ bool Store::MoveWaves()
   std::cout << std::endl;
   #endif /* STORE_DEBUG */
 
+  // It is neccesary nearly 7.4659e-05 for it without waves and for a great amount of waves:.0.0010453.
+  #ifdef MOVE_WAVES_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
   return true;
 }
 
