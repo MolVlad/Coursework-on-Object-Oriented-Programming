@@ -68,16 +68,15 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   Vector2 radius_vector = point - position_;
   float distance = radius_vector.Len();
 
-
   #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "Dipole::GetFieldStrength()" << std::endl;
+
   std::cout << "\tpoint: " << point << ", dipole: " << position_ << std::endl;
   std::cout << "\t\tradius_vector: " << radius_vector << std::endl;
   std::cout << "\tdistance: " << distance << std::endl;
   #endif /* DIPOLE_STRENGTH_DEBUG */
 
-
-  if (!distance)
+  if(!distance)
   {
     std::cout << "WARNING:distance = 0 " << std::endl;
     return Vector2(0, 0);
@@ -96,7 +95,6 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   // sin(omega*t + k*r + phase)
   float harmonic_part = sin((CYCLIC_FREQUENCY * (t + (distance / DISTANT_SCALE) / LIGHT_SPEED) + phase_) * PI / 180);
 
-
   #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "\t\tt: " << t << std::endl;
   std::cout << "\t\tOmega * t: " << CYCLIC_FREQUENCY * t << std::endl;
@@ -104,7 +102,6 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
   std::cout << "\t\tphase: " << phase_ << std::endl;
   std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
   #endif /* DIPOLE_STRENGTH_DEBUG */
-
 
   Vector2 result = radius_vector.GetRotated(90);
   result.Norm();
@@ -124,7 +121,6 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point) const
 
   return result;
 }
-
 
 bool Dipole::SetImageScale(const float image_scale)
 {

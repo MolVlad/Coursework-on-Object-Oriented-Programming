@@ -76,8 +76,7 @@ int GetTextureIndex(const PosssibleDipolePhase phase)
 
 
 bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &store,
-                 PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) 
-{
+                 PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
 
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
@@ -86,16 +85,14 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   Wave singular_wave;
   FrontElement front_element;
 
-  switch(event.key.code) 
-  {
+  switch(event.key.code) {
 
     case sf::Mouse::Left:
       #ifdef MOUSE_DEBUG
       std::cout << "HandleMouse(): Left" << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      if (IsDipoleArea(position)) 
-      {
+      if (IsDipoleArea(position)) {
         Dipole dipole = Dipole(my_math::Vector2(position), GetTextureIndex(*dipole_phase));
         dipole.SetDirection((float)*dipole_direction);
         dipole.SetPhase((float)*dipole_phase);
@@ -117,8 +114,7 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
       std::cout << std::endl;
       #endif /* MOUSE_DEBUG */
 
-      if (IsFrontArea(position)) 
-      {
+      if (IsFrontArea(position)) {
         singular_wave.Push(FrontElement(position));
         store.Push(singular_wave);
       }
@@ -129,9 +125,8 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   return true;
 }
 
-bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction,
-               PosssibleDipolePhase *dipole_phase) 
-{
+bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
+
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
 
@@ -266,6 +261,7 @@ bool HandleStore(Store &store)
 {
   store.RemoveDistantWaves();
   store.MoveWaves();
+  store.UpdateTime();
 }
 
 } // End of namespace handler.

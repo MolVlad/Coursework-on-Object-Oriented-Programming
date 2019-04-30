@@ -84,9 +84,8 @@ bool Store::Draw(sf::RenderWindow & window) {
       next = FrontElement(next_position);
       next.DrawColor(window, strength);
 
-
       #ifdef DRAW_STEP_BY_STEP
-      sleep(0.2);
+      sleep(1);
       window.display();
       #endif /* DRAW_STEP_BY_STEP */
 
@@ -117,8 +116,7 @@ bool Store::Draw(sf::RenderWindow & window) {
       next_position += front_direction * FRONT_ELEMENT_STEP;
 
       #ifdef STORE_DRAW_DEBUG
-      std::cout << "\t" << element_number << " front_direction: " << front_direction 
-                << " next_pos: " << next_position << " strength: " << strength << std::endl;
+      std::cout << "\t" << element_number << " front_direction: " << front_direction << " next_pos: " << next_position << " strength: " << strength << std::endl;
       #endif /* STORE_DRAW_DEBUG */
 
       next = FrontElement(next_position);
@@ -194,7 +192,6 @@ bool Store::Dump() const
   return true;
 }
 
-
 Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
 {
   Vector2 result(0, 0);
@@ -214,20 +211,33 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
   return result;
 }
 
+bool Store::UpdateTime()
+{
+  static std::chrono::high_resolution_clock::time_point time_stamp = time_start;
+
+  std::chrono::duration<float> diff = std::chrono::high_resolution_clock::now() - time_stamp;
+
+  time_stamp = std::chrono::high_resolution_clock::now();
+
+  t = diff.count() / TIME_SCALE;
+}
+
+float Store::GetTime()
+{
+  return t;
+}
 
 bool Store::RemoveDistantWaves()
 {
   for (int i = 0; i < waves_.size(); i++)
   {
-    if (waves_[i].GetMain().IsFarFromCenter())
+    if(waves_[i].GetMain().IsFarFromCenter())
     {
       std::swap(waves_[i], waves_[waves_.size() - 1]);
       waves_.pop_back();
     }
   }
-  return true;
 }
-
 
 bool Store::MoveWaves()
 {
@@ -240,16 +250,20 @@ bool Store::MoveWaves()
     return false;
   }
 
+  float t = GetTime();
 
   std::vector<std::future<bool> > f;
-  for (auto& wave : waves_)
+  for (auto& i : waves_)
   {
     f.push_back(std::async([&]() {
-      MoveWave(wave);
+      MoveWave(i);
       return true;
       })
     );
   }
+
+  for(auto& result : f) 
+    result.get();
 
   #ifdef STORE_DEBUG
   std::cout << "Store::MoveWaves() end" << std::endl;
@@ -280,21 +294,19 @@ bool Store::MoveWave(Wave & wave)
   std::cout << "\tscalar mult " << speed_direction * distance_to_center << std::endl;
   #endif /* STORE_MOVE_DEBUG */
 
-  if ((speed_direction * distance_to_center) < 0)
+  if((speed_direction * distance_to_center) < 0)
     speed_direction *= -1;
 
   #ifdef STORE_MOVE_DEBUG
-  std::cout << "\tt: " << time_ << std::endl;
+  std::cout << "\tt: " << t << std::endl;
   std::cout << "\tresult speed_direction: " << speed_direction << std::endl;
   #endif /* STORE_MOVE_DEBUG */
 
   #ifdef STOP_WAVES
-  time_ = 0;
+  t = 0;
   #endif /* STOP_WAVES */
 
-  float old_time = time_;
-  time_ += TIME_IN_STEP;
-  position += speed_direction * FRONT_ELEMENT_MOVE_SPEED * TIME_IN_STEP;
+  position += speed_direction / DISTANT_SCALE * FRONT_ELEMENT_MOVE_SPEED * t;
   front_element.SetPosition(position);
 
   #ifdef STORE_MOVE_DEBUG
@@ -306,10 +318,10 @@ bool Store::MoveWave(Wave & wave)
 
 bool Store::Clear()
 {
-  for(auto & wave : waves_)
-    wave.Clear();
-  waves_.clear();
-  dipoles_.clear();
+  for(auto & i : waves_)
+    i.Clear();
 
-  return true;
+  waves_.clear();
+
+  dipoles_.clear();
 }
