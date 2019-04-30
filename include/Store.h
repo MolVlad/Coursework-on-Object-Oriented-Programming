@@ -26,30 +26,17 @@ class Store {
 
   bool Dump() const;
 
-  /** 
-    \breif Move waves along vector k by c * t / DISTANT_SCALE.
-    \return False - There are no dipoles. 
-    \return True - At least one dipole exists.
-  */
+  //Move waves along vector k by c*t
   bool MoveWaves();
 
-  /**
-    \brief Removes waves that go beyond the screen. .
-    \return Value with no sense.
-  */
+  float GetTime();
+
+  bool UpdateTime();
+
   bool RemoveDistantWaves();
 
-  /**
-    \brief Clear vectors with dipoles and waves. .
-    \return Value with no sense.
-  */
   bool Clear();
 
-  /**
-    \brief Calculate field in this point.
-    \param[in] position - Point where field strength should be calculated.
-    \return Vector E in this point.
-  */
   Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
 
   ~Store();
@@ -58,12 +45,8 @@ class Store {
   std::vector<Dipole> dipoles_;
   std::vector<Wave> waves_;
   DipoleArea dipole_area_;
-  float time_;
+  float t;
+  float time_from_start;
 
-  /**
-    \brief Move one wave.
-    \param[in] Wave to move it on c * t / DISTANT_SCALE.  .
-    \return Value with no sense.
-  */
   bool MoveWave(Wave & wave);
 };
