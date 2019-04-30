@@ -143,6 +143,20 @@ Vector2 Vector2::GetRotated(const VECTOR_TYPE  degree) const {
   return new_vect;
 }
 
+float Vector2::GetClockwiseRotation(int* code_error = nullptr) const
+{
+  if (x_ == 0 && y_ == 0)
+  {
+    if (code_error)
+    {
+      *code_error = ZERO_VECTOR;
+    }
+    return 0.;
+  }
+
+  return atan2(y_, x_) + 90.;
+}
+
 void Vector2::Norm(void) {
   *this *= 1 / Len( );
   return ;  

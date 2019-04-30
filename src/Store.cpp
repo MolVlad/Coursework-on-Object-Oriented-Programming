@@ -11,7 +11,7 @@ extern std::chrono::high_resolution_clock::time_point time_start;
 
 Store::Store()
 {
-
+  time_from_start = 0.;
 }
 
 Store::~Store()
@@ -200,7 +200,7 @@ Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
   for(auto& dipole : dipoles_)
   {
     f.push_back(std::async([&]() {
-      return dipole.GetFieldStrength(position);
+      return dipole.GetFieldStrength(position, time_from_start);
       })
     );
   }
@@ -220,6 +220,8 @@ bool Store::UpdateTime()
   time_stamp = std::chrono::high_resolution_clock::now();
 
   t = diff.count() / TIME_SCALE;
+
+  time_from_start += t;
 }
 
 float Store::GetTime()
@@ -306,7 +308,7 @@ bool Store::MoveWave(Wave & wave)
   t = 0;
   #endif /* STOP_WAVES */
 
-  position += speed_direction / DISTANT_SCALE * FRONT_ELEMENT_MOVE_SPEED * t;
+  position += (speed_direction / DISTANT_SCALE) * FRONT_ELEMENT_MOVE_SPEED * t;
   front_element.SetPosition(position);
 
   #ifdef STORE_MOVE_DEBUG

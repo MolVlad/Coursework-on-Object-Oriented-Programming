@@ -22,7 +22,7 @@ class Source : public Element {
   virtual bool Dump() const = 0;
 
   // get field strength from this source in point
-  virtual Vector2 GetFieldStrength(const Vector2 & point) const = 0;
+  virtual Vector2 GetFieldStrength(const Vector2 & point, const float t) const = 0;
 
   bool SetPhase(const float phase);
 
@@ -51,7 +51,7 @@ class Dipole : public Source {
   bool Dump() const override;
 
   // get field strength from this source in point
-  Vector2 GetFieldStrength(const Vector2 & point) const override;
+  virtual Vector2 GetFieldStrength(const Vector2 & point, const float t) const;
 
   // Image_scale is increase in size. It should be positive.
   bool SetImageScale(const float image_scale);
@@ -74,7 +74,7 @@ class SecondarySource : public Source {
   bool Dump() const override;
 
   // get field strength from this source in point
-  Vector2 GetFieldStrength(const Vector2 & point) const override;
+  virtual Vector2 GetFieldStrength(const Vector2 & point, const float t) const override;
 
   ~SecondarySource();
 
