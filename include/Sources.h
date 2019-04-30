@@ -50,7 +50,7 @@ class Dipole : public Source {
 
   bool Dump() const override;
 
-  // get field strength from this source in point
+  // Get field strength from this source in point.
   Vector2 GetFieldStrength(const Vector2 & point) const override;
 
   // Image_scale is increase in size. It should be positive.
@@ -62,6 +62,7 @@ class Dipole : public Source {
 
   ~Dipole();
 };
+
 
 class SecondarySource : public Source {
  public:
