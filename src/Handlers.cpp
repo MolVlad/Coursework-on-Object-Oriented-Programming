@@ -16,6 +16,10 @@ bool IsFrontArea(const sf::Vector2i & position) {
 
 bool HandleEvent(sf::RenderWindow &window, Store &store)
 {
+  #ifdef HANDLE_EVENT_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   sf::Event event;
   // DIRECTION_0 is equal  DEFAULT_DIPOLE_DIRECTION.
   static PosssibleDipoleDirections dipole_direction = DIRECTION_0;
@@ -38,6 +42,11 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
         break;
     }
   }
+
+  #ifdef HANDLE_EVENT_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 
   return true;
 }
@@ -253,15 +262,34 @@ bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections 
 }
 
 bool HandleDraw(sf::RenderWindow &window, Store &store) {
+  #ifdef HANDLE_DRAW_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   store.Draw(window);
+
+  #ifdef HANDLE_DRAW_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
+
   return true;
 }
 
 bool HandleStore(Store &store)
 {
+  #ifdef HANDLE_STORE_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   store.RemoveDistantWaves();
   store.MoveWaves();
   store.UpdateTime();
+
+  #ifdef HANDLE_STORE_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 }
 
 } // End of namespace handler.
