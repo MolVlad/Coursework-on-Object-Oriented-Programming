@@ -1,8 +1,5 @@
+
 #include "Element.h"
-
-
-
-
 namespace my_math
 {
 
@@ -57,35 +54,5 @@ namespace my_math
   */
   void CreateGratingTexture(sf::Texture &grating_texture);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 } // End of namespace my_math.
+
