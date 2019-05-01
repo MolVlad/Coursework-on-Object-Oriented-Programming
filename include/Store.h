@@ -27,6 +27,10 @@ class Store {
 
   bool Draw(sf::RenderWindow & window);
 
+  bool DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_element_position, const bool is_positive_part);
+
+  bool HandleWave(sf::RenderWindow & window, Wave &wave);
+
   bool Dump() const;
 
   //Move waves along vector k by c*t
