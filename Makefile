@@ -1,6 +1,6 @@
 PROJECT = sfml
 
-SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp src/Vector2.cpp src/Wave.cpp src/Handlers.cpp src/DipoleArea.cpp
+SOURCES = src/main.cpp src/Element.cpp src/Store.cpp src/Sources.cpp src/FrontElement.cpp src/Vector2.cpp src/Wave.cpp src/Handlers.cpp src/DipoleArea.cpp src/DiffractionGrating.cpp
 INCLUDES += -I include
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system -pthread
 DEFINES =

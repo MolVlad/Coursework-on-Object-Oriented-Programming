@@ -37,6 +37,7 @@ class Source : public Element {
  protected:
   float phase_;
   float amplitude_;
+  sf::Sprite sprite_;
 };
 
 class Dipole : public Source {
@@ -62,6 +63,9 @@ class Dipole : public Source {
 
   ~Dipole();
 };
+
+bool CreateDipoleTexture(sf::Texture *texture_array);
+
 
 class SecondarySource : public Source {
  public:

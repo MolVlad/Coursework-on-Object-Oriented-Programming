@@ -30,7 +30,7 @@ const float DIPOLE_SCALE_Y = 0.015;
 
 const float DEFAULT_PHASE = 0;
 const float DEFAULT_AMPLITUDE = 2000;
-const float CYCLIC_FREQUENCY = 2 * 3.14 * 50000000;  // 50GHz
+const float CYCLIC_FREQUENCY = 2 * PI * 50000000;  // 50GHz
 const float LIGHT_SPEED = 3 * 100000000;
 const float TIME_SCALE = 100000000;
 
@@ -47,6 +47,14 @@ const char* const IMAGE_ARRAY[NUMBER_DIPOLE_TEXTURES] = {
   "images/dipole288.png",
   "images/dipole324.png",
 };
+
+// Grating constants.
+const char* const GRATING_TEXTURE = "images/black_grating_part.png";
+const float GRATING_SCALE_X = 0.005;
+const float GRATING_SCALE_Y = 0.5;
+const float DEFAULT_GRATING_DIRECTION = 180.;
+const float DEFAULT_GRATING_PEROID = SCREEN_HEIGHT;
+const float DEFAULT_GRATING_SLOT_WIDTH = SCREEN_HEIGHT / 2;
 
 
 class Element {
@@ -72,7 +80,4 @@ class Element {
  protected:
   Vector2 position_;
   float direction_;
-  sf::Sprite sprite_;
 };
-
-bool CreateTexture(sf::Texture *texture_array);

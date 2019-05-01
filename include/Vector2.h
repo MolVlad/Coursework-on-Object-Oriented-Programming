@@ -7,6 +7,7 @@
 namespace my_math {
 
 const float PI = 3.141593;
+const float ONE_RADIAN = PI / 180;
 const float ZERO_VECTOR = -1;
 typedef float VECTOR_TYPE;
 
