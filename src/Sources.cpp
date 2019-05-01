@@ -6,6 +6,23 @@ extern std::chrono::high_resolution_clock::time_point time_start;
 
 sf::Texture dipole_texture_array[NUMBER_DIPOLE_TEXTURES];
 
+bool CreateDipoleTexture(sf::Texture *texture_array) 
+{
+  assert(texture_array != nullptr);
+
+  for (int ind = 0; ind < NUMBER_DIPOLE_TEXTURES; ind++)
+  {
+    if (!texture_array[ind].loadFromFile(IMAGE_ARRAY[ind])) {
+      std::cout << "Error of loading texutre number " << ind + 1 << ":\n";
+      std::cout << "In file = " << __FILE__ << std::endl; 
+      std::cout << "In line = " << __LINE__ << std::endl; 
+      std::cout << "In function = " << __PRETTY_FUNCTION__ << std::endl;
+      exit(-1); 
+    }
+  }    
+  return true;
+}
+
 Source::Source(const Vector2 & position)
     :  Element(position)  {
 
@@ -47,7 +64,7 @@ Dipole::Dipole(const Vector2 & position, const int texture_index)
   #endif
 
   #ifndef DIPOLE_TEXTURE_WAS_CREATED
-  CreateTexture(dipole_texture_array);
+  CreateDipoleTexture(dipole_texture_array);
   #define DIPOLE_TEXTURES_WAS_CREATED -6666
   #endif /* DIPOLE_TEXTURE_WAS_CREATED */
 
@@ -104,12 +121,14 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point, const float t) const
     angular_coefficient *= -1;
 
   // sin(omega*t + k*r + phase)
-  float harmonic_part = sin((CYCLIC_FREQUENCY * t + phase_) * PI / 180);
+  // Last version: sin((CYCLIC_FREQUENCY * (t - distance / (DISTANT_SCALE * LIGHT_SPEED)  + phase_) * ONE_RADIAN)
+  float harmonic_part = sin((CYCLIC_FREQUENCY * (t - distance / (DISTANT_SCALE * LIGHT_SPEED * TIME_SCALE))  + phase_) * ONE_RADIAN);
+
 
   #ifdef DIPOLE_STRENGTH_DEBUG
   std::cout << "\t\tt: " << t << std::endl;
   std::cout << "\t\tOmega * t: " << CYCLIC_FREQUENCY * t << std::endl;
-  std::cout << "\t\tkr: " << CYCLIC_FREQUENCY * (distance / DISTANT_SCALE) / LIGHT_SPEED << std::endl;
+  std::cout << "\t\tkr: " << CYCLIC_FREQUENCY * (t - distance / (LIGHT_SPEED * TIME_SCALE)) << std::endl;
   std::cout << "\t\tphase: " << phase_ << std::endl;
   std::cout << "\tharmonic_part: " << harmonic_part << std::endl;
   #endif /* DIPOLE_STRENGTH_DEBUG */

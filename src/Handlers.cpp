@@ -38,7 +38,7 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
         HandleMouse(window, event, store, &dipole_direction, &dipole_phase);
         break;
       case sf::Event::KeyPressed:
-        HandleKey(event, store, &dipole_direction, &dipole_phase);
+        HandleKey(window, event, store, &dipole_direction, &dipole_phase);
         break;
     }
   }
@@ -134,10 +134,13 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   return true;
 }
 
-bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
+bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction,
+               PosssibleDipolePhase *dipole_phase) {
 
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
+
+  sf::Vector2i position = sf::Mouse::getPosition(window);
 
   switch(event.key.code) {
 
@@ -258,6 +261,13 @@ bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections 
       #endif /* KEY_DEBUG */
       *dipole_direction = DIRECTION_315;
       break;
+    case sf::Keyboard::Space:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): Space" << std::endl;
+      #endif /* KEY_DEBUG */
+      DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 40., 20., 16);
+      store.Push(diffraction_grating);
+      break;      
   }
 }
 

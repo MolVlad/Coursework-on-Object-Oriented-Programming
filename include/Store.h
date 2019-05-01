@@ -6,6 +6,7 @@
 #include "Wave.h"
 #include "Sources.h"
 #include "DipoleArea.h"
+#include "DiffractionGrating.h"
 
 //#define STORE_DEBUG 1
 //#define STORE_DRAW_DEBUG 1
@@ -21,6 +22,8 @@ class Store {
   bool Push(const Dipole & dipole);
 
   bool Push(const Wave & wave);
+
+  bool Push(const DiffractionGrating & diffraction_grating);
 
   bool Draw(sf::RenderWindow & window);
 
@@ -44,6 +47,7 @@ class Store {
  private:
   std::vector<Dipole> dipoles_;
   std::vector<Wave> waves_;
+  std::vector<DiffractionGrating> diffraction_gratings_;
   DipoleArea dipole_area_;
   float t;
   float time_from_start;

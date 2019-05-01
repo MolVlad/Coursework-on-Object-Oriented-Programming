@@ -27,6 +27,11 @@ bool Store::Draw(sf::RenderWindow & window) {
 
   dipole_area_.Draw(window);
 
+  for (auto& diffraction_grating : diffraction_gratings_) 
+  {
+    diffraction_grating.Draw(window);
+  }
+
   for(auto& dipole : dipoles_) {
     dipole.Draw(window);
   }
@@ -173,6 +178,22 @@ bool Store::Push(const Wave & wave)
 
   #ifdef STORE_DEBUG
   std::cout << "Store::Push(wave) end" << std::endl;
+  std::cout << std::endl;
+  #endif /* STORE_DEBUG */
+
+  return true;
+}
+
+bool Store::Push(const DiffractionGrating & diffraction_grating)
+{
+  #ifdef STORE_DEBUG
+  std::cout << "Store::Push(diffraction_grating)" << std::endl;
+  #endif /* STORE_DEBUG */
+
+  diffraction_gratings_.push_back(diffraction_grating);
+
+  #ifdef STORE_DEBUG
+  std::cout << "Store::Push(diffraction_grating) end" << std::endl;
   std::cout << std::endl;
   #endif /* STORE_DEBUG */
 
