@@ -20,7 +20,8 @@ namespace my_math
 
     DiffractionGrating & operator=(const DiffractionGrating & that) = delete;
 
-    DiffractionGrating & operator=(DiffractionGrating && that) = delete;    
+    DiffractionGrating & operator=(DiffractionGrating && that) = delete;
+
     /**
       \brief Check DiffractionGrating.
       \return True - Grating is correct, flase - grating is incorrect. 
@@ -38,11 +39,25 @@ namespace my_math
     */
     virtual bool Draw(sf::RenderWindow & window) override;
 
+    /** 
+      \breif Give you a coordinate of the right diffraction grating's part.
+      \return This coordinate.
+    */
+    VECTOR_TYPE Right(void) const;
+
+    /** 
+      \breif Give you a coordinate of the right diffraction grating's part.
+      \return This coordinate.
+    */
+    VECTOR_TYPE Left(void) const;
+
     protected:
       float period_;
       float slot_width_;
       int num_hatches_;
       std::vector<sf::Sprite> hatches_;
+      float right_side_;
+      float left_side_;
 
       sf::Sprite CreateHatchSprite(const Vector2 & position);
   };
