@@ -19,6 +19,225 @@ Store::~Store()
 
 }
 
+
+bool Store::CheckCollisions(const FrontElement & front_element) const
+{
+
+  VECTOR_TYPE front_element_x_position = front_element.GetPosition( ).GetX( );
+  for (auto& diffraction_grating : diffraction_gratings_)
+  {
+    if (front_element_x_position <= diffraction_grating.Right( ) && 
+        front_element_x_position >= diffraction_grating.Left( ) - DEFAULT_FRONT_ELEMENT_RADIUS)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_element_position, const bool is_top_part,
+                         const int wave_ind)
+{
+  Vector2 next_position = main_front_element_position;
+  FrontElement next = FrontElement(next_position);
+  float strength = 0.;
+  static Vector2 reference_direction(0, 1);
+
+  // It is to fixing wave looping.
+  int element_number = 0;
+
+  #ifdef STORE_DRAW_DEBUG
+  std::cout << "Positive direction\n";
+  #endif /* STORE_DRAW_DEBUG */
+
+    // second condition to fixing wave looping
+  while (next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
+  {
+    Vector2 front_direction = GetFieldStrength(next.GetPosition());
+    strength = front_direction.Len();
+    front_direction.Norm();
+
+    // it is to fixing wave looping
+    if (((front_direction * reference_direction) > 0 && is_top_part)
+        || (front_direction * reference_direction) < 0 && !is_top_part)
+    {
+      front_direction *= -1;
+    }
+
+    next_position += front_direction * FRONT_ELEMENT_STEP;
+
+
+    #ifdef STORE_DRAW_DEBUG
+    std::cout << "\t" << element_number << " front_direction: " << front_direction <<
+                 " next_pos: " << next_position << " strength: " << strength << std::endl;
+    #endif /* STORE_DRAW_DEBUG */
+
+    next = FrontElement(next_position);
+
+    // Handle collisions with diffraction gratings. 
+    #ifdef USING_DIFFRACTION_GRATING
+    if (!CheckCollisions(next))
+    {
+      DRAWN_SIDES old_drawn_side = waves_[wave_ind].GetDrawnSides();
+
+      Wave new_wave;
+      new_wave.Push(next);
+      if (old_drawn_side == BOTH_SIDES)
+      {
+        PushWaveMainElement(next_position, front_direction, 1);
+        PushWaveMainElement(next_position, front_direction, -1);
+        std::swap(waves_[wave_ind], waves_[waves_.size() - 1]);
+        waves_.pop_back();
+
+        #ifdef COLLISION_DEBAG
+        std::cout << "Double collision\n";
+        #endif
+        return false;
+      }
+      if (is_top_part)
+      {
+        new_wave.SetDrawnSides(TOP_SIDE);
+
+        #ifdef COLLISION_DEBAG
+        std::cout << "Top collision!!!\n";
+        #endif
+      }
+      else
+      {
+        new_wave.SetDrawnSides(BOTTOM_SIDE);
+
+        #ifdef COLLISION_DEBAG
+        std::cout << "Bottom collision!!!\n";
+        #endif
+      }
+      Push(new_wave);
+
+      std::swap(waves_[wave_ind], waves_[waves_.size() - 1]);
+      waves_.pop_back();
+   
+      return false;
+    }
+    #endif
+
+
+    next.DrawColor(window, strength);
+
+    #ifdef DRAW_STEP_BY_STEP
+    sleep(1);
+    window.display();
+    #endif /* DRAW_STEP_BY_STEP */
+
+   element_number++;
+  }
+  return true;
+}
+
+void Store::PushWaveMainElement(const Vector2 & position, Vector2 & direction, const signed char factor)
+{
+  static Vector2 reference_direction(0, 1);
+  Wave part_wave;
+  if ((direction * reference_direction * factor) > 0)
+  {
+    direction *= -1;
+  }
+  part_wave.Push(FrontElement(position + direction * FRONT_ELEMENT_STEP * COLLISIION_SCALE));
+  if (factor == 1)
+  {
+    part_wave.SetDrawnSides(TOP_SIDE);
+  }
+  else
+  {
+    part_wave.SetDrawnSides(BOTTOM_SIDE);
+  }
+  Push(part_wave);
+  return;
+}
+
+bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind)
+{
+
+    FrontElement & main_front_element = wave.GetMain();
+
+    Vector2 main_front_element_position = main_front_element.GetPosition();
+    Vector2 front_direction = GetFieldStrength(main_front_element_position);
+    main_front_element.DrawColor(window, front_direction.Len( ));
+
+
+    // Handle collisions with diffraction gratings. 
+    #ifdef USING_DIFFRACTION_GRATING
+    if (!CheckCollisions(wave.GetMain( )))
+    {
+      DRAWN_SIDES old_drawn_side = wave.GetDrawnSides();
+      front_direction.Norm( );
+
+      static Vector2 reference_direction(0, 1);
+
+      if (old_drawn_side != TOP_SIDE)
+      {
+        PushWaveMainElement(main_front_element_position, front_direction, -1);
+      }
+
+
+      if (old_drawn_side != BOTTOM_SIDE)
+      {
+        PushWaveMainElement(main_front_element_position, front_direction, 1);
+      } 
+
+      std::swap(waves_[wave_ind], waves_[waves_.size() - 1]);
+      waves_.pop_back();  
+
+      #ifdef COLLISION_DEBAG
+      std::cout << "Collision of main element!!!\n";
+      #endif
+
+      return false;
+    }
+    #endif // USING_DIFFRACTION_GRATINGS.
+
+
+    #ifdef STORE_DRAW_DEBUG
+    std::cout << "Main: " << main_front_element_position << " strength: " << strength << std::endl;
+    #endif /* STORE_DRAW_DEBUG */
+
+
+    #ifdef DRAW_ALL_FRONT_ELEMENTS
+
+    if (wave.GetDrawnSides() != BOTTOM_SIDE)
+    {
+      // Draw top part.
+      if (!DrawHalfWave(window, main_front_element_position, true, wave_ind))
+      {
+        return false;
+      }
+    }
+
+    if (wave.GetDrawnSides() != TOP_SIDE)
+    {
+      // Draw bottom part.
+      if (!DrawHalfWave(window, main_front_element_position, false, wave_ind))
+      {
+        return false;
+      }
+      #endif /* DRAW_ALL_FRONT_ELEMENTS */
+    }
+
+    return true;
+}
+
+bool Store::HandleAllWaves(sf::RenderWindow & window)
+{
+  for (int ind = 0; ind < waves_.size( ); ind++)
+  {
+    if (!HandleWave(window, waves_[ind], ind))
+    {
+      return false;
+    } 
+  }
+  return true;
+}
+
+
 bool Store::Draw(sf::RenderWindow & window) {
 
   #ifdef DRAW_STORE_TIMER
@@ -43,105 +262,10 @@ bool Store::Draw(sf::RenderWindow & window) {
 
   unsigned int dipoles_number = dipoles_.size();
 
-  // it is to fixing wave looping
-  int element_number = 0;
-
-  for(auto& wave : waves_) {
-    FrontElement & main_front_element = wave.GetMain();
-
-    Vector2 main_front_element_position = main_front_element.GetPosition();
-    float strength = GetFieldStrength(main_front_element_position).Len();
-    main_front_element.DrawColor(window, strength);
-
-    #ifdef STORE_DRAW_DEBUG
-    std::cout << "Main: " << main_front_element_position << " strength: " << strength << std::endl;
-    #endif /* STORE_DRAW_DEBUG */
-
-    static Vector2 reference_direction(0, 1);
-
-    #ifdef DRAW_ALL_FRONT_ELEMENTS
-
-    Vector2 next_position;
-    FrontElement next;
-
-    //Positive direction
-    next_position = main_front_element_position;
-    next = FrontElement(next_position);
-
-    element_number = 0;
-
-    #ifdef STORE_DRAW_DEBUG
-    std::cout << "Positive direction\n";
-    #endif /* STORE_DRAW_DEBUG */
-
-    // second condition to fixing wave looping
-    while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
-    {
-      Vector2 front_direction = GetFieldStrength(next.GetPosition());
-      strength = front_direction.Len();
-      front_direction.Norm();
-
-      // it is to fixing wave looping
-      if((front_direction * reference_direction) < 0)
-        front_direction *= -1;
-
-      next_position += front_direction * FRONT_ELEMENT_STEP;
-
-      #ifdef STORE_DRAW_DEBUG
-      std::cout << "\t" << element_number << " front_direction: " << front_direction << " next_pos: " << next_position << " strength: " << strength << std::endl;
-      #endif /* STORE_DRAW_DEBUG */
-
-      next = FrontElement(next_position);
-      next.DrawColor(window, strength);
-
-      #ifdef DRAW_STEP_BY_STEP
-      sleep(1);
-      window.display();
-      #endif /* DRAW_STEP_BY_STEP */
-
-      element_number++;
-    }
-
-    //Negative direction
-    next_position = main_front_element_position;
-    next = FrontElement(next_position);
-
-    element_number = 0;
-
-    #ifdef STORE_DRAW_DEBUG
-    std::cout << "Negative direction\n";
-    #endif /* STORE_DRAW_DEBUG */
-
-    // second condition to fixing wave looping
-    while(next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
-    {
-      Vector2 front_direction = GetFieldStrength(next.GetPosition());
-      strength = front_direction.Len();
-      front_direction.Norm();
-
-      // it is to fixing wave looping
-      if((front_direction * reference_direction) > 0)
-        front_direction *= -1;
-
-      next_position += front_direction * FRONT_ELEMENT_STEP;
-
-      #ifdef STORE_DRAW_DEBUG
-      std::cout << "\t" << element_number << " front_direction: " << front_direction << " next_pos: " << next_position << " strength: " << strength << std::endl;
-      #endif /* STORE_DRAW_DEBUG */
-
-      next = FrontElement(next_position);
-      next.DrawColor(window, strength);
-
-      #ifdef DRAW_STEP_BY_STEP
-      sleep(1);
-      window.display();
-      #endif /* DRAW_STEP_BY_STEP */
-
-      element_number++;
-    }
-
-    #endif /* DRAW_ALL_FRONT_ELEMENTS */
+  // Find description in documentation to this function.
+  while (!HandleAllWaves(window)) {
   }
+
 
   // For 10 waves it is neccesary approximately 0.537001, for one wave 0.0534042.
   #ifdef DRAW_STORE_TIMER

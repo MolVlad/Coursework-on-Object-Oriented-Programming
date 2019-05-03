@@ -55,7 +55,7 @@ const float GRATING_SCALE_Y = 0.5;
 const float DEFAULT_GRATING_DIRECTION = 180.;
 const float DEFAULT_GRATING_PEROID = SCREEN_HEIGHT;
 const float DEFAULT_GRATING_SLOT_WIDTH = SCREEN_HEIGHT / 2;
-
+const float COLLISIION_SCALE = 10.;
 
 class Element {
  public:

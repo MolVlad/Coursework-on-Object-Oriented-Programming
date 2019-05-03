@@ -24,6 +24,8 @@ sf::Sprite DiffractionGrating::CreateHatchSprite(const Vector2 & position)
   hatch_sprite.setOrigin(grating_size.x / 2, grating_size.y  / 2);
   hatch_sprite.setPosition(position.GetX( )  , position.GetY( ));
   hatch_sprite.setRotation(DEFAULT_GRATING_DIRECTION);
+  right_side_ = position.GetX( ) + (grating_size.x / 2) * GRATING_SCALE_X;
+  left_side_ = position.GetX( ) - (grating_size.x / 2) * GRATING_SCALE_X;
 
   return hatch_sprite;	
 }
@@ -95,20 +97,25 @@ DiffractionGrating::DiffractionGrating(const DiffractionGrating & that)
     :  period_(that.period_),
        slot_width_(that.slot_width_),
        num_hatches_(that.num_hatches_),
-       hatches_(that.hatches_) {
-    }
+       hatches_(that.hatches_),
+       right_side_(that.right_side_),
+       left_side_(that.left_side_)  {
+}
 
 
 DiffractionGrating::DiffractionGrating(DiffractionGrating && that)
     :  period_(std::move(that.period_)),
        slot_width_(std::move(that.slot_width_)),
        num_hatches_(std::move(that.num_hatches_)),
-       hatches_(std::move(that.hatches_)) {
-    }
+       hatches_(std::move(that.hatches_)),
+       right_side_(std::move(that.right_side_)),
+       left_side_(std::move(that.left_side_))  {
+}
+
 
 bool DiffractionGrating::Ok(void) const
 {
-  return slot_width_ > 0. && period_ > 0. && num_hatches_ > 0 && period_ > slot_width_;
+  return slot_width_ > 0. && period_ > 0. && num_hatches_ > 0 && period_ > slot_width_ && right_side_ > left_side_;
 }
 
 bool DiffractionGrating::Dump(void) const
@@ -121,6 +128,8 @@ bool DiffractionGrating::Dump(void) const
   std::cout << "\tdirection: " << direction_ << std::endl;
   std::cout << "\tperiod: " << period_ << std::endl;
   std::cout << "\tslot_width: " << slot_width_ << std::endl;
+  std::cout << "\tright_side: " << right_side_ << std::endl;
+  std::cout << "\tleft_side: " << left_side_ << std::endl;
 
   #ifdef DIPOLE_DEBUG
   std::cout << "Grating::Dump() end" << std::endl;
@@ -140,6 +149,16 @@ bool DiffractionGrating::Draw(sf::RenderWindow & window)
   }
 
   return true;	
+}
+
+VECTOR_TYPE DiffractionGrating::Right(void) const
+{
+  return right_side_; 
+}
+
+VECTOR_TYPE DiffractionGrating::Left(void) const
+{
+  return left_side_; 
 }
 
 } // End of namespace my_math.

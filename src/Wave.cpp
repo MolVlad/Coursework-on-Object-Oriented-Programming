@@ -1,10 +1,12 @@
 #include "Wave.h"
 
-using namespace my_math;
+namespace my_math
+{
 
-Wave::Wave( ) {
-
+Wave::Wave( )
+    :  drawn_sides_(BOTH_SIDES) { 
 }
+
 
 bool Wave::Draw(sf::RenderWindow & window) {
   FrontElement &front_element = GetMain();
@@ -22,6 +24,7 @@ bool Wave::Dump( ) const
 
   for(auto& i : front_elements_)
     i.Dump();
+  std::cout << "Drawn_sides = " << drawn_sides_ << std::endl;
 
   #ifdef WAVE_DEBUG
   std::cout << "Wave::Dump end" << std::endl;
@@ -57,8 +60,20 @@ bool Wave::Clear()
   front_elements_.clear();
 }
 
+void Wave::SetDrawnSides(const DRAWN_SIDES drawn_sides)
+{
+  drawn_sides_ = drawn_sides;
+  return;
+}
+
+DRAWN_SIDES Wave::GetDrawnSides(void) const
+{
+  return drawn_sides_;
+}
+
 Wave::~Wave()
 {
 
 }
 
+}  //End of namespace my_math.
