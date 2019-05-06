@@ -20,15 +20,37 @@ Store::~Store()
 }
 
 
-bool Store::CheckCollisions(const FrontElement & front_element) const
+bool Store::CheckCollisions(const FrontElement & front_element, const WAVE_STATUSES wave_status)
 {
-
-  VECTOR_TYPE front_element_x_position = front_element.GetPosition( ).GetX( );
-  for (auto& diffraction_grating : diffraction_gratings_)
+  if (wave_status == SECONDARY_WAVE)
   {
-    if (front_element_x_position <= diffraction_grating.Right( ) && 
-        front_element_x_position >= diffraction_grating.Left( ) - DEFAULT_FRONT_ELEMENT_RADIUS)
+    return true;
+  }
+
+  Vector2 front_element_position = front_element.GetPosition( );
+  VECTOR_TYPE front_element_x_position = front_element_position.GetX( );
+  for (int ind = 0; ind < diffraction_gratings_.size( ); ind++)
+  {
+    if (front_element_x_position <= diffraction_gratings_[ind].Right( ) && 
+        front_element_x_position >= diffraction_gratings_[ind].Left( ) - DEFAULT_FRONT_ELEMENT_RADIUS)
     {
+
+      Vector2 secondary_source_coordinate;
+      int secondary_source_number = 0;
+      if (diffraction_gratings_[ind].HandleCollision(front_element_position, &secondary_source_coordinate, &secondary_source_number))
+      {
+        Wave secondary_wave;
+        secondary_wave.Push(FrontElement(secondary_source_coordinate + DEFAULT_SECONDARY_WAVE_DISPLACEMENT));
+        secondary_wave.SetWaveStatus(SECONDARY_WAVE);
+        secondary_wave.SetDiffractionGrating(&diffraction_gratings_[ind]);
+        secondary_wave.SetSecondarySourceNumber(secondary_source_number);
+        Push(secondary_wave);
+        
+        #ifdef CREATING_SECONDARY_WAVE_DEBAG
+        std::cout << "Add secondary wave with coordinates:\n";
+        std::cout << secondary_wave.GetMain( ).GetPosition( ) << std::endl;
+        #endif // End of CREATING_SECONDARY_WAVE_DEBAG.
+      }
       return false;
     }
   }
@@ -52,11 +74,20 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
   #endif /* STORE_DRAW_DEBUG */
 
     // second condition to fixing wave looping
-  while (next.IsOnScreen() && (element_number < MAX_ELEMENT_NUMBER))
+  while (next.IsOnScreen(waves_[wave_ind].GetDiffractionGrating( )) && (element_number < MAX_ELEMENT_NUMBER))
   {
-    Vector2 front_direction = GetFieldStrength(next.GetPosition());
-    strength = front_direction.Len();
-    front_direction.Norm();
+    Vector2 front_direction;
+    if (waves_[wave_ind].GetWaveStatus( ) == ORDINARY_WAVE)
+    {
+      front_direction = GetFieldStrength(next.GetPosition( ));
+    }
+    else
+    {
+      front_direction = GetFieldStrength(next.GetPosition( ), waves_[wave_ind].GetDiffractionGrating( ));
+    }
+
+    strength = front_direction.Len( );
+    front_direction.Norm( );
 
     // it is to fixing wave looping
     if (((front_direction * reference_direction) > 0 && is_top_part)
@@ -77,7 +108,7 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
 
     // Handle collisions with diffraction gratings. 
     #ifdef USING_DIFFRACTION_GRATING
-    if (!CheckCollisions(next))
+    if (!CheckCollisions(next, waves_[wave_ind].GetWaveStatus( )))
     {
       DRAWN_SIDES old_drawn_side = waves_[wave_ind].GetDrawnSides();
 
@@ -113,8 +144,8 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
       }
       Push(new_wave);
 
-      std::swap(waves_[wave_ind], waves_[waves_.size() - 1]);
-      waves_.pop_back();
+      waves_[wave_ind].Swap(waves_[waves_.size( ) - 1]);
+      waves_.pop_back( );
    
       return false;
     }
@@ -156,17 +187,24 @@ void Store::PushWaveMainElement(const Vector2 & position, Vector2 & direction, c
 
 bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind)
 {
-
     FrontElement & main_front_element = wave.GetMain();
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
-    Vector2 front_direction = GetFieldStrength(main_front_element_position);
-    main_front_element.DrawColor(window, front_direction.Len( ));
+    Vector2 front_direction;
+    if (wave.GetWaveStatus( ) == ORDINARY_WAVE)
+    {
+      front_direction = GetFieldStrength(main_front_element_position);
+    }
+    else
+    {
+      front_direction = GetFieldStrength(main_front_element_position, wave.GetDiffractionGrating( ));
+    }
 
+    main_front_element.DrawColor(window, front_direction.Len( ));
 
     // Handle collisions with diffraction gratings. 
     #ifdef USING_DIFFRACTION_GRATING
-    if (!CheckCollisions(wave.GetMain( )))
+    if (!CheckCollisions(wave.GetMain( ), wave.GetWaveStatus( )))
     {
       DRAWN_SIDES old_drawn_side = wave.GetDrawnSides();
       front_direction.Norm( );
@@ -184,7 +222,7 @@ bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind
         PushWaveMainElement(main_front_element_position, front_direction, 1);
       } 
 
-      std::swap(waves_[wave_ind], waves_[waves_.size() - 1]);
+      waves_[wave_ind].Swap(waves_[waves_.size() - 1]);
       waves_.pop_back();  
 
       #ifdef COLLISION_DEBAG
@@ -203,7 +241,7 @@ bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind
 
     #ifdef DRAW_ALL_FRONT_ELEMENTS
 
-    if (wave.GetDrawnSides() != BOTTOM_SIDE)
+    if (wave.GetDrawnSides( ) != BOTTOM_SIDE)
     {
       // Draw top part.
       if (!DrawHalfWave(window, main_front_element_position, true, wave_ind))
@@ -212,7 +250,7 @@ bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind
       }
     }
 
-    if (wave.GetDrawnSides() != TOP_SIDE)
+    if (wave.GetDrawnSides( ) != TOP_SIDE)
     {
       // Draw bottom part.
       if (!DrawHalfWave(window, main_front_element_position, false, wave_ind))
@@ -348,25 +386,38 @@ bool Store::Dump() const
   return true;
 }
 
-Vector2 Store::GetFieldStrength(const my_math::Vector2 & position) const
+Vector2 Store::GetFieldStrength(const my_math::Vector2 & position,
+                                        const DiffractionGrating *diffraction_grating) const
 {
   #ifdef GET_FIELD_STRENTH_TIMER
   std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
   #endif
 
   Vector2 result(0, 0);
-
   std::vector<std::future<Vector2> > f;
-  for(auto& dipole : dipoles_)
+
+  if (!diffraction_grating)
   {
-    f.push_back(std::async([&]() {
-      return dipole.GetFieldStrength(position, time_from_start);
-      })
-    );
+    for (auto& dipole : dipoles_)
+    {
+      f.push_back(std::async([&]() {
+        return dipole.GetFieldStrength(position, time_from_start);
+        })
+      );
+    }
+    for (auto& i : f)
+      result += i.get();;
   }
 
-  for(auto& i : f)
-    result += i.get();
+  else
+  {
+    result = (*diffraction_grating).GetFieldStrength(position, time_from_start, dipoles_);
+
+    #ifdef SECONDARY_SOURCE_STRENGTH_DEBAG
+    std::cout << "\nposition = " << position << std::endl;
+    std::cout << "result_strength = " << result << "\n\n";
+    #endif
+  }
 
   // For 10 di;oles  it is neccesary approximately 0.000205641, for one dipole 2.8404e-05.
   #ifdef GET_FIELD_STRENTH_TIMER
@@ -390,21 +441,36 @@ bool Store::UpdateTime()
   time_from_start += t;
 }
 
-float Store::GetTime()
+float Store::GetTime( )
 {
   return t;
 }
 
-bool Store::RemoveDistantWaves()
+bool Store::RemoveDistantWaves( )
 {
   for (int i = 0; i < waves_.size(); i++)
   {
-    if(waves_[i].GetMain().IsFarFromCenter())
+    if(waves_[i].GetMain( ).IsFarFromCenter(waves_[i].GetWaveStatus( )))
     {
-      std::swap(waves_[i], waves_[waves_.size() - 1]);
+      // Remove appropriate secondary source.
+      if (waves_[i].GetWaveStatus( ) == SECONDARY_WAVE)
+      {
+        waves_[i].GetDiffractionGrating( ) -> RemoveSecondarySource(waves_[i].GetSecondarySourceNumber( ));
+      }
+      waves_[i].Swap(waves_[waves_.size() - 1]);
       waves_.pop_back();
     }
   }
+
+  #ifdef MEMORY_LEAKS_DEBUG
+  int number_waves = waves_.size( );
+  std::cout << "Number waves:\t" << number_waves << std::endl;
+  std::cout << "Main front element coordinates:\n";
+  for (int ind = 0; ind < number_waves; ind++)
+  {
+    std::cout << "\t" << waves_[ind].GetMain( ).GetPosition( ) << std::endl;
+  }
+  #endif // End of MEMORY_LEAKS_DEBUG
 }
 
 bool Store::MoveWaves()

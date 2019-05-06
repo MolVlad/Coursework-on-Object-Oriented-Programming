@@ -4,18 +4,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "FrontElement.h"
+#include "DiffractionGrating.h"
 
 //#define WAVE_DEBUG 1
-
-
-/// Modes of drawing waves.
-enum DRAWN_SIDES
-{	
-  TOP_SIDE = 0, ///< Draw only top part of the wave.
-  BOTTOM_SIDE = 1, ///< Draw only bottom side of the wave. 
-  BOTH_SIDES = 2 ///< Draw both parts of the wave.
-};
-
+//#define CREATING_SECONDARY_WAVE_DEBAG 1
 
 namespace my_math
 {
@@ -23,6 +15,16 @@ namespace my_math
 class Wave {
  public:
   Wave();
+
+  Wave(const Wave &that);
+
+  Wave(Wave &&that);  
+
+  void Swap(Wave & that);
+
+  Wave& operator=(const Wave & that);
+
+  Wave& operator=(Wave && that);
 
   bool Draw(sf::RenderWindow & window);
 
@@ -38,11 +40,29 @@ class Wave {
 
   DRAWN_SIDES GetDrawnSides(void) const;
 
+  void SetWaveStatus(const WAVE_STATUSES wave_status);
+
+  const WAVE_STATUSES GetWaveStatus(void) const;
+
+  void SetDiffractionGrating(DiffractionGrating *diffraction_grating);
+
+  DiffractionGrating* GetDiffractionGrating(void) const;
+
+  void SetSecondarySourceNumber(const int source_number);
+
+  int GetSecondarySourceNumber(void) const;   
+
   virtual ~Wave();
 
- private:
+ protected:
   std::vector<FrontElement> front_elements_;
   DRAWN_SIDES drawn_sides_;
+  WAVE_STATUSES wave_status_;
+  DiffractionGrating *diffraction_grating_;
+
+  // NUmber of dipole in diffraction_grating;
+  int secondary_source_number_;
+
 };
 
 } //End of namespace my_math.

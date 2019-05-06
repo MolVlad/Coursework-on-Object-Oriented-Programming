@@ -1,7 +1,8 @@
 #include "Sources.h"
 
 #include <chrono>
-
+namespace my_math
+{
 extern std::chrono::high_resolution_clock::time_point time_start;
 
 sf::Texture dipole_texture_array[NUMBER_DIPOLE_TEXTURES];
@@ -26,7 +27,6 @@ bool CreateDipoleTexture(sf::Texture *texture_array)
 Source::Source(const Vector2 & position)
     :  Element(position)  {
 
-  direction_ = DEFAULT_DIPOLE_DIRECTION;
   phase_ = DEFAULT_PHASE;
   amplitude_ = DEFAULT_AMPLITUDE;
 }
@@ -36,8 +36,26 @@ Source::Source(void) {
   amplitude_ = DEFAULT_AMPLITUDE;
 }
 
+Source::Source(const Source & that)
+    :  Element(that),
+       phase_(that.phase_),
+       amplitude_(that.amplitude_)  {
+}
+
+
+Source::Source(Source && that)
+    :  Element(that),
+       phase_(std::move(that.phase_)),
+       amplitude_(std::move(that.amplitude_))  {
+}
+
+
 Source::~Source(void) {
 
+}
+
+Vector2 Source::GetFieldStrength(const Vector2 & point, const float t) const
+{
 }
 
 bool Source::SetPhase(const float phase) {
@@ -83,6 +101,18 @@ Dipole::Dipole(const Vector2 & position, const int texture_index)
   #endif
   return;
 }
+
+Dipole::Dipole(const Dipole &that)
+    :  Source(that), 
+       sprite_(that.sprite_)  {
+}
+
+
+Dipole::Dipole(Dipole &&that)
+    :  Source(that),
+       sprite_(std::move(that.sprite_))  {
+}
+
 
 bool Dipole::Draw(sf::RenderWindow & window) {
   sprite_.setRotation(direction_);
@@ -205,15 +235,54 @@ Dipole::~Dipole()
 
 }
 
-SecondarySource::SecondarySource()
+
+SecondarySource::SecondarySource(void) 
+    :  Source()  {
+}
+
+
+SecondarySource::SecondarySource(const SecondarySource & that)
+    :  Source(that),
+       field_strength_(that.field_strength_),
+       square_(that.square_)  {
+}
+
+
+SecondarySource::SecondarySource(SecondarySource && that)
+    :  Source(that),
+       field_strength_(std::move(that.field_strength_)),
+       square_(std::move(that.square_))  {
+}
+
+void SecondarySource::Swap(SecondarySource & that)
 {
+  std::swap(field_strength_, that.field_strength_);
+  std::swap(square_, that.square_);
+  std::swap(phase_, that.phase_);
+  std::swap(amplitude_, that.amplitude_);
+  std::swap(position_, that.position_);
+  std::swap(direction_, that.direction_);
+  return;
 
 }
 
-SecondarySource::SecondarySource(const Vector2 & position)
-    :  Source(position)
+SecondarySource & SecondarySource::operator=(const SecondarySource & that)
 {
+  SecondarySource tmp(that);
+  Swap(tmp);
+  return *this;  
+}
 
+SecondarySource& SecondarySource::operator=(SecondarySource && that)
+{
+  Swap(that);
+  return *this;  
+}
+
+
+SecondarySource::SecondarySource(const Vector2 & position, const float width_secondary_source_area)
+    :  Source(position),
+       square_(pow(width_secondary_source_area, 2))  {
 }
 
 // need to create
@@ -222,19 +291,57 @@ bool SecondarySource::Draw(sf::RenderWindow & window)
 
 }
 
-// need to create
+
 bool SecondarySource::Dump() const
 {
+  #ifdef SECONDARY_SOURCE_DEBUG
+  std::cout << "Dipole::Dump()" << std::endl;
+  #endif /* DIPOLE_DEBUG */
 
+  std::cout << "Position = " << position_ << std::endl;
+  std::cout << "Direction = " << direction_ << std::endl;
+  std::cout << "Phase = " << phase_ << std::endl;
+  std::cout << "Amplitude = " << amplitude_ << std::endl;
+
+
+  #ifdef SECONDARY_SOURCE_DEBUG
+  std::cout << "Dipole::Dump() end" << std::endl;
+  #endif /* DIPOLE_DEBUG */
 }
 
-// need to create
-Vector2 SecondarySource::GetFieldStrength(const Vector2 & point, const float t) const
+
+Vector2 SecondarySource::GetFieldStrength(const Vector2 & point, const float t, const std::vector<Dipole> &dipoles_) const
 {
+  Vector2 base_field_strength = Vector2(0., 0.);
+  for (auto& dipole : dipoles_)
+  {
+    base_field_strength += dipole.GetFieldStrength(position_, t);
+  }
+  
 
+  Vector2 relative_position = point - position_;
+  float relative_distance = relative_position.Len( );
+  Vector2 direction = relative_position.GetRotated(90.);
+  direction.Norm( );
+  Vector2 normal_vector = Vector2(1., 0.);
+  
+  // cos(kr) * (1 + cos(\alpha)).
+  float angular_part = (1 + normal_vector.GetCosAngleBetweenVectors(relative_position)) *
+                       cos(WAVE_NUMBER * relative_distance);
+
+  // S / (2 * \lambda * r). S - square.
+  float other_part =  square_ / 2 * WAVE_LENGTH * relative_distance;
+  Vector2 field_strength = other_part * angular_part * direction * base_field_strength.Len( );
+
+  #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+  std::cout << "field strength = " << field_strength << std::endl;
+  #endif
+
+  return field_strength;
 }
 
-SecondarySource::~SecondarySource()
-{
 
+SecondarySource::~SecondarySource() {
 }
+
+} // End of namespace my_math.

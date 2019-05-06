@@ -14,6 +14,7 @@
 //#define STOP_WAVES 1
 #define USING_DIFFRACTION_GRATING 1
 #define DRAW_ALL_FRONT_ELEMENTS 1
+#define MEMORY_LEAKS_DEBUG 1
 //#define COLLISION_DEBAG 1
 //#define DRAW_STEP_BY_STEP 1
 
@@ -42,7 +43,7 @@ class Store {
 
   bool Clear();
 
-  Vector2 GetFieldStrength(const my_math::Vector2 & position) const;
+  Vector2 GetFieldStrength(const my_math::Vector2 & position, const DiffractionGrating *diffraction_grating = nullptr) const;
 
   ~Store();
 
@@ -51,6 +52,7 @@ class Store {
   std::vector<Wave> waves_;
   std::vector<DiffractionGrating> diffraction_gratings_;
   DipoleArea dipole_area_;
+
   float t;
   float time_from_start;
 
@@ -70,7 +72,7 @@ class Store {
       \param[in] front_element - Front element to check collisions.
       \return True - Collision wasn't happened. False - Collision was happened.
   */
-  bool CheckCollisions(const FrontElement & front_element) const;
+  bool CheckCollisions(const FrontElement & front_element, const WAVE_STATUSES wave_status);
 
 
   /**

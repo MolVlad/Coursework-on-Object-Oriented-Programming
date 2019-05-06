@@ -15,9 +15,14 @@ KernelVector2::KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
        y_(y)  {
 }
 
-KernelVector2::KernelVector2(const KernelVector2 & vect)
-    :  x_(vect.x_),
-       y_(vect.y_) {
+KernelVector2::KernelVector2(const KernelVector2 & that)
+    :  x_(that.x_),
+       y_(that.y_) {
+}
+
+KernelVector2::KernelVector2(KernelVector2 && that)
+    :  x_(std::move(that.x_)),
+       y_(std::move(that.y_))  {
 }
 
 KernelVector2::KernelVector2(const sf::Vector2i & vect)
@@ -188,7 +193,7 @@ float Vector2::operator*(const Vector2& other) const
 
 float Vector2::GetCosAngleBetweenVectors(const Vector2 & other) const
 {
-  return (*this * other) / (Len() * other.Len());
+  return (*this * other) / (Len( ) * other.Len());
 }
 
 };  // namespace my_math

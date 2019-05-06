@@ -15,12 +15,18 @@ class KernelVector2 {
  public:
   // Base functions.
   KernelVector2(void);
+
   KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y);
+
   virtual ~KernelVector2(void) {
   }
 
-  KernelVector2(const KernelVector2 & vect);
+  KernelVector2(const KernelVector2 & that);
+
+  KernelVector2(KernelVector2 && that);
+
   KernelVector2(const sf::Vector2i & vect);
+
   KernelVector2(const sf::Vector2f & vect);
 
   KernelVector2 & operator=(const KernelVector2 & vect);
@@ -62,6 +68,10 @@ class Vector2 : public KernelVector2 {
   }
 
   Vector2(const Vector2 & vect) 
+      :  KernelVector2(vect) {
+  }
+
+  Vector2(Vector2 && vect) 
       :  KernelVector2(vect) {
   }
 
