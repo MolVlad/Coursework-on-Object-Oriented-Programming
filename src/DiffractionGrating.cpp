@@ -20,10 +20,12 @@ sf::Sprite DiffractionGrating::CreateHatchSprite(const Vector2 & position)
 {
   sf::Sprite hatch_sprite = sf::Sprite(grating_texture);
   const sf::Vector2u grating_size = hatch_sprite.getTexture( ) -> getSize( );
+  
   hatch_sprite.setScale(GRATING_SCALE_X, (period_ - slot_width_) / grating_size.y);
   hatch_sprite.setOrigin(grating_size.x / 2, grating_size.y  / 2);
   hatch_sprite.setPosition(position.GetX( )  , position.GetY( ));
   hatch_sprite.setRotation(DEFAULT_GRATING_DIRECTION);
+
   right_side_ = position.GetX( ) + (grating_size.x / 2) * GRATING_SCALE_X;
   left_side_ = position.GetX( ) - (grating_size.x / 2) * GRATING_SCALE_X;
 
@@ -90,26 +92,39 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
       position_now += paint_vector * ind ;
     }
   }
+
+  for (int ind = 0; ind < num_hatches_ - 1; ind ++)
+  {
+    secondary_sources_presence_.push_back(false);
+  }
+  secondary_sources_.resize(num_hatches_ - 1);
+
   return;
 }
 
 DiffractionGrating::DiffractionGrating(const DiffractionGrating & that)
-    :  period_(that.period_),
+    :  Element(that),
+       period_(that.period_),
        slot_width_(that.slot_width_),
        num_hatches_(that.num_hatches_),
        hatches_(that.hatches_),
        right_side_(that.right_side_),
-       left_side_(that.left_side_)  {
+       left_side_(that.left_side_),
+       secondary_sources_presence_(that.secondary_sources_presence_),
+       secondary_sources_(that.secondary_sources_)  {
 }
 
 
 DiffractionGrating::DiffractionGrating(DiffractionGrating && that)
-    :  period_(std::move(that.period_)),
+    :  Element(that),
+       period_(std::move(that.period_)),
        slot_width_(std::move(that.slot_width_)),
        num_hatches_(std::move(that.num_hatches_)),
        hatches_(std::move(that.hatches_)),
        right_side_(std::move(that.right_side_)),
-       left_side_(std::move(that.left_side_))  {
+       left_side_(std::move(that.left_side_)),
+       secondary_sources_(std::move(that.secondary_sources_)),
+       secondary_sources_presence_(std::move(that.secondary_sources_presence_))  {
 }
 
 
@@ -130,6 +145,11 @@ bool DiffractionGrating::Dump(void) const
   std::cout << "\tslot_width: " << slot_width_ << std::endl;
   std::cout << "\tright_side: " << right_side_ << std::endl;
   std::cout << "\tleft_side: " << left_side_ << std::endl;
+  for (int ind = 0; ind < secondary_sources_presence_.size( ); ind++)
+  {
+    std::cout << secondary_sources_presence_[ind];
+  }
+  std::cout << std::endl;
 
   #ifdef DIPOLE_DEBUG
   std::cout << "Grating::Dump() end" << std::endl;
@@ -159,6 +179,130 @@ VECTOR_TYPE DiffractionGrating::Right(void) const
 VECTOR_TYPE DiffractionGrating::Left(void) const
 {
   return left_side_; 
+}
+
+bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position, const int ind,
+                                                        Vector2 *secondary_source_coordinate, int *secondary_source_number)
+{
+  assert(secondary_source_coordinate != nullptr);
+
+  if (secondary_sources_presence_[ind] == true)
+  {
+    return false;
+  }
+  else
+  {
+    secondary_sources_presence_[ind] = true;
+    secondary_sources_[ind] = SecondarySource(position, slot_width_);
+    *secondary_source_coordinate = position;
+    *secondary_source_number = ind;
+    return true;
+  }
+}
+
+bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *secondary_source_coordinate,
+                                         int *secondary_source_number)
+{
+  assert(secondary_source_number != nullptr);
+  Vector2 basis_vector = Vector2(0., 1.);
+
+
+  float y_position = position.GetY( );
+  if (num_hatches_ % 2 == 0)
+  {
+    // Jump to the bottom.
+    int num_bottom_jumps = (num_hatches_ - 2) / 2;
+    Vector2 position_now = position_ + num_bottom_jumps * period_ * basis_vector;
+
+    if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+    {
+      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
+      
+      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+      std::cout << "Add secondary source with coordinates:\n";
+      std::cout << position_now << std::endl;
+      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
+
+      CHECK
+      return status;
+    }
+
+    for (int ind = 1; ind <= num_hatches_ - 2;)
+    {
+      position_now -= period_ * basis_vector;
+      if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+      {
+        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+        CHECK
+
+        #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+        std::cout << "Add secondary source with coordinates:\n";
+        std::cout << position_now << std::endl;
+        #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
+
+        return status;
+      }
+    }
+  }
+  else
+  {
+    if (num_hatches_ == 1)
+    {
+      return false;
+    }
+
+    Vector2 position_now = position_ +  basis_vector * period_ / 2;
+
+    int num_bottom_jumps = (num_hatches_ - 3) / 2;
+    position_now += num_bottom_jumps * period_ * basis_vector;
+
+    for (int ind = 1; ind <= num_hatches_ - 2; ind++)
+    {
+      position_now -= period_ * basis_vector;
+      bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+
+      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+      std::cout << "Add secondary source with coordinates:\n";
+      std::cout << position_now << std::endl;
+      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
+    
+      CHECK
+      return status;      
+    }
+
+  }
+
+  // There was only a black part of diffraction_grating.
+  return false;
+}
+
+void DiffractionGrating::RemoveSecondarySource(const int ind)
+{
+  secondary_sources_presence_[ind] = false;
+  return;
+}
+
+Vector2 DiffractionGrating::GetFieldStrength(const Vector2 & position, const float t,
+                                             const std::vector<Dipole> &dipoles_) const
+{
+  Vector2 result = Vector2(0., 0.);
+  Vector2 additional_strength;
+
+  for (int ind = 0; ind < secondary_sources_presence_.size( ); ind++)
+  {
+    if (secondary_sources_presence_[ind])
+    {
+      additional_strength = secondary_sources_[ind].GetFieldStrength(position, t, dipoles_);
+      result += additional_strength;
+
+      #ifdef SECONDARY_SOURCE_STRENGTH_DEBAG
+      std::cout << "field from secondary source number " << ind << " = " << additional_strength << "\n\n";
+      #endif    
+
+    }
+  }
+
+  return result;
 }
 
 } // End of namespace my_math.

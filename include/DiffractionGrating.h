@@ -1,5 +1,9 @@
+#pragma once
 
 #include "Element.h"
+#include "Sources.h"
+
+
 namespace my_math
 {
 
@@ -51,15 +55,45 @@ namespace my_math
     */
     VECTOR_TYPE Left(void) const;
 
-    protected:
-      float period_;
-      float slot_width_;
-      int num_hatches_;
-      std::vector<sf::Sprite> hatches_;
-      float right_side_;
-      float left_side_;
+    /** 
+      \breif This function handles the collision of the diffraction grating and wave front.
+      \param[in] position - Position of collision.
+      \param[out] secondary_source_coordinate - Coordinate to set coordinate of created secondary_sources in it.
+      \param[out] secondary_source_number - Number of secondary_source, that was created.  
+      \return True - new secondary source was created. False - new secondary source wasn't created.
+    */
+    bool HandleCollision(const Vector2 & position, Vector2 *secondary_source_coordinate, int* secondary_source_number);
 
-      sf::Sprite CreateHatchSprite(const Vector2 & position);
+    void RemoveSecondarySource(const int ind);
+
+    Vector2 GetFieldStrength(const Vector2 & position, const float t, const std::vector<Dipole> &dipoles_) const;
+
+   protected:
+    float period_;
+    float slot_width_;
+    int num_hatches_;
+    std::vector<sf::Sprite> hatches_;
+    float right_side_;
+    float left_side_;
+    std::vector<SecondarySource> secondary_sources_;
+
+    // If secondary source exists in appropriate hatch(from bottom to top) it will be set by true.
+    std::vector<bool> secondary_sources_presence_;
+
+
+    sf::Sprite CreateHatchSprite(const Vector2 & position);
+
+
+      /** 
+        \breif Create secondary source in position.
+        \param[in] position - Position to create secondary source.
+        \param[in] ind - ind in secondary_sources_presence_ and secondary_sources_ to create secondary source.
+        \param[out] secondary_source_coordinate - Pointer on vector to set it into position of created secondary source.
+        \return True - Secondary source was created. False - secondary source has already exist and wasn't created.
+      */
+      bool CreateSecondarySourceCollision(const Vector2 & position, const int ind, Vector2 *secondary_source_coordinate,
+                                          int *secondary_source_number);
+
   };
 
 
