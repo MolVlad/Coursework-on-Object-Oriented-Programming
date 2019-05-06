@@ -73,7 +73,7 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
   std::cout << "Positive direction\n";
   #endif /* STORE_DRAW_DEBUG */
 
-    // second condition to fixing wave looping
+  // second condition to fixing wave looping
   while (next.IsOnScreen(waves_[wave_ind].GetDiffractionGrating( )) && (element_number < MAX_ELEMENT_NUMBER))
   {
     Vector2 front_direction;
@@ -113,6 +113,7 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
       DRAWN_SIDES old_drawn_side = waves_[wave_ind].GetDrawnSides();
 
       Wave new_wave;
+      new_wave.SetWaveStatus(ORDINARY_WAVE);
       new_wave.Push(next);
       if (old_drawn_side == BOTH_SIDES)
       {
@@ -146,12 +147,13 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
 
       waves_[wave_ind].Swap(waves_[waves_.size( ) - 1]);
       waves_.pop_back( );
-   
+       
       return false;
     }
     #endif
 
-
+    std::cout << "\nstatus = " << waves_[wave_ind].GetWaveStatus( ) << std::endl;
+    std::cout << "strength = " << strength << "\n\n";
     next.DrawColor(window, strength);
 
     #ifdef DRAW_STEP_BY_STEP
@@ -187,6 +189,7 @@ void Store::PushWaveMainElement(const Vector2 & position, Vector2 & direction, c
 
 bool Store::HandleWave(sf::RenderWindow & window, Wave &wave, const int wave_ind)
 {
+
     FrontElement & main_front_element = wave.GetMain();
 
     Vector2 main_front_element_position = main_front_element.GetPosition();
@@ -450,7 +453,7 @@ bool Store::RemoveDistantWaves( )
 {
   for (int i = 0; i < waves_.size(); i++)
   {
-    if(waves_[i].GetMain( ).IsFarFromCenter(waves_[i].GetWaveStatus( )))
+    if(waves_[i].GetMain( ).IsFarFromCenter(waves_[i].GetWaveStatus( ), waves_[i].GetDrawnSides( )))
     {
       // Remove appropriate secondary source.
       if (waves_[i].GetWaveStatus( ) == SECONDARY_WAVE)

@@ -36,7 +36,7 @@ class FrontElement : public Element {
 
   bool SetAmplitude(const float amplitude);
 
-  bool IsFarFromCenter(const WAVE_STATUSES wave_status) const;
+  bool IsFarFromCenter(const WAVE_STATUSES wave_status, const DRAWN_SIDES drawn_sides) const;
 
   bool IsOnScreen(const DiffractionGrating *diffraction_grating) const;
 

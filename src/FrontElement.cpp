@@ -141,7 +141,7 @@ bool FrontElement::SetAmplitude(float amplitude)
   return true;
 }
 
-bool FrontElement::IsFarFromCenter(const WAVE_STATUSES wave_status) const
+bool FrontElement::IsFarFromCenter(const WAVE_STATUSES wave_status, const DRAWN_SIDES drawn_sides) const
 {
   Vector2 position = GetPosition( );
   bool x_magnitude_statement = (position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y)).Len() >
@@ -149,7 +149,7 @@ bool FrontElement::IsFarFromCenter(const WAVE_STATUSES wave_status) const
   
 
   bool y_magnitude_statement = false;
-  if (wave_status == SECONDARY_WAVE)  
+  if (!(wave_status == ORDINARY_WAVE && drawn_sides == BOTH_SIDES))  
   {             
     y_magnitude_statement = position.GetY( ) < 0. || position.GetY( ) > SCREEN_HEIGHT;
   }
