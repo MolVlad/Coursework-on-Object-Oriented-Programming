@@ -26,9 +26,6 @@ sf::Sprite DiffractionGrating::CreateHatchSprite(const Vector2 & position)
   hatch_sprite.setPosition(position.GetX( )  , position.GetY( ));
   hatch_sprite.setRotation(DEFAULT_GRATING_DIRECTION);
 
-  right_side_ = position.GetX( ) + (grating_size.x / 2) * GRATING_SCALE_X;
-  left_side_ = position.GetX( ) - (grating_size.x / 2) * GRATING_SCALE_X;
-
   return hatch_sprite;	
 }
 
@@ -48,6 +45,26 @@ void CreateGratingTexture(sf::Texture &grating_texture)
 DiffractionGrating::~DiffractionGrating(void)
 {
 
+}
+
+void DiffractionGrating::CreateProportions(const int hatch_ind)
+{
+  const sf::Vector2f bottom_hatch_position = hatches_[hatch_ind].getPosition( );
+  sf::Vector2u texture_size = hatches_[hatch_ind].getTexture( ) -> getSize( );
+
+  proportions_[0] = bottom_hatch_position.x - (texture_size.x / 2) * GRATING_SCALE_X;
+  proportions_[1] = bottom_hatch_position.x + (texture_size.x / 2) * GRATING_SCALE_X;
+  proportions_[2] = bottom_hatch_position.y + (period_ - slot_width_) / 2;
+
+  if (hatch_ind == 0)
+  {
+      proportions_[3] = bottom_hatch_position.y + (period_ - slot_width_) / 2;  
+  }
+  else
+  {
+    const sf::Vector2f top_hatch_position = hatches_[num_hatches_ - 2].getPosition( );
+    proportions_[3] = top_hatch_position.y - (period_ - slot_width_) / 2;
+  }
 }
 
 
@@ -79,17 +96,28 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
       hatches_.push_back(CreateHatchSprite(position_now));
       position_now += paint_vector * ind - correction_vector;
   	}
+
+    CreateProportions(num_hatches_ - 1);
   }
   else
   {
   	hatches_.push_back(CreateHatchSprite(position_now));
+    sf::Vector2u testure_size = hatches_[num_hatches_ - 1].getTexture( ) -> getSize( );
+
+    if (num_hatches_ == 1)
+    {
+      CreateProportions(0);  
+    }
+
   	for (int ind = 1; ind <= (num_hatches_ - 1) / 2 ; ind++)
   	{
       position_now += paint_vector * ind ;
       hatches_.push_back(CreateHatchSprite(position_now));
       position_now -= paint_vector * ind * 2;
       hatches_.push_back(CreateHatchSprite(position_now));
-      position_now += paint_vector * ind ;
+      position_now += paint_vector * ind;
+
+      CreateProportions(num_hatches_ - 1); 
     }
   }
 
@@ -108,10 +136,14 @@ DiffractionGrating::DiffractionGrating(const DiffractionGrating & that)
        slot_width_(that.slot_width_),
        num_hatches_(that.num_hatches_),
        hatches_(that.hatches_),
-       right_side_(that.right_side_),
-       left_side_(that.left_side_),
        secondary_sources_presence_(that.secondary_sources_presence_),
        secondary_sources_(that.secondary_sources_)  {
+
+    for (int ind = 0; ind < 4; ind++)
+    {
+      proportions_[ind] = that.proportions_[ind];
+    }
+    return;
 }
 
 
@@ -121,16 +153,21 @@ DiffractionGrating::DiffractionGrating(DiffractionGrating && that)
        slot_width_(std::move(that.slot_width_)),
        num_hatches_(std::move(that.num_hatches_)),
        hatches_(std::move(that.hatches_)),
-       right_side_(std::move(that.right_side_)),
-       left_side_(std::move(that.left_side_)),
        secondary_sources_(std::move(that.secondary_sources_)),
        secondary_sources_presence_(std::move(that.secondary_sources_presence_))  {
+
+    for (int ind = 0; ind < 4; ind++)
+    {
+      proportions_[ind] = std::move(that.proportions_[ind]);
+    }
+    return;
 }
 
 
 bool DiffractionGrating::Ok(void) const
 {
-  return slot_width_ > 0. && period_ > 0. && num_hatches_ > 0 && period_ > slot_width_ && right_side_ > left_side_;
+  return slot_width_ > 0. && period_ > 0. && num_hatches_ > 0 && period_ > slot_width_ && proportions_[1] > proportions_[0] 
+         &&  proportions_[2] > proportions_[3];
 }
 
 bool DiffractionGrating::Dump(void) const
@@ -143,8 +180,12 @@ bool DiffractionGrating::Dump(void) const
   std::cout << "\tdirection: " << direction_ << std::endl;
   std::cout << "\tperiod: " << period_ << std::endl;
   std::cout << "\tslot_width: " << slot_width_ << std::endl;
-  std::cout << "\tright_side: " << right_side_ << std::endl;
-  std::cout << "\tleft_side: " << left_side_ << std::endl;
+  std::cout << "\tleft_side: " << proportions_[0] << std::endl;
+  std::cout << "\tright_side: " << proportions_[1] << std::endl;
+  std::cout << "\tbottom_side: " << proportions_[2] << std::endl;
+  std::cout << "\ttop_side: " << proportions_[3] << std::endl;
+
+  std::cout << "Secondary sources presence:\n" << std::endl;
   for (int ind = 0; ind < secondary_sources_presence_.size( ); ind++)
   {
     std::cout << secondary_sources_presence_[ind];
@@ -171,14 +212,28 @@ bool DiffractionGrating::Draw(sf::RenderWindow & window)
   return true;	
 }
 
-VECTOR_TYPE DiffractionGrating::Right(void) const
-{
-  return right_side_; 
-}
 
 VECTOR_TYPE DiffractionGrating::Left(void) const
 {
-  return left_side_; 
+  return proportions_[0]; 
+}
+
+
+VECTOR_TYPE DiffractionGrating::Right(void) const
+{
+  return proportions_[1]; 
+}
+
+
+VECTOR_TYPE DiffractionGrating::Bottom(void) const
+{
+  return proportions_[2]; 
+}
+
+
+VECTOR_TYPE DiffractionGrating::Top(void) const
+{
+  return proportions_[3]; 
 }
 
 bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position, const int ind,
@@ -196,6 +251,12 @@ bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position
     secondary_sources_[ind] = SecondarySource(position, slot_width_);
     *secondary_source_coordinate = position;
     *secondary_source_number = ind;
+
+    #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+    std::cout << "Add secondary source with coordinates:\n";
+    std::cout << position << std::endl;
+    #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
+
     return true;
   }
 }
@@ -217,29 +278,19 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
     if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
     {
       bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
-      
-      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-      std::cout << "Add secondary source with coordinates:\n";
-      std::cout << position_now << std::endl;
-      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
 
       CHECK
       return status;
     }
 
-    for (int ind = 1; ind <= num_hatches_ - 2;)
+    for (int ind = 1; ind <= num_hatches_ - 2; ind++)
     {
       position_now -= period_ * basis_vector;
       if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
       {
         bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+
         CHECK
-
-        #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-        std::cout << "Add secondary source with coordinates:\n";
-        std::cout << position_now << std::endl;
-        #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
-
         return status;
       }
     }
@@ -255,19 +306,25 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
 
     int num_bottom_jumps = (num_hatches_ - 3) / 2;
     position_now += num_bottom_jumps * period_ * basis_vector;
+    if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+    {
+      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
+
+      CHECK
+      return status;
+    }     
 
     for (int ind = 1; ind <= num_hatches_ - 2; ind++)
     {
       position_now -= period_ * basis_vector;
-      bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
 
-      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-      std::cout << "Add secondary source with coordinates:\n";
-      std::cout << position_now << std::endl;
-      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
-    
-      CHECK
-      return status;      
+      if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+      {
+        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+
+        CHECK
+        return status;
+      }     
     }
 
   }

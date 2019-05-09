@@ -19,6 +19,14 @@ Store::~Store()
 
 }
 
+bool Store::IsCollisions(const Vector2 & position, const DiffractionGrating & diffraction_grating) const
+{
+  VECTOR_TYPE x = position.GetX( );
+  VECTOR_TYPE y = position.GetY( );
+  return x >= diffraction_grating.Left( ) && x <= diffraction_grating.Right( ) + FIXING_MISSING_LENGTH && 
+         y <= diffraction_grating.Bottom( ) && y >= diffraction_grating.Top( );
+}
+
 
 bool Store::CheckCollisions(const FrontElement & front_element, const WAVE_STATUSES wave_status)
 {
@@ -31,8 +39,7 @@ bool Store::CheckCollisions(const FrontElement & front_element, const WAVE_STATU
   VECTOR_TYPE front_element_x_position = front_element_position.GetX( );
   for (int ind = 0; ind < diffraction_gratings_.size( ); ind++)
   {
-    if (front_element_x_position <= diffraction_gratings_[ind].Right( ) && 
-        front_element_x_position >= diffraction_gratings_[ind].Left( ) - DEFAULT_FRONT_ELEMENT_RADIUS)
+    if (IsCollisions(front_element_position, diffraction_gratings_[ind]))
     {
 
       Vector2 secondary_source_coordinate;
@@ -152,8 +159,6 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
     }
     #endif
 
-    std::cout << "\nstatus = " << waves_[wave_ind].GetWaveStatus( ) << std::endl;
-    std::cout << "strength = " << strength << "\n\n";
     next.DrawColor(window, strength);
 
     #ifdef DRAW_STEP_BY_STEP
