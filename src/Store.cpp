@@ -151,9 +151,7 @@ bool Store::DrawHalfWave(sf::RenderWindow & window, const Vector2 & main_front_e
       return false;
     }
     #endif
-
-    std::cout << "\nstatus = " << waves_[wave_ind].GetWaveStatus( ) << std::endl;
-    std::cout << "strength = " << strength << "\n\n";
+    
     next.DrawColor(window, strength);
 
     #ifdef DRAW_STEP_BY_STEP

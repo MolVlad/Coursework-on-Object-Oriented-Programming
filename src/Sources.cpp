@@ -333,7 +333,7 @@ Vector2 SecondarySource::GetFieldStrength(const Vector2 & point, const float t, 
   float other_part =  square_ / (2 * WAVE_LENGTH * relative_distance);
   Vector2 field_strength = other_part * angular_part * direction * base_field_strength.Len( );
 
-  #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+  #ifdef SECONDARY_SOURCE_STRENGTH_DEBAG
   std::cout << "field strength = " << field_strength << std::endl;
   #endif
 

@@ -84,14 +84,14 @@ namespace my_math
     sf::Sprite CreateHatchSprite(const Vector2 & position);
 
 
-      /** 
-        \breif Create secondary source in position.
-        \param[in] position - Position to create secondary source.
-        \param[in] ind - ind in secondary_sources_presence_ and secondary_sources_ to create secondary source.
-        \param[out] secondary_source_coordinate - Pointer on vector to set it into position of created secondary source.
-        \return True - Secondary source was created. False - secondary source has already exist and wasn't created.
-      */
-      bool CreateSecondarySourceCollision(const Vector2 & position, const int ind, Vector2 *secondary_source_coordinate,
+    /** 
+      \breif Create secondary source in position.
+      \param[in] position - Position to create secondary source.
+      \param[in] ind - ind in secondary_sources_presence_ and secondary_sources_ to create secondary source.
+      \param[out] secondary_source_coordinate - Pointer on vector to set it into position of created secondary source.
+      \return True - Secondary source was created. False - secondary source has already exist and wasn't created.
+    */
+    bool CreateSecondarySourceCollision(const Vector2 & position, const int ind, Vector2 *secondary_source_coordinate,
                                           int *secondary_source_number);
 
   };

@@ -196,6 +196,12 @@ bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position
     secondary_sources_[ind] = SecondarySource(position, slot_width_);
     *secondary_source_coordinate = position;
     *secondary_source_number = ind;
+
+    #ifdef CREATING_SECONDARY_SOURCE_DEBAG
+    std::cout << "Add secondary source with coordinates:\n";
+    std::cout << position << std::endl;
+    #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
+
     return true;
   }
 }
@@ -217,29 +223,19 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
     if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
     {
       bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
-      
-      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-      std::cout << "Add secondary source with coordinates:\n";
-      std::cout << position_now << std::endl;
-      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
 
       CHECK
       return status;
     }
 
-    for (int ind = 1; ind <= num_hatches_ - 2;)
+    for (int ind = 1; ind <= num_hatches_ - 2; ind++)
     {
       position_now -= period_ * basis_vector;
       if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
       {
         bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+
         CHECK
-
-        #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-        std::cout << "Add secondary source with coordinates:\n";
-        std::cout << position_now << std::endl;
-        #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
-
         return status;
       }
     }
@@ -255,19 +251,25 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
 
     int num_bottom_jumps = (num_hatches_ - 3) / 2;
     position_now += num_bottom_jumps * period_ * basis_vector;
+    if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+    {
+      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
+
+      CHECK
+      return status;
+    }     
 
     for (int ind = 1; ind <= num_hatches_ - 2; ind++)
     {
       position_now -= period_ * basis_vector;
-      bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
 
-      #ifdef CREATING_SECONDARY_SOURCE_DEBAG
-      std::cout << "Add secondary source with coordinates:\n";
-      std::cout << position_now << std::endl;
-      #endif // End of CREATING_SECONDARY_SOURCE_DEBAG
-    
-      CHECK
-      return status;      
+      if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
+      {
+        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+
+        CHECK
+        return status;
+      }     
     }
 
   }
