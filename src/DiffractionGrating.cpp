@@ -58,7 +58,7 @@ void DiffractionGrating::CreateProportions(const int hatch_ind)
 
   if (hatch_ind == 0)
   {
-      proportions_[3] = bottom_hatch_position.y + (period_ - slot_width_) / 2;  
+      proportions_[3] = bottom_hatch_position.y - (period_ - slot_width_) / 2;  
   }
   else
   {
@@ -169,6 +169,7 @@ bool DiffractionGrating::Ok(void) const
   return slot_width_ > 0. && period_ > 0. && num_hatches_ > 0 && period_ > slot_width_ && proportions_[1] > proportions_[0] 
          &&  proportions_[2] > proportions_[3];
 }
+
 
 bool DiffractionGrating::Dump(void) const
 {

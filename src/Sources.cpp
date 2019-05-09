@@ -145,7 +145,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point, const float t) const
   }
 
   // cos(angle<p, r>)
-  float angular_coefficient = radius_vector.GetCosAngleBetweenVectors(Vector2(1, 0).GetRotated(-direction_));
+  float angular_coefficient = radius_vector.GetCosAngleBetweenVectors(Vector2(1, 0).GetRotated(direction_));
 
   if(angular_coefficient < 0)
     angular_coefficient *= -1;
