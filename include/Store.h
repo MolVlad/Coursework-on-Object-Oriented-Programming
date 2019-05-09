@@ -56,6 +56,14 @@ class Store {
   float t;
   float time_from_start;
 
+  /**
+      \breif Check front_element on collision with diffraction_grating.
+      \param[in] position - Position to check collisions with it.
+      \param[in] diffraction_grating - Diffraction grating to check collisions wit it.
+      \return True - Collision happened. False - collision didn't happen.
+  */
+  bool IsCollisions(const Vector2 & position, const DiffractionGrating & diffraction_grating) const;
+
   bool MoveWave(Wave & wave);
 
 

@@ -26,16 +26,19 @@ namespace my_math
 
     DiffractionGrating & operator=(DiffractionGrating && that) = delete;
 
+
     /**
       \brief Check DiffractionGrating.
       \return True - Grating is correct, flase - grating is incorrect. 
     */
     bool Ok(void) const;
 
+
     /**
       \brief  Print information about grating.
     */
     virtual bool Dump(void) const override;  
+
 
     /**
       \brief  Draw grating.
@@ -43,17 +46,34 @@ namespace my_math
     */
     virtual bool Draw(sf::RenderWindow & window) override;
 
+
     /** 
       \breif Give you a coordinate of the right diffraction grating's part.
       \return This coordinate.
     */
     VECTOR_TYPE Right(void) const;
 
+
     /** 
-      \breif Give you a coordinate of the right diffraction grating's part.
+      \breif Give you a coordinate of the left diffraction grating's part.
       \return This coordinate.
     */
     VECTOR_TYPE Left(void) const;
+
+
+    /** 
+      \breif Give you a coordinate of the bottom diffraction grating's part.
+      \return This coordinate.
+    */
+    VECTOR_TYPE Bottom(void) const;
+
+
+    /** 
+      \breif Give you a coordinate of the top diffraction grating's part.
+      \return This coordinate.
+    */
+    VECTOR_TYPE Top(void) const;
+
 
     /** 
       \breif This function handles the collision of the diffraction grating and wave front.
@@ -70,15 +90,28 @@ namespace my_math
 
    protected:
     float period_;
+
     float slot_width_;
+
     int num_hatches_;
+
     std::vector<sf::Sprite> hatches_;
-    float right_side_;
-    float left_side_;
+
     std::vector<SecondarySource> secondary_sources_;
+
+    // proportions_[0] - x coordinate of left side. proportions_[1] - x coordinate of right side.
+    // proportions_[2] - y coordinate of bottom side. proportions_[3] - y coordinate of top side. 
+    float proportions_[NUMBER_SIDES];
 
     // If secondary source exists in appropriate hatch(from bottom to top) it will be set by true.
     std::vector<bool> secondary_sources_presence_;
+
+
+    /** 
+      \breif Set appropriate values in proportions_.
+      \param[in] hatch_ind - Index of the lowest hatch.
+    */ 
+    void CreateProportions(const int hatch_ind); 
 
 
     sf::Sprite CreateHatchSprite(const Vector2 & position);

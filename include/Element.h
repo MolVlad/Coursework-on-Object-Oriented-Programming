@@ -60,7 +60,10 @@ const float DEFAULT_GRATING_PEROID = SCREEN_HEIGHT;
 const float DEFAULT_GRATING_SLOT_WIDTH = SCREEN_HEIGHT / 2;
 const float COLLISIION_SCALE = 10.;
 const Vector2 DEFAULT_SECONDARY_WAVE_DISPLACEMENT = Vector2(2., 0.);
+const int NUMBER_SIDES = 4;
 
+// If time to handle all actions is really big front element can flee diffraction grating.
+const float FIXING_MISSING_LENGTH = 15.;
 
 /// Modes of drawing waves.
 enum DRAWN_SIDES
