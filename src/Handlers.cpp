@@ -265,7 +265,7 @@ bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & s
       #ifdef KEY_DEBUG
       std::cout << "HandleKey( ): Space" << std::endl;
       #endif /* KEY_DEBUG */
-      DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 100., 10., 2);
+      DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 40., 10., 10);
       store.Push(diffraction_grating);
       break;      
   }
