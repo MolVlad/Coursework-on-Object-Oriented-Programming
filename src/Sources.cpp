@@ -152,7 +152,7 @@ Vector2 Dipole::GetFieldStrength(const Vector2 & point, const float t) const
 
   // sin(omega*t + k*r + phase)
   // Last version: sin((CYCLIC_FREQUENCY * (t - distance / (DISTANT_SCALE * LIGHT_SPEED)  + phase_) * ONE_RADIAN)
-  float harmonic_part = sin((CYCLIC_FREQUENCY * (t - distance / (DISTANT_SCALE * LIGHT_SPEED * TIME_SCALE))  + phase_) * ONE_RADIAN);
+  float harmonic_part = sin((CYCLIC_FREQUENCY * (t - distance / (DISTANT_SCALE * LIGHT_SPEED))  + phase_) * ONE_RADIAN);
 
 
   #ifdef DIPOLE_STRENGTH_DEBUG

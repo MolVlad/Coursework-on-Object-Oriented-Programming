@@ -89,7 +89,7 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
   {
   	Vector2 correction_vector = paint_vector / 2;
   	for (int ind = 1; ind <= num_hatches_ / 2; ind++)
-  	{\
+  	{
       position_now += paint_vector * ind - correction_vector;
       hatches_.push_back(CreateHatchSprite(position_now));
       position_now -= paint_vector * ind * 2 - 2 * correction_vector;
@@ -102,7 +102,6 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
   else
   {
   	hatches_.push_back(CreateHatchSprite(position_now));
-    sf::Vector2u testure_size = hatches_[num_hatches_ - 1].getTexture( ) -> getSize( );
 
     if (num_hatches_ == 1)
     {
@@ -111,14 +110,13 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
 
   	for (int ind = 1; ind <= (num_hatches_ - 1) / 2 ; ind++)
   	{
-      position_now += paint_vector * ind ;
+      position_now += paint_vector * ind;
       hatches_.push_back(CreateHatchSprite(position_now));
       position_now -= paint_vector * ind * 2;
       hatches_.push_back(CreateHatchSprite(position_now));
       position_now += paint_vector * ind;
-
-      CreateProportions(num_hatches_ - 1); 
     }
+    CreateProportions(num_hatches_ - 1); 
   }
 
   for (int ind = 0; ind < num_hatches_ - 1; ind ++)
