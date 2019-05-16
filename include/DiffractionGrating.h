@@ -75,20 +75,34 @@ namespace my_math
     VECTOR_TYPE Top(void) const;
 
 
+    /**
+      \breif Give you value of num_hatches_
+      \return Number of hatches.
+    */
+    int GetNumberHatches(void) const;
+
+
     /** 
       \breif This function handles the collision of the diffraction grating and wave front.
       \param[in] position - Position of collision.
       \param[out] secondary_source_coordinate - Coordinate to set coordinate of created secondary_sources in it.
-      \param[out] secondary_source_number - Number of secondary_source, that was created.  
+      \param[out] secondary_source_number - Number of secondary_source, that was created. 
+      \param[out] is_main_wave - Function will set it in true if secondary wave was create firstly.   
       \return True - new secondary source was created. False - new secondary source wasn't created.
     */
-    bool HandleCollision(const Vector2 & position, Vector2 *secondary_source_coordinate, int* secondary_source_number);
+    bool HandleCollision(const Vector2 & position, Vector2 *secondary_source_coordinate, int* secondary_source_number,
+                         bool* is_main_wave);
 
-    void RemoveSecondarySource(const int ind);
+    void RemoveSecondarySource(const int ind, const WAVE_STATUSES wave_status);
 
     Vector2 GetFieldStrength(const Vector2 & position, const float t, const std::vector<Dipole> &dipoles_) const;
 
    protected:
+
+    // If first secondary wave exits, it will set this variable in true.
+    // If first secondary wave doesn't exist, it will set this variable in false.
+    bool is_first_wave_created_;
+
     float period_;
 
     float slot_width_;
@@ -125,7 +139,7 @@ namespace my_math
       \return True - Secondary source was created. False - secondary source has already exist and wasn't created.
     */
     bool CreateSecondarySourceCollision(const Vector2 & position, const int ind, Vector2 *secondary_source_coordinate,
-                                          int *secondary_source_number);
+                                          int *secondary_source_number, bool* is_main_wave);
 
   };
 

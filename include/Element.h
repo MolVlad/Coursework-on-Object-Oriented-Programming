@@ -61,6 +61,7 @@ const float DEFAULT_GRATING_SLOT_WIDTH = SCREEN_HEIGHT / 2;
 const float COLLISIION_SCALE = 10.;
 const Vector2 DEFAULT_SECONDARY_WAVE_DISPLACEMENT = Vector2(2., 0.);
 const int NUMBER_SIDES = 4;
+const float INTERFERENCE_LENGTH = 40.;
 
 // If time to handle all actions is really big front element can flee diffraction grating.
 const float FIXING_MISSING_LENGTH = 10.;
@@ -77,7 +78,8 @@ enum DRAWN_SIDES
 enum WAVE_STATUSES
 {
   ORDINARY_WAVE = 0, ///< Wave from dipoles.
-  SECONDARY_WAVE = 1 ///< Wave from secondary sources.
+  SECONDARY_WAVE = 1, ///< Wave from secondary sources.
+  SECONDARY_MAIN_WAVE = 2 ///< Wave from secondary sources that was created firstly.
 };
 
 

@@ -72,7 +72,8 @@ DiffractionGrating::DiffractionGrating(const Vector2 & position, const float per
     :  Element(position),
        period_(period),
        slot_width_(slot_width),
-       num_hatches_(num_hatches)
+       num_hatches_(num_hatches),
+       is_first_wave_created_(false)
 {
   #ifndef GRATING_TEXTURE_WAS_CREATED
   CreateGratingTexture(grating_texture);
@@ -135,7 +136,8 @@ DiffractionGrating::DiffractionGrating(const DiffractionGrating & that)
        num_hatches_(that.num_hatches_),
        hatches_(that.hatches_),
        secondary_sources_presence_(that.secondary_sources_presence_),
-       secondary_sources_(that.secondary_sources_)  {
+       secondary_sources_(that.secondary_sources_),
+       is_first_wave_created_(that.is_first_wave_created_)  {
 
     for (int ind = 0; ind < 4; ind++)
     {
@@ -152,7 +154,8 @@ DiffractionGrating::DiffractionGrating(DiffractionGrating && that)
        num_hatches_(std::move(that.num_hatches_)),
        hatches_(std::move(that.hatches_)),
        secondary_sources_(std::move(that.secondary_sources_)),
-       secondary_sources_presence_(std::move(that.secondary_sources_presence_))  {
+       secondary_sources_presence_(std::move(that.secondary_sources_presence_)),
+       is_first_wave_created_(std::move(that.is_first_wave_created_))  {
 
     for (int ind = 0; ind < 4; ind++)
     {
@@ -183,6 +186,7 @@ bool DiffractionGrating::Dump(void) const
   std::cout << "\tright_side: " << proportions_[1] << std::endl;
   std::cout << "\tbottom_side: " << proportions_[2] << std::endl;
   std::cout << "\ttop_side: " << proportions_[3] << std::endl;
+  std::cout << "\tis_first_wave_created:  " << is_first_wave_created_ << std::endl;
 
   std::cout << "Secondary sources presence:\n" << std::endl;
   for (int ind = 0; ind < secondary_sources_presence_.size( ); ind++)
@@ -235,8 +239,13 @@ VECTOR_TYPE DiffractionGrating::Top(void) const
   return proportions_[3]; 
 }
 
+int DiffractionGrating::GetNumberHatches(void) const
+{
+  return num_hatches_;
+}
+
 bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position, const int ind,
-                                                        Vector2 *secondary_source_coordinate, int *secondary_source_number)
+                         Vector2 *secondary_source_coordinate, int *secondary_source_number, bool* is_main_wave)
 {
   assert(secondary_source_coordinate != nullptr);
 
@@ -251,6 +260,12 @@ bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position
     *secondary_source_coordinate = position;
     *secondary_source_number = ind;
 
+    if (!is_first_wave_created_)
+    {
+      is_first_wave_created_ = true;
+      *is_main_wave = true;
+    }
+
     #ifdef CREATING_SECONDARY_SOURCE_DEBAG
     std::cout << "Add secondary source with coordinates:\n";
     std::cout << position << std::endl;
@@ -261,9 +276,11 @@ bool DiffractionGrating::CreateSecondarySourceCollision(const Vector2 & position
 }
 
 bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *secondary_source_coordinate,
-                                         int *secondary_source_number)
+                                         int *secondary_source_number, bool* is_main_wave)
 {
   assert(secondary_source_number != nullptr);
+  assert(is_main_wave != nullptr);
+
   Vector2 basis_vector = Vector2(0., 1.);
 
 
@@ -276,8 +293,9 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
 
     if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
     {
-      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
-
+      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number, 
+                                                   is_main_wave);
+      
       CHECK
       return status;
     }
@@ -287,7 +305,8 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
       position_now -= period_ * basis_vector;
       if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
       {
-        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number,
+                                                     is_main_wave);
 
         CHECK
         return status;
@@ -307,7 +326,8 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
     position_now += num_bottom_jumps * period_ * basis_vector;
     if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
     {
-      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number);
+      bool status = CreateSecondarySourceCollision(position_now, 0, secondary_source_coordinate, secondary_source_number,
+                                                   is_main_wave);
 
       CHECK
       return status;
@@ -319,7 +339,8 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
 
       if (y_position <= position_now.GetY( ) + slot_width_ / 2 && y_position >= position_now.GetY( ) - slot_width_ / 2)
       {
-        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number);
+        bool status = CreateSecondarySourceCollision(position_now, ind, secondary_source_coordinate, secondary_source_number,
+                                                     is_main_wave);
 
         CHECK
         return status;
@@ -332,9 +353,15 @@ bool DiffractionGrating::HandleCollision(const Vector2 & position, Vector2 *seco
   return false;
 }
 
-void DiffractionGrating::RemoveSecondarySource(const int ind)
+void DiffractionGrating::RemoveSecondarySource(const int ind, const WAVE_STATUSES wave_status)
 {
+  if (wave_status == SECONDARY_MAIN_WAVE)
+  {
+    is_first_wave_created_ = false;
+  }
   secondary_sources_presence_[ind] = false;
+
+
   return;
 }
 

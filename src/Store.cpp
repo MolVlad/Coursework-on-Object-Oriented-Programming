@@ -30,7 +30,7 @@ bool Store::IsCollisions(const Vector2 & position, const DiffractionGrating & di
 
 bool Store::CheckCollisions(const FrontElement & front_element, const WAVE_STATUSES wave_status)
 {
-  if (wave_status == SECONDARY_WAVE)
+  if (wave_status != ORDINARY_WAVE)
   {
     return true;
   }
@@ -43,12 +43,24 @@ bool Store::CheckCollisions(const FrontElement & front_element, const WAVE_STATU
     {
 
       Vector2 secondary_source_coordinate;
+      bool is_main_wave = false;
+
       int secondary_source_number = 0;
-      if (diffraction_gratings_[ind].HandleCollision(front_element_position, &secondary_source_coordinate, &secondary_source_number))
+      if (diffraction_gratings_[ind].HandleCollision(front_element_position, &secondary_source_coordinate,
+          &secondary_source_number, &is_main_wave))
       {
         Wave secondary_wave;
         secondary_wave.Push(FrontElement(secondary_source_coordinate + DEFAULT_SECONDARY_WAVE_DISPLACEMENT));
-        secondary_wave.SetWaveStatus(SECONDARY_WAVE);
+
+        if (is_main_wave)
+        {
+          secondary_wave.SetWaveStatus(SECONDARY_MAIN_WAVE);
+        }
+        else
+        {
+          secondary_wave.SetWaveStatus(SECONDARY_WAVE);
+        }
+
         secondary_wave.SetDiffractionGrating(&diffraction_gratings_[ind]);
         secondary_wave.SetSecondarySourceNumber(secondary_source_number);
         Push(secondary_wave);
@@ -458,15 +470,34 @@ bool Store::RemoveDistantWaves( )
 {
   for (int i = 0; i < waves_.size(); i++)
   {
-    if(waves_[i].GetMain( ).IsFarFromCenter(waves_[i].GetWaveStatus( ), waves_[i].GetDrawnSides( )))
+    WAVE_STATUSES wave_status = waves_[i].GetWaveStatus( );
+    if (wave_status == SECONDARY_WAVE && waves_[i].IsInterfere( ))
     {
-      // Remove appropriate secondary source.
-      if (waves_[i].GetWaveStatus( ) == SECONDARY_WAVE)
-      {
-        waves_[i].GetDiffractionGrating( ) -> RemoveSecondarySource(waves_[i].GetSecondarySourceNumber( ));
-      }
       waves_[i].Swap(waves_[waves_.size() - 1]);
       waves_.pop_back();
+      i--;
+    }
+
+    else if (waves_[i].GetMain( ).IsFarFromCenter(wave_status, waves_[i].GetDrawnSides( )))
+    {
+      // Remove appropriate secondary source.
+      if (wave_status == SECONDARY_WAVE)
+      {
+        waves_[i].GetDiffractionGrating( ) -> RemoveSecondarySource(waves_[i].GetSecondarySourceNumber( ), wave_status);
+      }
+
+      else if (wave_status == SECONDARY_MAIN_WAVE)
+      {
+        DiffractionGrating& diffraction_grating = *waves_[i].GetDiffractionGrating( );
+        for (int ind = 0; ind < diffraction_grating.GetNumberHatches( ) - 1; ind++)
+        {
+          diffraction_grating.RemoveSecondarySource(ind, wave_status);
+        }
+      }
+
+      waves_[i].Swap(waves_[waves_.size() - 1]);
+      waves_.pop_back();
+      i--;
     }
   }
 
@@ -527,12 +558,12 @@ bool Store::MoveWaves()
 
 bool Store::MoveWave(Wave & wave)
 {
-  FrontElement & front_element = wave.GetMain();
-  Vector2 position = front_element.GetPosition();
+  FrontElement & front_element = wave.GetMain( );
+  Vector2 position = front_element.GetPosition( );
 
-  Vector2 field_strength = GetFieldStrength(front_element.GetPosition());
+  Vector2 field_strength = GetFieldStrength(front_element.GetPosition( ));
   Vector2 speed_direction = field_strength.GetRotated(-90);
-  speed_direction.Norm();
+  speed_direction.Norm( );
 
   Vector2 distance_to_center = position - Vector2(DEFAULT_AREA_CENTER_X, DEFAULT_AREA_CENTER_Y);
 
