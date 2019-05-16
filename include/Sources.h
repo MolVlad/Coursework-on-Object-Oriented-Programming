@@ -5,6 +5,7 @@
 #include "Vector2.h"
 #include "Element.h"
 #include <assert.h>
+#include <future>
 
 //#define DIPOLE_DEBUG 1
 //#define DIPOLE_STRENGTH_DEBUG 1

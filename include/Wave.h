@@ -50,7 +50,14 @@ class Wave {
 
   void SetSecondarySourceNumber(const int source_number);
 
-  int GetSecondarySourceNumber(void) const;   
+  int GetSecondarySourceNumber(void) const;  
+
+  /**
+      \breif This function will delete wave, if it is far from appropriate diffraction grating.
+             This creates an interference effect.
+      \return True - It should be deleted. False - It shouldn't be deleted. 
+  */
+  bool IsInterfere(void);  
 
   virtual ~Wave();
 

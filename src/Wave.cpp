@@ -146,6 +146,18 @@ int Wave::GetSecondarySourceNumber(void) const
   return secondary_source_number_;
 }
 
+bool Wave::IsInterfere(void)
+{
+  if (GetMain( ).GetPosition( ).GetX( ) - (*diffraction_grating_).Right( ) > INTERFERENCE_LENGTH)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 Wave::~Wave()
 {
 
