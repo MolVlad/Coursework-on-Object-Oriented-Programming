@@ -142,6 +142,8 @@ bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & s
 
   sf::Vector2i position = sf::Mouse::getPosition(window);
 
+  Dipole dipole(Vector2(0,0));
+
   switch(event.key.code) {
 
     case sf::Keyboard::Escape:
@@ -261,13 +263,94 @@ bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & s
       #endif /* KEY_DEBUG */
       *dipole_direction = DIRECTION_315;
       break;
+
+    case sf::Keyboard::X:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+      break;
+
+    case sf::Keyboard::Z:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(30);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(60);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(90);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(120);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(150);
+        store.Push(dipole);
+
+        break;
+
+    case sf::Keyboard::C:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(150);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(120);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(90);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(60);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(30);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        break;
+
     case sf::Keyboard::Space:
       #ifdef KEY_DEBUG
       std::cout << "HandleKey( ): Space" << std::endl;
       #endif /* KEY_DEBUG */
       DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 50, 10., 8);
       store.Push(diffraction_grating);
-      break;      
+      break;
   }
 }
 
