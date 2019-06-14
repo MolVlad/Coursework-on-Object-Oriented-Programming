@@ -7,18 +7,26 @@
 namespace my_math {
 
 const float PI = 3.141593;
+const float ONE_RADIAN = PI / 180;
+const float ZERO_VECTOR = -1;
 typedef float VECTOR_TYPE;
 
 class KernelVector2 {
  public:
   // Base functions.
   KernelVector2(void);
+
   KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y);
+
   virtual ~KernelVector2(void) {
   }
 
-  KernelVector2(const KernelVector2 & vect);
+  KernelVector2(const KernelVector2 & that);
+
+  KernelVector2(KernelVector2 && that);
+
   KernelVector2(const sf::Vector2i & vect);
+
   KernelVector2(const sf::Vector2f & vect);
 
   KernelVector2 & operator=(const KernelVector2 & vect);
@@ -63,6 +71,10 @@ class Vector2 : public KernelVector2 {
       :  KernelVector2(vect) {
   }
 
+  Vector2(Vector2 && vect) 
+      :  KernelVector2(vect) {
+  }
+
   Vector2(const sf::Vector2i & vect)
       : KernelVector2(vect) {
   }
@@ -93,18 +105,22 @@ class Vector2 : public KernelVector2 {
   VECTOR_TYPE  SquareLen(void) const;
 
   // Return rotated vector.
-  Vector2 GetRotated(const VECTOR_TYPE  degree) const;
+  Vector2 GetRotated(const VECTOR_TYPE degree) const;
+
+  // Get Rotation from hour zero (clockwise rotation).
+  float GetClockwiseRotation(int* code_error) const;
 
   // Length of vector is 1 now.
   void Norm(void);
 
-// Scalar muliplication
-float operator*(const Vector2& other) const;
+  // Scalar muliplication
+  float operator*(const Vector2& other) const;
 
-float GetCosAngleBetweenVectors(const Vector2 & b) const;
+  float GetCosAngleBetweenVectors(const Vector2 & b) const;
 
-friend std::ostream& operator<<(std::ostream& stream, const Vector2& v);
-friend std::istream& operator>>(std::istream& stream, Vector2& v);
+  friend std::ostream& operator<<(std::ostream& stream, const Vector2& v);
+
+  friend std::istream& operator>>(std::istream& stream, Vector2& v);
 };
 
 // Addition to override operators.

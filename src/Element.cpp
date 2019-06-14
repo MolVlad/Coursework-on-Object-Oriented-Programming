@@ -1,27 +1,21 @@
 #include"Element.h"
 
-bool CreateTexture(sf::Texture *texture_array) 
-{
-  assert(texture_array != nullptr);
-
-  for (int ind = 0; ind < NUMBER_DIPOLE_TEXTURES; ind++)
-  {
-    if (!texture_array[ind].loadFromFile(IMAGE_ARRAY[ind])) {
-      std::cout << "Error of loading texutre number " << ind + 1 << ":\n";
-      std::cout << "In file = " << __FILE__ << std::endl; 
-      std::cout << "In line = " << __LINE__ << std::endl; 
-      std::cout << "In function = " << __PRETTY_FUNCTION__ << std::endl;
-      exit(-1); 
-    }
-  }    
-  return true;
-}
-
 Element::Element(const Vector2 & position)
 {
   position_ = position;
   direction_ = DEFAULT_DIPOLE_DIRECTION;
 }
+
+Element::Element(const Element & that)
+    :  position_(that.position_),
+       direction_(that.direction_)  {
+}
+
+Element::Element(Element && that)
+    :  position_(std::move(that.position_)),
+       direction_(std::move(that.direction_))  {
+}
+
 
 Element::~Element()
 {

@@ -1,4 +1,5 @@
 #include "Handlers.h"
+#include "Element.h"
 
 namespace handler {
 
@@ -16,6 +17,10 @@ bool IsFrontArea(const sf::Vector2i & position) {
 
 bool HandleEvent(sf::RenderWindow &window, Store &store)
 {
+  #ifdef HANDLE_EVENT_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   sf::Event event;
   // DIRECTION_0 is equal  DEFAULT_DIPOLE_DIRECTION.
   static PosssibleDipoleDirections dipole_direction = DIRECTION_0;
@@ -34,10 +39,15 @@ bool HandleEvent(sf::RenderWindow &window, Store &store)
         HandleMouse(window, event, store, &dipole_direction, &dipole_phase);
         break;
       case sf::Event::KeyPressed:
-        HandleKey(event, store, &dipole_direction, &dipole_phase);
+        HandleKey(window, event, store, &dipole_direction, &dipole_phase);
         break;
     }
   }
+
+  #ifdef HANDLE_EVENT_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 
   return true;
 }
@@ -125,10 +135,15 @@ bool HandleMouse(const sf::RenderWindow &window, const sf::Event &event, Store &
   return true;
 }
 
-bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction, PosssibleDipolePhase *dipole_phase) {
+bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & store, PosssibleDipoleDirections *dipole_direction,
+               PosssibleDipolePhase *dipole_phase) {
 
   assert(dipole_direction != nullptr);
   assert(dipole_phase != nullptr);
+
+  sf::Vector2i position = sf::Mouse::getPosition(window);
+
+  Dipole dipole(Vector2(0,0));
 
   switch(event.key.code) {
 
@@ -249,19 +264,160 @@ bool HandleKey(const sf::Event &event, Store & store, PosssibleDipoleDirections 
       #endif /* KEY_DEBUG */
       *dipole_direction = DIRECTION_315;
       break;
+
+    case sf::Keyboard::X:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+      break;
+
+    case sf::Keyboard::Z:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(30);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(60);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(90);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(120);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(150);
+        store.Push(dipole);
+
+        break;
+
+    case sf::Keyboard::C:
+        dipole.SetPosition(Vector2(5, 275));
+        dipole.SetPhase(150);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 285));
+        dipole.SetPhase(120);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 295));
+        dipole.SetPhase(90);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 305));
+        dipole.SetPhase(60);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 315));
+        dipole.SetPhase(30);
+        store.Push(dipole);
+
+        dipole.SetPosition(Vector2(5, 325));
+        dipole.SetPhase(0);
+        store.Push(dipole);
+
+        break;
+
+    case sf::Keyboard::V:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): V" << std::endl;
+      #endif /* KEY_DEBUG */
+      {
+        DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 180., SMALL_HANDLE_LENGTH, 8);
+        store.Push(diffraction_grating);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::B:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): B" << std::endl;
+      #endif 
+
+      {
+        DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 340., STANDART_HANDLE_LENGTH, 4);
+        store.Push(diffraction_grating);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::N:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): N" << std::endl;
+      #endif 
+      {
+        DiffractionGrating diffraction_grating3 = DiffractionGrating(my_math::Vector2(position), 400., STANDART_HANDLE_LENGTH, 2);
+        store.Push(diffraction_grating3);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::M:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): M" << std::endl;
+      #endif /* KEY DEBAG*/ 
+      {
+        DiffractionGrating diffraction_grating4 = DiffractionGrating(my_math::Vector2(position), 500.,
+                                                                     STANDART_HANDLE_LENGTH, 1);
+        store.Push(diffraction_grating4);
+      }
+      break;
   }
 }
 
 bool HandleDraw(sf::RenderWindow &window, Store &store) {
+  #ifdef HANDLE_DRAW_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   store.Draw(window);
+
+  #ifdef HANDLE_DRAW_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
+
   return true;
 }
 
 bool HandleStore(Store &store)
 {
+  #ifdef HANDLE_STORE_TIMER
+  std::chrono::high_resolution_clock::time_point debag_time_stamp = std::chrono::high_resolution_clock::now();
+  #endif
+
   store.RemoveDistantWaves();
   store.MoveWaves();
   store.UpdateTime();
+
+  #ifdef HANDLE_STORE_TIMER
+  std::chrono::duration<float> debag_diff = std::chrono::high_resolution_clock::now() - debag_time_stamp;
+  std::cout << debag_diff.count( ) << std::endl; 
+  #endif
 }
 
 } // End of namespace handler.

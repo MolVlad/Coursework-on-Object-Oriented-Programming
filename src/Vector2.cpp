@@ -15,9 +15,14 @@ KernelVector2::KernelVector2(VECTOR_TYPE  x, VECTOR_TYPE  y)
        y_(y)  {
 }
 
-KernelVector2::KernelVector2(const KernelVector2 & vect)
-    :  x_(vect.x_),
-       y_(vect.y_) {
+KernelVector2::KernelVector2(const KernelVector2 & that)
+    :  x_(that.x_),
+       y_(that.y_) {
+}
+
+KernelVector2::KernelVector2(KernelVector2 && that)
+    :  x_(std::move(that.x_)),
+       y_(std::move(that.y_))  {
 }
 
 KernelVector2::KernelVector2(const sf::Vector2i & vect)
@@ -143,6 +148,20 @@ Vector2 Vector2::GetRotated(const VECTOR_TYPE  degree) const {
   return new_vect;
 }
 
+float Vector2::GetClockwiseRotation(int* code_error = nullptr) const
+{
+  if (x_ == 0 && y_ == 0)
+  {
+    if (code_error)
+    {
+      *code_error = ZERO_VECTOR;
+    }
+    return 0.;
+  }
+
+  return atan2(y_, x_) + 90.;
+}
+
 void Vector2::Norm(void) {
   *this *= 1 / Len( );
   return ;  
@@ -157,8 +176,8 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 
 std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
 {
-	stream << v.x_ << " " << v.y_;
-	return stream;
+  stream << v.x_ << " " << v.y_;
+  return stream;
 }
 
 std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
@@ -169,12 +188,12 @@ std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
 
 float Vector2::operator*(const Vector2& other) const
 {
-	return x_ * other.x_ + y_ * other.y_;
+  return x_ * other.x_ + y_ * other.y_;
 }
 
 float Vector2::GetCosAngleBetweenVectors(const Vector2 & other) const
 {
-  return (*this * other) / (Len() * other.Len());
+  return (*this * other) / (Len( ) * other.Len());
 }
 
 };  // namespace my_math

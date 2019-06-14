@@ -4,16 +4,27 @@
 
 #include "Vector2.h"
 #include "Element.h"
+#include "DiffractionGrating.h"
 
 //#define FRONT_ELEMENT_DEBUG 1
 
-using namespace my_math;
-
+namespace my_math
+{
 class FrontElement : public Element {
  public:
   FrontElement();
 
   explicit FrontElement(const Vector2 & position);
+
+  FrontElement(const FrontElement &that);
+
+  FrontElement(FrontElement &&that);
+
+  void Swap(FrontElement & that);
+
+  FrontElement& operator=(const FrontElement &that);
+
+  FrontElement& operator=(FrontElement &&that);   
 
   bool Draw(sf::RenderWindow & window) override;
 
@@ -25,9 +36,9 @@ class FrontElement : public Element {
 
   bool SetAmplitude(const float amplitude);
 
-  bool IsFarFromCenter();
+  bool IsFarFromCenter(const WAVE_STATUSES wave_status, const DRAWN_SIDES drawn_sides) const;
 
-  bool IsOnScreen();
+  bool IsOnScreen(const DiffractionGrating *diffraction_grating) const;
 
   bool SetRGBA(int R, int G, int B, int A);
 
@@ -37,3 +48,5 @@ class FrontElement : public Element {
   float amplitude_;
   sf::CircleShape circle_shape_;
 };
+
+} // End of namespace my_math.
