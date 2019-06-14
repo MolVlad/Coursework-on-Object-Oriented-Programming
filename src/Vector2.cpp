@@ -176,8 +176,8 @@ Vector2 operator*(const VECTOR_TYPE k, const Vector2 & vect)
 
 std::ostream& operator<<(std::ostream& stream, const my_math::Vector2& v)
 {
-	stream << v.x_ << " " << v.y_;
-	return stream;
+  stream << v.x_ << " " << v.y_;
+  return stream;
 }
 
 std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
@@ -188,7 +188,7 @@ std::istream& operator>>(std::istream& stream, my_math::Vector2& v)
 
 float Vector2::operator*(const Vector2& other) const
 {
-	return x_ * other.x_ + y_ * other.y_;
+  return x_ * other.x_ + y_ * other.y_;
 }
 
 float Vector2::GetCosAngleBetweenVectors(const Vector2 & other) const

@@ -7,7 +7,7 @@
 #include "DiffractionGrating.h"
 
 //#define WAVE_DEBUG 1
-#define CREATING_SECONDARY_WAVE_DEBAG 1
+//#define CREATING_SECONDARY_WAVE_DEBAG 1
 
 namespace my_math
 {

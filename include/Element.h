@@ -8,14 +8,14 @@
 
 using namespace my_math;
 
-const unsigned int SCREEN_WIDTH = 800;
-const unsigned int SCREEN_HEIGHT = 600;
+const unsigned int SCREEN_WIDTH = 1600;
+const unsigned int SCREEN_HEIGHT = 1200;
 
 const float DEFAULT_AREA_RADIUS = 30.;
 const float DEFAULT_AREA_PCOUNT = 40.;
 const float DEFAULT_AREA_CENTER_X = 0.;
-const float DEFAULT_AREA_CENTER_Y = 300.;
-const float MAX_DISTANCE_FROM_AREA_CENTER = 1000.;
+const float DEFAULT_AREA_CENTER_Y = 600.;
+const float MAX_DISTANCE_FROM_AREA_CENTER = 2000.;
 
 const float DEFAULT_FRONT_ELEMENT_RADIUS = 2.;
 const float DEFAULT_FRONT_ELEMENT_PCOUNT = 40.;
@@ -58,10 +58,12 @@ const float GRATING_SCALE_Y = 0.5;
 const float DEFAULT_GRATING_DIRECTION = 180.;
 const float DEFAULT_GRATING_PEROID = SCREEN_HEIGHT;
 const float DEFAULT_GRATING_SLOT_WIDTH = SCREEN_HEIGHT / 2;
-const float COLLISIION_SCALE = 10.;
+const float COLLISIION_SCALE = 20.;
 const Vector2 DEFAULT_SECONDARY_WAVE_DISPLACEMENT = Vector2(2., 0.);
 const int NUMBER_SIDES = 4;
 const float INTERFERENCE_LENGTH = 40.;
+const float STANDART_HANDLE_LENGTH  = 15.;
+const float SMALL_HANDLE_LENGTH = 10.;
 
 // If time to handle all actions is really big front element can flee diffraction grating.
 const float FIXING_MISSING_LENGTH = 10.;

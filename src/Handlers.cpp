@@ -1,4 +1,5 @@
 #include "Handlers.h"
+#include "Element.h"
 
 namespace handler {
 
@@ -344,12 +345,46 @@ bool HandleKey(const sf::RenderWindow &window, const sf::Event &event, Store & s
 
         break;
 
-    case sf::Keyboard::Space:
+    case sf::Keyboard::V:
       #ifdef KEY_DEBUG
-      std::cout << "HandleKey( ): Space" << std::endl;
+      std::cout << "HandleKey( ): V" << std::endl;
       #endif /* KEY_DEBUG */
-      DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 50, 10., 8);
-      store.Push(diffraction_grating);
+      {
+        DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 180., SMALL_HANDLE_LENGTH, 8);
+        store.Push(diffraction_grating);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::B:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): B" << std::endl;
+      #endif 
+
+      {
+        DiffractionGrating diffraction_grating = DiffractionGrating(my_math::Vector2(position), 340., STANDART_HANDLE_LENGTH, 4);
+        store.Push(diffraction_grating);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::N:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): N" << std::endl;
+      #endif 
+      {
+        DiffractionGrating diffraction_grating3 = DiffractionGrating(my_math::Vector2(position), 400., STANDART_HANDLE_LENGTH, 2);
+        store.Push(diffraction_grating3);
+      }
+      break; /* KEY DEBAG*/
+
+    case sf::Keyboard::M:
+      #ifdef KEY_DEBUG
+      std::cout << "HandleKey( ): M" << std::endl;
+      #endif /* KEY DEBAG*/ 
+      {
+        DiffractionGrating diffraction_grating4 = DiffractionGrating(my_math::Vector2(position), 500.,
+                                                                     STANDART_HANDLE_LENGTH, 1);
+        store.Push(diffraction_grating4);
+      }
       break;
   }
 }

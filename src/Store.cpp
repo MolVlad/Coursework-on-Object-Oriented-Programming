@@ -606,4 +606,5 @@ bool Store::Clear()
   waves_.clear();
 
   dipoles_.clear();
+  diffraction_gratings_.clear( );
 }
